@@ -31,12 +31,25 @@ public class BabyBumpActivity extends AppCompatActivity {
     }
 
     public void onNavigationClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.calendar:
-                Intent intent = new Intent(getBaseContext(), CalendarActivity.class);
-                startActivity(intent);
+                intent = new Intent(getBaseContext(), CalendarActivity.class);
+                break;
+            case R.id.nearby:
+                intent = new Intent(getBaseContext(), NearbyLocationsActivity.class);
+                break;
+            case R.id.home:
+                intent = new Intent(getBaseContext(), MainActivity.class);
+                break;
+            case R.id.heartrate:
+                intent = new Intent(getBaseContext(), HeartRateActivity.class);
+                break;
+            case R.id.weight:
+                intent = new Intent(getBaseContext(), WeightActivity.class);
                 break;
         }
+        startActivity(intent);
     }
 
     // TODO(prad): Support settings page with colors.
