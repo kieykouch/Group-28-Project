@@ -2,7 +2,7 @@
 Group 28 Project
 Our Team Member is 
 Ki
-Huda
-Phoebe
-Haojun
+Huda Iftekhar
+Phoebe Vu
+Haojun Li
 Pradeep
