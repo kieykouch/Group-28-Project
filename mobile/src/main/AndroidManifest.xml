@@ -3,6 +3,8 @@
     package="com.group28.cs160.babybump">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,14 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CalendarActivity"></activity>
-        <activity android:name=".WeightActivity"></activity>
-        <activity android:name=".WeightStatsActivity"></activity>
-        <activity android:name=".HeartRateActivity"></activity>
-        <activity android:name=".HeartRateStatsActivity"></activity>
-        <activity android:name=".NearbyLocationsActivity"></activity>
-        <activity android:name=".DetailedLocationActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".WeightActivity" />
+        <activity android:name=".WeightStatsActivity" />
+        <activity android:name=".HeartRateActivity" />
+        <activity android:name=".HeartRateStatsActivity" />
+        <activity android:name=".NearbyLocationsActivity" />
+        <activity android:name=".DetailedLocationActivity" />
 
+        <service
+            android:name=".FoodAlertService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".MobleToWatchService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>
