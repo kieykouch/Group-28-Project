@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id = "@+id/navigationbar"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical"
+    android:padding="5dp"
+    android:layout_width="0dp"
+    android:layout_height="0dp">
+    <!-- dimensions added when navigationbar is included -->
+    <ImageButton
+        android:id="@+id/calendar"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/calendar"
+        android:onClick="onNavigationClick" />
+
+    <ImageButton
+        android:id="@+id/weight"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/weight"
+        android:onClick="onNavigationClick" />
+
+    <ImageButton
+        android:id="@+id/home"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/home"
+        android:onClick="onNavigationClick" />
+
+    <ImageButton
+        android:id="@+id/heartrate"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/heartrate"
+        android:onClick="onNavigationClick" />
+
+    <ImageButton
+        android:id="@+id/nearby"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/nearby"
+        android:onClick="onNavigationClick" />
+
+
+</LinearLayout>

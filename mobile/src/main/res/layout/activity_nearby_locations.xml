@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="?attr/colorPrimary"
-    tools:context="com.group28.cs160.babybump.MainActivity">
+    tools:context="com.group28.cs160.babybump.NearbyLocationsActivity">
 
-    <include layout="@layout/appbar" />
-    <include layout="@layout/navigationbar"
-        android:layout_alignParentBottom="true"
+    <ImageButton
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="match_parent"
+        android:background ="@drawable/nearby_locations_fake"
+        android:onClick="onImageClick" />
 </RelativeLayout>
