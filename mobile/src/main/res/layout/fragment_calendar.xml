@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="?attr/colorPrimary"
-    tools:context="com.group28.cs160.babybump.HeartRateActivity">
+    tools:context="com.group28.cs160.babybump.MainActivity">
 
-    <ImageButton
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background ="@drawable/heart_rate_fake"
-        android:onClick="onImageClick" />
+        android:background ="@drawable/calendar_fake"/>
 </RelativeLayout>
