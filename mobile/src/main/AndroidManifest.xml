@@ -20,14 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CalendarActivity"></activity>
-        <activity android:name=".WeightActivity"></activity>
-        <activity android:name=".WeightStatsActivity"></activity>
-        <activity android:name=".HeartRateActivity"></activity>
-        <activity android:name=".HeartRateStatsActivity"></activity>
-        <activity android:name=".NearbyLocationsActivity"></activity>
-        <activity android:name=".DetailedLocationActivity"></activity>
-
     </application>
 
 </manifest>

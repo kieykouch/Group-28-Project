@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 public class WeightFragment extends Fragment {
 
@@ -13,11 +14,15 @@ public class WeightFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_weight, parent, false);
-        return rootView;
-    }
 
-    public void onImageClick(View v) {
-//        Intent intent = new Intent(getBaseContext(), WeightStatsActivity.class);
-//        startActivity(intent);
+        ImageButton camBt = (ImageButton)rootView.findViewById(R.id.weight_fake);
+        camBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new HeartRateStatsFragment());
+            }
+        });
+
+        return rootView;
     }
 }

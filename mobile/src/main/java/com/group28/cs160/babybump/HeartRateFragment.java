@@ -1,12 +1,11 @@
 package com.group28.cs160.babybump;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 public class HeartRateFragment extends Fragment {
 
@@ -15,13 +14,16 @@ public class HeartRateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_heart_rate, parent, false);
-        return rootView;
-    }
 
-    public void onImageClick(View v) {
-//        Intent intent = new Intent(getContext(), HeartRateStatsActivity.class);
-//        startActivity(intent);
-        FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-//        manager.beginTransaction()
+        ImageButton camBt = (ImageButton)rootView.findViewById(R.id.heartrate_fake);
+        camBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new HeartRateStatsFragment());
+            }
+        });
+
+        return rootView;
+
     }
 }
