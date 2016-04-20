@@ -22,14 +22,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".FoodAlertService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".MobleToWatchService"
+            android:name=".MobileToWatchService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+        <service
+            android:name=".MobileListenerService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
