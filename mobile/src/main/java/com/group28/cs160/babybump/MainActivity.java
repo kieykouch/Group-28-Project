@@ -1,13 +1,15 @@
 package com.group28.cs160.babybump;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,36 +19,57 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mFragmentManager = getSupportFragmentManager();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mBottomBar = BottomBar.attach(this, savedInstanceState);
+        mBottomBar.useFixedMode();
+        mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onMenuTabSelected(@IdRes int menuItemId) {
+                switch (menuItemId) {
+                    case R.id.calendar_icon:
+                        replaceFragment(new CalendarFragment());
+                        break;
+                    case R.id.weight_icon:
+                        replaceFragment(new WeightFragment());
+                        break;
+                    case R.id.home_icon:
+                        replaceFragment(new HomeFragment());
+                        break;
+                    case R.id.heartrate_icon:
+                        replaceFragment(new HeartRateFragment());
+                        break;
+                    case R.id.nearby_icon:
+                        replaceFragment(new NearbyLocationsFragment());
+                        break;
+                }
+            }
+
+            @Override
+            public void onMenuTabReSelected(@IdRes int menuItemId) {
+
             }
         });
+        mBottomBar.mapColorForTab(0, "#7B1FA2");
+        mBottomBar.mapColorForTab(1, "#7B1FA2");
+        mBottomBar.mapColorForTab(2, "#FF5252");
+        mBottomBar.mapColorForTab(3, "#7B1FA2");
+        mBottomBar.mapColorForTab(4, "#7B1FA2");
+
+        mBottomBar.selectTabAtPosition(2, false);
+
+        // Default to home fragment.
+        //replaceFragment(new HomeFragment());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void replaceFragment(Fragment newFragment) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        mFragmentManager.executePendingTransactions();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    private BottomBar mBottomBar;
+    private FragmentManager mFragmentManager;
 }
