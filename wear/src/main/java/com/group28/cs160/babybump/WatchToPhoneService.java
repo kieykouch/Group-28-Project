@@ -7,8 +7,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
@@ -32,13 +34,22 @@ public class WatchToPhoneService extends Service {
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(Bundle connectionHint) {
+                        Log.d("WatchToPhone", "Connected to Phone");
                     }
 
                     @Override
                     public void onConnectionSuspended(int cause) {
                     }
                 })
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Log.e("WatchToPhone", "Cannot connect");
+                    }
+                })
                 .build();
+        mApiClient.connect();
+
     }
 
     @Override
@@ -56,7 +67,6 @@ public class WatchToPhoneService extends Service {
             @Override
             public void run() {
                 //first, connect to the apiclient
-                mApiClient.connect();
                 nodes = Wearable.NodeApi.getConnectedNodes(mApiClient).await(10, TimeUnit.SECONDS).getNodes();
                 if (nodes.size() == 0) {
                     Log.d("WatchToPhoneService", "No phone connected.");
@@ -65,7 +75,7 @@ public class WatchToPhoneService extends Service {
                 if (extras.containsKey(EVENT_OBJECT)) {
                     //now that you're connected, send a massage.
                     final String event = extras.getString(EVENT_OBJECT);
-                    sendMessage("/timline", event);
+                    sendMessage("/timeline", event);
                 }
             }
         }).start();
