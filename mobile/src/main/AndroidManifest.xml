@@ -22,14 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".WeightActivity" />
-        <activity android:name=".WeightStatsActivity" />
-        <activity android:name=".HeartRateActivity" />
-        <activity android:name=".HeartRateStatsActivity" />
-        <activity android:name=".NearbyLocationsActivity" />
-        <activity android:name=".DetailedLocationActivity" />
-
         <service
             android:name=".FoodAlertService"
             android:enabled="true"
