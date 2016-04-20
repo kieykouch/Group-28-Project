@@ -108,7 +108,7 @@ public class FoodAlertService extends Service implements GoogleApiClient.Connect
         lon = location.getLongitude();
         lat = location.getLatitude();
         delta = Math.sqrt(Math.pow(prev_lon - lon, 2) + Math.pow(prev_lat - lat, 2));
-        if (delta < 0.1) {
+        if (delta  == 0) {
             return;
         }
         prev_loc = location;
