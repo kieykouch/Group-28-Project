@@ -2,49 +2,45 @@ package com.group28.cs160.babybump;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.EditText;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
-import java.util.Locale;
 
-public class NearbyLocationsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class NearbyLocationsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private EditText zipcode;
-    private Geocoder gcoder;
 
     int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nearby_locations);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_nearby_locations, parent, false);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        // Nested Fragments need child fragment manager.
+        SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_container).getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        gcoder = new Geocoder(this, Locale.getDefault());
-
-        zipcode = (EditText) findViewById(R.id.zip_code);
+        return rootView;
     }
 
     /**
@@ -57,15 +53,15 @@ public class NearbyLocationsActivity extends FragmentActivity implements OnMapRe
         mMap = googleMap;
         //show error dialog if GoolglePlayServices not available
         if (!isGooglePlayServicesAvailable()) {
-            finish();
+            getActivity().finish();
         }
 
         // Default to current GPS position.
         // Get away with not checking this.
         Location bestLocation = null;
-        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, android.os.Process.myPid(), android.os.Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
+        if (getActivity().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, android.os.Process.myPid(), android.os.Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
             Criteria criteria = new Criteria();
             bestLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
         }
@@ -77,40 +73,30 @@ public class NearbyLocationsActivity extends FragmentActivity implements OnMapRe
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
-        setZipcode(latLng);
 
         /*LatLng berkeley = new LatLng(37.87, -122.27);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(berkeley, 14.0f));
-        setZipcode(berkeley);*/
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(berkeley, 14.0f));*/
 
-        mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
                 LatLng newCenter = mMap.getCameraPosition().target;
-                setZipcode(newCenter);
             }
         });
 
-        mMap.
-    }
-
-    private void setZipcode(LatLng location) {
-        List<Address> addresses;
-        try {
-            addresses = gcoder.getFromLocation(location.latitude, location.longitude, 1);
-            zipcode.setText(addresses.get(0).getPostalCode());
-        } catch (Exception e) {
-            // Do nothing.
-            Log.d("MapsActivity", e.toString());
+        List<Place> findPlaces = PlacesService.findPlaces(latLng.latitude, latLng.longitude, "hospital");
+        for (Place p : findPlaces) {
+            // Log.d("Nearby Locations", p.toString());
+            p.addMarker(mMap);
         }
     }
 
     private boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        int result = googleAPI.isGooglePlayServicesAvailable(getContext());
         if(result != ConnectionResult.SUCCESS) {
             if(googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(this, result,
+                googleAPI.getErrorDialog(getActivity(), result,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             }
             return false;
