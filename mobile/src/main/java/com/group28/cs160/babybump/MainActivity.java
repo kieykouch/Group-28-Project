@@ -22,7 +22,7 @@ import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EVENT_OBJECT="event";
+    public static final String EVENT_OBJECT="caller";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if (caller != null) {
             switch (caller) {
                 case "food-alert":
+                    mBottomBar.selectTabAtPosition(0, false);
                     replaceFragment(new DetailedLocationFragment());
                     break;
                 default:
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         // Check if this activity was launched from watch.
         if (getIntent() != null) {
             Bundle bundle = getIntent().getExtras();
-            if (bundle != null && bundle.containsKey("EVENT_OBJECT")) {
+            if (bundle != null && bundle.containsKey(EVENT_OBJECT)) {
                 String event = bundle.getString(EVENT_OBJECT);
                 // Move to calendar.
                 mBottomBar.selectTabAtPosition(0, false);
