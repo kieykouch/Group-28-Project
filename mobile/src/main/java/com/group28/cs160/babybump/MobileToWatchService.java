@@ -27,12 +27,12 @@ public class MobileToWatchService extends Service implements
 
     public void onCreate() {
         super.onCreate();
-//        mApiClient = new GoogleApiClient.Builder(this)
-//                .addApi(Wearable.API)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .build();
-//        mApiClient.connect();
+        mApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        mApiClient.connect();
     }
 
     @Override
