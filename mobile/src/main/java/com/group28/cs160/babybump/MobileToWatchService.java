@@ -93,5 +93,5 @@ public class MobileToWatchService extends Service implements
 
     private GoogleApiClient mApiClient;
 
-    static int FOOD_NOTIFICATION = 0;
+    final static int FOOD_NOTIFICATION = 0;
 }
