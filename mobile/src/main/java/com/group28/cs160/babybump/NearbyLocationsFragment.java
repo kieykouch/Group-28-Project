@@ -18,7 +18,7 @@ public class NearbyLocationsFragment extends Fragment {
         camBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(new HeartRateStatsFragment());
+                ((MainActivity) getActivity()).replaceFragment(new DetailedLocationFragment());
             }
         });
 

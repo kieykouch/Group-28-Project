@@ -13,6 +13,8 @@ import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EVENT_OBJECT="event";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Default to home fragment.
         //replaceFragment(new HomeFragment());
+
+        // Check if this activity was launched from watch.
+        if (getIntent() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null && bundle.containsKey("EVENT_OBJECT")) {
+                String event = bundle.getString(EVENT_OBJECT);
+                // Move to calendar.
+                mBottomBar.selectTabAtPosition(0, false);
+                replaceFragment(new DetailedEventFragment());
+            }
+        }
+
     }
 
     public void replaceFragment(Fragment newFragment) {

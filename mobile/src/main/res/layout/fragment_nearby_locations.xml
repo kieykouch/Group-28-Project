@@ -11,6 +11,5 @@
         android:id = "@+id/nearby_locations_fake"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background ="@drawable/nearby_locations_fake"
-        android:onClick="onImageClick" />
+        android:background ="@drawable/nearby_locations_fake" />
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 public class CalendarFragment extends Fragment {
 
@@ -12,6 +13,13 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, parent, false);
+        ImageButton camBt = (ImageButton)rootView.findViewById(R.id.calendar_fake);
+        camBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new DetailedEventFragment());
+            }
+        });
         return rootView;
     }
 }
