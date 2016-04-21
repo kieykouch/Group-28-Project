@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PlacesService {
 
-    private static final String API_KEY = "AIzaSyAl6SIsImULYPreEIzwczDHaS3IiciNIcg";
+    private static final String API_KEY = "AIzaSyD7B8kUNwqfS_PM23R9aX7e_UW4gowPIlM";
 
     public static List<Place> findPlaces(double latitude, double longitude, String placeSpacification)
     {
