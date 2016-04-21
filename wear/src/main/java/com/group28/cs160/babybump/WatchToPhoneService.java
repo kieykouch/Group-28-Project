@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class WatchToPhoneService extends Service {
     public final static String EVENT_OBJECT = "com.groupd28.cs160.babybump.EVENT_OBJECT";
+    public final static String HEART_RATE = "/heart";
 
     private GoogleApiClient mApiClient;
     private List<Node> nodes;
@@ -76,6 +77,10 @@ public class WatchToPhoneService extends Service {
                     //now that you're connected, send a massage.
                     final String event = extras.getString(EVENT_OBJECT);
                     sendMessage("/timeline", event);
+                }
+                if (extras.containsKey(HEART_RATE)) {
+                    final String heartRate = extras.getString(HEART_RATE);
+                    sendMessage("/heart", heartRate);
                 }
             }
         }).start();

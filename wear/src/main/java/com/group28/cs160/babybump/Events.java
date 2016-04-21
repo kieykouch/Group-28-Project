@@ -9,6 +9,7 @@ import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,9 +19,29 @@ public class Events extends FragmentGridPagerAdapter {
     private Context mContext;
     private List mRows;
 
+    private ArrayList<Fragment> _fragment = new ArrayList<>();
+    private ArrayList<Drawable> _backgrounds = new ArrayList<>();
+
     public Events(Context ctx, FragmentManager fm) {
         super(fm);
         mContext = ctx;
+        ClickableCardFragment fragment;
+
+        fragment = new ClickableCardFragment();
+        fragment.setTitle("2 Month 3 Weeks");
+        _fragment.add(fragment);
+        _backgrounds.add(mContext.getResources().getDrawable(R.drawable.home_screen_fake));
+
+        fragment = new ClickableCardFragment();
+        fragment.setTitle("Events This Week");
+        _fragment.add(fragment);
+        _backgrounds.add(mContext.getResources().getDrawable(R.drawable.calendar_event));
+
+        fragment = new ClickableCardFragment();
+        fragment.setTitle("Ultrasound");
+        fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
+        _fragment.add(fragment);
+        _backgrounds.add(mContext.getResources().getDrawable(R.drawable.ultrasound_event));
     }
 
     private class OnFragmentClick implements View.OnClickListener {
@@ -41,20 +62,13 @@ public class Events extends FragmentGridPagerAdapter {
     // Obtain the UI fragment at the specified position
     @Override
     public Fragment getFragment(int row, int col) {
-        ClickableCardFragment fragment = new ClickableCardFragment();
-        if (col == 0) fragment.setTitle("Events This Week");
-        if (col == 1) {
-            fragment.setTitle("Ultrasound");
-            fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
-        }
-        return fragment;
+        return _fragment.get(col);
     }
 
     // Obtain the background image for the specific page
     @Override
     public Drawable getBackgroundForPage(int row, int col) {
-        if (col == 0) return mContext.getResources().getDrawable(R.drawable.calendar_event);
-        else return mContext.getResources().getDrawable(R.drawable.ultrasound_event);
+        return _backgrounds.get(col);
     }
 
     // Obtain the number of pages (vertical)
@@ -66,6 +80,6 @@ public class Events extends FragmentGridPagerAdapter {
     // Obtain the number of pages (horizontal)
     @Override
     public int getColumnCount(int rowNum) {
-        return 2;
+        return _fragment.size();
     }
 }

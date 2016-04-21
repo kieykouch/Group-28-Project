@@ -23,6 +23,7 @@ import com.roughike.bottombar.OnMenuTabClickListener;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EVENT_OBJECT="caller";
+    public static final String HEART_RATE = "heart";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 case "food-alert":
                     mBottomBar.selectTabAtPosition(0, false);
                     replaceFragment(new DetailedLocationFragment());
-                    break;
+                    return;
                 default:
                     break;
             }
@@ -100,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
                 // Move to calendar.
                 mBottomBar.selectTabAtPosition(0, false);
                 replaceFragment(new DetailedEventFragment());
+            } else if (bundle != null && bundle.containsKey(HEART_RATE)) {
+                String heartRate = bundle.getString(HEART_RATE);
+                mBottomBar.selectTabAtPosition(3, false);
+                replaceFragment(new HearRateRecordedFragment());
             }
         }
 

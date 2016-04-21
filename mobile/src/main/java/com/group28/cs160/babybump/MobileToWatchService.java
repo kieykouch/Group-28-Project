@@ -15,6 +15,9 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
 import java.io.ByteArrayInputStream;
@@ -72,8 +75,21 @@ public class MobileToWatchService extends Service implements
                     NotificationManagerCompat.from(this);
             Log.d("MobileToWatch", "sending notification");
             notificationManager.notify(notificationId, notificationBuilder.build());
+        } else if (service_id == HEART_RATE) {
+            final String path = "/heart";
+            new Thread( new Runnable() {
+                @Override
+                public void run() {
+                    NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mApiClient).await();
+                    for(Node node : nodes.getNodes()) {
+                        Log.d("PhoneToWatchService", "Sending message to watch!!");
+                        MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
+                                mApiClient, node.getId(), path, "record!!".getBytes()).await();
+                    }
+                }
+            }).start();
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override
@@ -94,4 +110,5 @@ public class MobileToWatchService extends Service implements
     private GoogleApiClient mApiClient;
 
     final static int FOOD_NOTIFICATION = 0;
+    final static int HEART_RATE = 1;
 }

@@ -13,6 +13,7 @@ public class PhoneListenerService extends WearableListenerService {
 
     // WearableListenerServices don't need an iBinder or an onStartCommand: they just need an onMessageReceieved.
     private static final String TIMELINE = "/timeline";
+    private static final String HEART_RATE = "/heart";
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -23,10 +24,19 @@ public class PhoneListenerService extends WearableListenerService {
             String event =  messageEvent.getData().toString();
 
             Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //you need to add this flag since you're starting a new activity from a service
             intent.putExtra(MainActivity.EVENT_OBJECT, event);
             Log.d("PhoneListenerService", "about to start watch MainActivity with Event: "+ event);
+            startActivity(intent);
+        } else if (messageEvent.getPath().equalsIgnoreCase(HEART_RATE)){
+            String heartRate =  messageEvent.getData().toString();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //you need to add this flag since you're starting a new activity from a service
+            intent.putExtra(MainActivity.HEART_RATE, heartRate);
+            Log.d("PhoneListenerService", "about to start watch MainActivity with Event: "+ heartRate);
             startActivity(intent);
         } else {
             super.onMessageReceived(messageEvent);

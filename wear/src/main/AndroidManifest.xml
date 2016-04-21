@@ -26,9 +26,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".WatchToPhoneService"
-            android:exported="false">
+            android:exported="false" />
+
+        <activity
+            android:name=".HeartRateActivity"
+            android:label="@string/title_activity_heart_rate"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
+
+        <service
+            android:name=".WatchListenerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
         </service>
     </application>
 
