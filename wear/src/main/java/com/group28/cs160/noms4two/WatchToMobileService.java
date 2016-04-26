@@ -19,7 +19,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class WatchToPhoneService extends Service {
+public class WatchToMobileService extends Service {
     public final static String EVENT_OBJECT = "com.groupd28.cs160.noms4two.EVENT_OBJECT";
     public final static String HEART_RATE = "/heart";
 
@@ -61,7 +61,7 @@ public class WatchToPhoneService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("WatchToPhoneService", "Sending message to phone..");
+        Log.d("WatchToMobileService", "Sending message to phone..");
         final Bundle extras = intent.getExtras();
         // Send the message with the cat name
         new Thread(new Runnable() {
@@ -70,7 +70,7 @@ public class WatchToPhoneService extends Service {
                 //first, connect to the apiclient
                 nodes = Wearable.NodeApi.getConnectedNodes(mApiClient).await(10, TimeUnit.SECONDS).getNodes();
                 if (nodes.size() == 0) {
-                    Log.d("WatchToPhoneService", "No phone connected.");
+                    Log.d("WatchToMobileService", "No phone connected.");
                     return;
                 }
                 if (extras.containsKey(EVENT_OBJECT)) {
@@ -95,7 +95,7 @@ public class WatchToPhoneService extends Service {
 
     private void sendMessage( final String path, final String text) {
         for(Node node : nodes) {
-            Log.d("WatchToPhoneService", "Sending message to phone with path: " + path + " and text: " + text);
+            Log.d("WatchToMobileService", "Sending message to phone with path: " + path + " and text: " + text);
             //we find 'nodes', which are nearby bluetooth devices (aka emulators)
             //send a message for each of these nodes (just one, for an emulator)
             MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(

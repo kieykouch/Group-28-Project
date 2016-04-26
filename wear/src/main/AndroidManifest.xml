@@ -28,7 +28,7 @@
         </activity>
 
         <service
-            android:name="com.group28.cs160.noms4two.WatchToPhoneService"
+            android:name=".WatchToMobileService"
             android:exported="false" />
 
         <service

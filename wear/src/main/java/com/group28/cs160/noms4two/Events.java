@@ -52,8 +52,8 @@ public class Events extends FragmentGridPagerAdapter {
         @Override
         public void onClick(View v) {
             Log.d("Event", "Recorded click.");
-            Intent sendIntent = new Intent(v.getContext().getApplicationContext(), WatchToPhoneService.class);
-            sendIntent.putExtra(WatchToPhoneService.EVENT_OBJECT, this.event);
+            Intent sendIntent = new Intent(v.getContext().getApplicationContext(), WatchToMobileService.class);
+            sendIntent.putExtra(WatchToMobileService.EVENT_OBJECT, this.event);
             v.getContext().startService(sendIntent);
         }
     };
