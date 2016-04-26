@@ -1,8 +1,6 @@
-package com.group28.cs160.babybump;
+package com.group28.cs160.noms4two;
 
-import android.app.Service;
 import android.content.Intent;
-import android.os.IBinder;
 import android.util.Log;
 
 import com.google.android.gms.wearable.DataEventBuffer;

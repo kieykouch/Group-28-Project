@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.group28.cs160.babybump"
+        applicationId "com.group28.cs160.noms4two"
         minSdkVersion 22
         targetSdkVersion 23
         versionCode 1

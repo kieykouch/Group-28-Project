@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.group28.cs160.babybump.HeartRateActivity"
+    tools:context="com.group28.cs160.noms4two.HeartRateActivity"
     tools:deviceIds="wear">
     <ImageView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.group28.cs160.babybump;
+package com.group28.cs160.noms4two;
 
 import android.content.Intent;
 import android.os.Bundle;

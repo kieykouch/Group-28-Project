@@ -1,4 +1,4 @@
-package com.group28.cs160.babybump;
+package com.group28.cs160.noms4two;
 
 /**
  * Created by eviltwin on 4/20/16.
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class WatchToPhoneService extends Service {
-    public final static String EVENT_OBJECT = "com.groupd28.cs160.babybump.EVENT_OBJECT";
+    public final static String EVENT_OBJECT = "com.groupd28.cs160.noms4two.EVENT_OBJECT";
     public final static String HEART_RATE = "/heart";
 
     private GoogleApiClient mApiClient;

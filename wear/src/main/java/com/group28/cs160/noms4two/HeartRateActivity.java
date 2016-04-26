@@ -1,17 +1,9 @@
-package com.group28.cs160.babybump;
+package com.group28.cs160.noms4two;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.BoxInsetLayout;
-import android.support.wearable.view.GridViewPager;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class HeartRateActivity extends WearableActivity {
 

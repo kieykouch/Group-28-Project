@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.group28.cs160.babybump.MainActivity">
+    tools:context="com.group28.cs160.noms4two.MainActivity">
 
     <ImageButton
         android:id="@+id/heartrate_fake"

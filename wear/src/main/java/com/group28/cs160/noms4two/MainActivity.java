@@ -1,10 +1,9 @@
-package com.group28.cs160.babybump;
+package com.group28.cs160.noms4two;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.GridViewPager;
-import android.util.Log;
 
 public class MainActivity extends WearableActivity {
 

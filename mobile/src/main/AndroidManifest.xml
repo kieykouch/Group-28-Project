@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.group28.cs160.babybump">
+    package="com.group28.cs160.noms4two">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,7 +25,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.group28.cs160.noms4two.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -36,20 +36,25 @@
         </activity>
 
         <service
-            android:name=".PhoneListenerService"
+            android:name="com.group28.cs160.noms4two.PhoneListenerService"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
         <service
-            android:name=".FoodAlertService"
+            android:name="com.group28.cs160.noms4two.FoodAlertService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".MobileToWatchService"
+            android:name="com.group28.cs160.noms4two.MobileToWatchService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity
+            android:name="com.group28.cs160.noms4two.LoadingActivity"
+            android:label="@string/title_activity_loading"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
