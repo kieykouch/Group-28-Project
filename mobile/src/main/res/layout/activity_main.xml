@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="?attr/colorPrimary"
+    android:background="@color/background"
     tools:context="com.group28.cs160.noms4two.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:title="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 

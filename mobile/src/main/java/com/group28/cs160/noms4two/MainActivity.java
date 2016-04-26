@@ -1,13 +1,11 @@
 package com.group28.cs160.noms4two;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -15,9 +13,6 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final String EVENT_OBJECT="caller";
-    public static final String HEART_RATE = "heart";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +28,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
-                    case R.id.calendar_icon:
-                        replaceFragment(new CalendarFragment());
+                    case R.id.nutrition_icon:
+                        replaceFragment(new NutritionFragment());
                         break;
-                    case R.id.weight_icon:
-                        replaceFragment(new CalendarFragment());
+                    case R.id.barcode_icon:
+                        replaceFragment(new Fragment());
                         break;
-                    case R.id.home_icon:
-                        replaceFragment(new CalendarFragment());
+                    case R.id.search_icon:
+                        replaceFragment(new Fragment());
                         break;
-                    case R.id.heartrate_icon:
-                        replaceFragment(new CalendarFragment());
-                        break;
-                    case R.id.nearby_icon:
-                        replaceFragment(new CalendarFragment());
+                    case R.id.me_icon:
+                        replaceFragment(new Fragment());
                         break;
                     default:
                         break;
@@ -58,35 +50,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        mBottomBar.mapColorForTab(0, "#7B1FA2");
-        mBottomBar.mapColorForTab(1, "#7B1FA2");
-        mBottomBar.mapColorForTab(2, "#FF5252");
-        mBottomBar.mapColorForTab(3, "#7B1FA2");
-        mBottomBar.mapColorForTab(4, "#7B1FA2");
-
-        mBottomBar.selectTabAtPosition(2, false);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.bottombar));
+        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.bottombar));
+        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.bottombar));
+        mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.bottombar));
     }
 
     public void replaceFragment(Fragment newFragment) {
+        // TODO(prad): The highlighted item in the BottomBar should also change on reversing a transaction.
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
         mFragmentManager.executePendingTransactions();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 0) {
-            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            }
-        }
     }
 
     private BottomBar mBottomBar;

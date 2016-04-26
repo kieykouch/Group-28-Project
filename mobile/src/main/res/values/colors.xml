@@ -3,4 +3,7 @@
     <color name="colorPrimary">#84E64C</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="bottombar">#EFEFEF</color>
+    <color name="background">#FFFFFF</color>
+    <color name="bb_inActiveBottomBarItemColor">#679629</color>
 </resources>

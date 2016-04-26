@@ -7,10 +7,9 @@
     android:background="?attr/colorPrimary"
     tools:context="com.group28.cs160.noms4two.MainActivity">
 
-    <ImageButton
-        android:id = "@+id/calendar_fake"
+    <ImageView
+        android:id = "@+id/nutrition_fake"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background ="@drawable/calendar_fake"
-        android:onClick="onImageClick" />
+        android:background ="@drawable/nutrition_fake"/>
 </RelativeLayout>

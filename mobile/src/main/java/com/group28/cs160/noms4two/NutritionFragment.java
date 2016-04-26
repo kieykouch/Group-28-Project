@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CalendarFragment extends Fragment {
+public class NutritionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_calendar, parent, false);
+        View rootView = inflater.inflate(R.layout.fragment_nutrition, parent, false);
         return rootView;
     }
 }

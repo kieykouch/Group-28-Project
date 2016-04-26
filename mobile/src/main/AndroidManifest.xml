@@ -36,7 +36,7 @@
 
         <activity
             android:name="com.group28.cs160.noms4two.LoadingActivity"
-            android:label="@string/title_activity_loading"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

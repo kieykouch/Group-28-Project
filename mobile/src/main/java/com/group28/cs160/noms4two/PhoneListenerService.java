@@ -26,7 +26,7 @@ public class PhoneListenerService extends WearableListenerService {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //you need to add this flag since you're starting a new activity from a service
-            intent.putExtra(MainActivity.EVENT_OBJECT, event);
+            intent.putExtra("EVENT_OBJECT", event);
             Log.d("PhoneListenerService", "about to start watch MainActivity with Event: "+ event);
             startActivity(intent);
         } else if (messageEvent.getPath().equalsIgnoreCase(HEART_RATE)){
@@ -35,7 +35,7 @@ public class PhoneListenerService extends WearableListenerService {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //you need to add this flag since you're starting a new activity from a service
-            intent.putExtra(MainActivity.HEART_RATE, heartRate);
+            intent.putExtra("EVENT_OBJECT", heartRate);
             Log.d("PhoneListenerService", "about to start watch MainActivity with Event: "+ heartRate);
             startActivity(intent);
         } else {
