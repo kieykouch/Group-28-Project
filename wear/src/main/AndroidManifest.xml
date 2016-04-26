@@ -31,11 +31,6 @@
             android:name="com.group28.cs160.noms4two.WatchToPhoneService"
             android:exported="false" />
 
-        <activity
-            android:name="com.group28.cs160.noms4two.HeartRateActivity"
-            android:label="@string/title_activity_heart_rate"
-            android:theme="@android:style/Theme.DeviceDefault.Light" />
-
         <service
             android:name="com.group28.cs160.noms4two.WatchListenerService"
             android:enabled="true"

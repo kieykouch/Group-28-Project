@@ -28,7 +28,7 @@ public class WatchListenerService extends WearableListenerService implements
         Log.d("WatchListenerService", "Message receives");
         if(messageEvent.getPath().equalsIgnoreCase(INFO)) {
             String info = messageEvent.getData().toString();
-            Intent intent = new Intent(this, HeartRateActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //you need to add this flag since you're starting a new activity from a service
 //            intent.putExtra(MainActivity.INFO, info);

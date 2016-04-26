@@ -43,10 +43,6 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.group28.cs160.noms4two.FoodAlertService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name="com.group28.cs160.noms4two.MobileToWatchService"
             android:enabled="true"
             android:exported="true" />

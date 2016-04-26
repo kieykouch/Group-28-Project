@@ -1,12 +1,10 @@
 package com.group28.cs160.noms4two;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,13 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION  }, 0);
-        } else {
-            startFoodService();
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mFragmentManager = getSupportFragmentManager();
@@ -46,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
                         replaceFragment(new CalendarFragment());
                         break;
                     case R.id.weight_icon:
-                        replaceFragment(new WeightFragment());
+                        replaceFragment(new CalendarFragment());
                         break;
                     case R.id.home_icon:
-                        replaceFragment(new HomeFragment());
+                        replaceFragment(new CalendarFragment());
                         break;
                     case R.id.heartrate_icon:
-                        replaceFragment(new HeartRateFragment());
+                        replaceFragment(new CalendarFragment());
                         break;
                     case R.id.nearby_icon:
-                        replaceFragment(new NearbyLocationsFragment());
+                        replaceFragment(new CalendarFragment());
                         break;
                     default:
                         break;
@@ -74,42 +65,11 @@ public class MainActivity extends AppCompatActivity {
         mBottomBar.mapColorForTab(4, "#7B1FA2");
 
         mBottomBar.selectTabAtPosition(2, false);
-
-        String caller = getIntent().getStringExtra("caller");
-        if (caller != null) {
-            switch (caller) {
-                case "food-alert":
-                    mBottomBar.selectTabAtPosition(0, false);
-                    replaceFragment(new DetailedLocationFragment());
-                    return;
-                default:
-                    break;
-            }
-        }
-        // Default to home fragment.
-        //replaceFragment(new HomeFragment());
-
-        // Check if this activity was launched from watch.
-        if (getIntent() != null) {
-            Bundle bundle = getIntent().getExtras();
-            if (bundle != null && bundle.containsKey(EVENT_OBJECT)) {
-                String event = bundle.getString(EVENT_OBJECT);
-                // Move to calendar.
-                mBottomBar.selectTabAtPosition(0, false);
-                replaceFragment(new DetailedEventFragment());
-            } else if (bundle != null && bundle.containsKey(HEART_RATE)) {
-                String heartRate = bundle.getString(HEART_RATE);
-                mBottomBar.selectTabAtPosition(3, false);
-                replaceFragment(new HearRateRecordedFragment());
-            }
-        }
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, FoodAlertService.class));
     }
 
     public void replaceFragment(Fragment newFragment) {
@@ -125,14 +85,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 0) {
             if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startFoodService();
             }
         }
-    }
-
-    private void startFoodService() {
-        Intent foodAlertServiceIntent = new Intent(this, FoodAlertService.class);
-        startService(foodAlertServiceIntent);
     }
 
     private BottomBar mBottomBar;
