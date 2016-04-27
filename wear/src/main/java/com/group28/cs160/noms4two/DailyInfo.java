@@ -4,44 +4,46 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by eviltwin on 4/20/16.
  */
-public class Events extends FragmentGridPagerAdapter {
-    private Context mContext;
-    private List mRows;
+public class DailyInfo extends FragmentGridPagerAdapter {
+    private Context context;
 
-    private ArrayList<Fragment> _fragment = new ArrayList<>();
-    private ArrayList<Drawable> _backgrounds = new ArrayList<>();
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private ArrayList<Drawable> backgrounds = new ArrayList<Drawable>();
 
-    public Events(Context ctx, FragmentManager fm) {
+    public DailyInfo(Context ctx, FragmentManager fm) {
         super(fm);
-        mContext = ctx;
-        ClickableCardFragment fragment;
+        context = ctx;
+        CenteredImageFragment fragment;
 
-        fragment = new ClickableCardFragment();
-        fragment.setTitle("2 Month 3 Weeks");
-        _fragment.add(fragment);
-        _backgrounds.add(mContext.getResources().getDrawable(R.drawable.home_screen_fake));
+        fragment = new CenteredImageFragment();
+        fragment.setImage(R.drawable.calories);
+        fragment.setDescription("2 Month 3 Weeks");
+        fragments.add(fragment);
+        backgrounds.add(PercentageBitmap.getBackgroundForPage(35.0, Color.parseColor("#CC4E02")));
 
-        fragment = new ClickableCardFragment();
-        fragment.setTitle("Events This Week");
-        _fragment.add(fragment);
-        _backgrounds.add(mContext.getResources().getDrawable(R.drawable.calendar_event));
+        fragment = new CenteredImageFragment();
+        fragment.setImage(R.drawable.calcium);
+        fragment.setDescription("DailyInfo This Week");
+        fragments.add(fragment);
+        backgrounds.add(PercentageBitmap.getBackgroundForPage(67.0, Color.parseColor("#4F751C")));
 
-        fragment = new ClickableCardFragment();
-        fragment.setTitle("Ultrasound");
-        fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
-        _fragment.add(fragment);
-        _backgrounds.add(mContext.getResources().getDrawable(R.drawable.ultrasound_event));
+        fragment = new CenteredImageFragment();
+        fragment.setImage(R.drawable.calories);
+        fragment.setDescription("Ultrasound");
+        //fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
+        fragments.add(fragment);
+        backgrounds.add(PercentageBitmap.getBackgroundForPage(50.0, Color.parseColor("#CC4E02")));
     }
 
     private class OnFragmentClick implements View.OnClickListener {
@@ -62,13 +64,13 @@ public class Events extends FragmentGridPagerAdapter {
     // Obtain the UI fragment at the specified position
     @Override
     public Fragment getFragment(int row, int col) {
-        return _fragment.get(col);
+        return fragments.get(col);
     }
 
     // Obtain the background image for the specific page
     @Override
     public Drawable getBackgroundForPage(int row, int col) {
-        return _backgrounds.get(col);
+        return backgrounds.get(col);
     }
 
     // Obtain the number of pages (vertical)
@@ -80,6 +82,6 @@ public class Events extends FragmentGridPagerAdapter {
     // Obtain the number of pages (horizontal)
     @Override
     public int getColumnCount(int rowNum) {
-        return _fragment.size();
+        return fragments.size();
     }
 }

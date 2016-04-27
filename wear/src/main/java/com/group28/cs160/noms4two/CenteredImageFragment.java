@@ -12,24 +12,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ClickableCardFragment extends Fragment {
+public class CenteredImageFragment extends Fragment {
     private OnClickListener listener;
-    private String title, description;
-    private boolean hasIcon = false;
-    private int iconRes;
+    private String description;
+    private int itemRes;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.clickable_card_fragment, container, false);
-        TextView mTitle = (TextView) fragmentView.findViewById(R.id.title);
-        mTitle.setText(title);
+        View fragmentView = inflater.inflate(R.layout.fragment_centered_image, container, false);
 
-        TextView mDescription = (TextView) fragmentView.findViewById(R.id.description);
-        mDescription.setText(description);
+        ImageView item = (ImageView) fragmentView.findViewById(R.id.item);
+        item.setBackgroundResource(itemRes);
 
-        ImageView icon = (ImageView) fragmentView.findViewById(R.id.icon);
-        if (hasIcon) icon.setBackground(fragmentView.getContext().getResources().getDrawable(iconRes, null));
+        TextView text = (TextView) fragmentView.findViewById(R.id.item_text);
+        text.setText(description);
 
+        /*
         fragmentView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -38,19 +36,20 @@ public class ClickableCardFragment extends Fragment {
                 }
             }
 
-        });
+        });*/
         return fragmentView;
     }
 
-    public void setTitle(String t) {
-        title = t;
+    public void setImage(int i) {
+        itemRes = i;
     }
 
-    public void setIcon(int i) { hasIcon = true; iconRes = i;}
-
-    public void setDescription(String d) {description = d;}
-
+    public void setDescription(String d) {
+        description = d;
+    }
+/*
     public void setOnClickListener(final OnClickListener listener) {
         this.listener = listener;
     }
+*/
 }
