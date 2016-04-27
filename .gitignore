@@ -36,3 +36,7 @@ captures/
 
 # Movie files
 *.mov
+
+# iml files
+wear/wear.iml
+mobile/mobile.iml
