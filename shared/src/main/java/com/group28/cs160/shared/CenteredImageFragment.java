@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.shared;
 
 /**
  * Created by eviltwin on 4/20/16.
@@ -27,16 +27,15 @@ public class CenteredImageFragment extends Fragment {
         TextView text = (TextView) fragmentView.findViewById(R.id.item_text);
         text.setText(description);
 
-        /*
-        fragmentView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (listener != null) {
-                    listener.onClick(view);
+        if (listener != null) {
+            fragmentView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                        listener.onClick(view);
                 }
-            }
 
-        });*/
+            });
+        }
         return fragmentView;
     }
 
@@ -47,9 +46,8 @@ public class CenteredImageFragment extends Fragment {
     public void setDescription(String d) {
         description = d;
     }
-/*
+
     public void setOnClickListener(final OnClickListener listener) {
         this.listener = listener;
     }
-*/
 }

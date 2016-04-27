@@ -29,4 +29,5 @@ dependencies {
     compile 'com.roughike:bottom-bar:1.3.3'
     compile 'com.github.scribejava:scribejava-apis:2.5.3'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile project(':shared')
 }

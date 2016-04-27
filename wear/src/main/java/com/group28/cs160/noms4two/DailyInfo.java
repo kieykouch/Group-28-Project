@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.util.Log;
 import android.view.View;
+
+import com.group28.cs160.shared.CenteredImageFragment;
+import com.group28.cs160.shared.PercentageBitmap;
 
 import java.util.ArrayList;
 
@@ -26,24 +30,30 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         context = ctx;
         CenteredImageFragment fragment;
 
+        final int borderColor = ContextCompat.getColor(context, R.color.border);
+        final int backgroundColor = ContextCompat.getColor(context, R.color.background);
+
         fragment = new CenteredImageFragment();
         fragment.setImage(R.drawable.calories);
         fragment.setDescription("2 Month 3 Weeks");
         fragments.add(fragment);
-        backgrounds.add(PercentageBitmap.getBackgroundForPage(35.0, Color.parseColor("#CC4E02")));
+        backgrounds.add(PercentageBitmap.getPercentageDrawable(35.0, Color.parseColor("#CC4E02"),
+                borderColor, backgroundColor));
 
         fragment = new CenteredImageFragment();
         fragment.setImage(R.drawable.calcium);
         fragment.setDescription("DailyInfo This Week");
         fragments.add(fragment);
-        backgrounds.add(PercentageBitmap.getBackgroundForPage(67.0, Color.parseColor("#4F751C")));
+        backgrounds.add(PercentageBitmap.getPercentageDrawable(67.0, Color.parseColor("#4F751C"),
+                borderColor, backgroundColor));
 
         fragment = new CenteredImageFragment();
         fragment.setImage(R.drawable.calories);
         fragment.setDescription("Ultrasound");
         //fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
         fragments.add(fragment);
-        backgrounds.add(PercentageBitmap.getBackgroundForPage(50.0, Color.parseColor("#CC4E02")));
+        backgrounds.add(PercentageBitmap.getPercentageDrawable(50.0, Color.parseColor("#CC4E02"),
+                borderColor, backgroundColor));
     }
 
     private class OnFragmentClick implements View.OnClickListener {
