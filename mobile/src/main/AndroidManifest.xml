@@ -22,6 +22,17 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name="com.group28.cs160.noms4two.LoadingActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.group28.cs160.noms4two.MobileListenerService"
             android:label="@string/app_name">
@@ -33,17 +44,6 @@
             android:name="com.group28.cs160.noms4two.MobileToWatchService"
             android:enabled="true"
             android:exported="true" />
-
-        <activity
-            android:name="com.group28.cs160.noms4two.LoadingActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
