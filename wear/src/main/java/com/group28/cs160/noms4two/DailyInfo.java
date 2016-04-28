@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.group28.cs160.shared.CenteredImageFragment;
 import com.group28.cs160.shared.NutritionFacts;
-import com.group28.cs160.shared.PercentageBitmap;
 
 import java.util.ArrayList;
 
@@ -37,9 +36,8 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         fragment = new CenteredImageFragment();
         fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
         fragment.setDescription(info.calories + " Calories");
-        double caloriePercentage = info.calories / goals.calories * 100;
-        fragment.setBackground(PercentageBitmap.getPercentageDrawable(caloriePercentage, Color.parseColor("#CC4E02"),
-                borderColor, backgroundColor));
+        float calorieAngle = (float) (info.calories / goals.calories * 360);
+        fragment.setAngle(calorieAngle);
         fragments.add(fragment);
     }
 

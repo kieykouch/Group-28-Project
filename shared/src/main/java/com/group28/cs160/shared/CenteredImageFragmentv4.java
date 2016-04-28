@@ -19,8 +19,7 @@ public class CenteredImageFragmentv4 extends Fragment {
     private OnClickListener listener;
     private String description;
     private Drawable icon;
-    private boolean hasBackground = false;
-    private Drawable background;
+    private float angle;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -32,6 +31,12 @@ public class CenteredImageFragmentv4 extends Fragment {
         TextView text = (TextView) fragmentView.findViewById(R.id.item_text);
         text.setText(description);
 
+        Circle circle = (Circle) fragmentView.findViewById(R.id.circle);
+
+        CircleAngleAnimation animation = new CircleAngleAnimation(circle, angle);
+        animation.setDuration(1000);
+        circle.startAnimation(animation);
+
         if (listener != null) {
             fragmentView.setOnClickListener(new OnClickListener() {
                 @Override
@@ -42,12 +47,10 @@ public class CenteredImageFragmentv4 extends Fragment {
             });
         }
 
-        if (hasBackground) {
-            ImageView back = (ImageView) fragmentView.findViewById(R.id.bg);
-            back.setBackground(background);
-        }
         return fragmentView;
     }
+
+    public void setAngle(float a) {angle = a;}
 
     public void setImage(Drawable i) {
         icon = i;
@@ -55,11 +58,6 @@ public class CenteredImageFragmentv4 extends Fragment {
 
     public void setDescription(String d) {
         description = d;
-    }
-
-    public void setBackground(Drawable b) {
-        hasBackground = true;
-        background = b;
     }
 
     public void setOnClickListener(final OnClickListener listener) {
