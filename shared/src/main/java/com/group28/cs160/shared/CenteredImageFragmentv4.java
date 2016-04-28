@@ -2,10 +2,12 @@ package com.group28.cs160.shared;
 
 /**
  * Created by eviltwin on 4/20/16.
+ * Card Fragment for mobile needs to extend v4 Fragment.
  */
-import android.app.Fragment;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,17 +15,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CenteredImageFragment extends Fragment {
+public class CenteredImageFragmentv4 extends Fragment {
     private OnClickListener listener;
     private String description;
     private Drawable icon;
+    private boolean hasBackground = false;
+    private Drawable background;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_centered_image, container, false);
 
         ImageView item = (ImageView) fragmentView.findViewById(R.id.item);
-        item.setImageDrawable(this.icon);
+        item.setImageDrawable(icon);
 
         TextView text = (TextView) fragmentView.findViewById(R.id.item_text);
         text.setText(description);
@@ -37,6 +41,11 @@ public class CenteredImageFragment extends Fragment {
 
             });
         }
+
+        if (hasBackground) {
+            ImageView back = (ImageView) fragmentView.findViewById(R.id.bg);
+            back.setBackground(background);
+        }
         return fragmentView;
     }
 
@@ -46,6 +55,11 @@ public class CenteredImageFragment extends Fragment {
 
     public void setDescription(String d) {
         description = d;
+    }
+
+    public void setBackground(Drawable b) {
+        hasBackground = true;
+        background = b;
     }
 
     public void setOnClickListener(final OnClickListener listener) {

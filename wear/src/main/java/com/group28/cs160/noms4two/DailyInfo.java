@@ -34,21 +34,21 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         final int backgroundColor = ContextCompat.getColor(context, R.color.background);
 
         fragment = new CenteredImageFragment();
-        fragment.setImage(R.drawable.calories);
+        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
         fragment.setDescription("2 Month 3 Weeks");
         fragments.add(fragment);
         backgrounds.add(PercentageBitmap.getPercentageDrawable(35.0, Color.parseColor("#CC4E02"),
                 borderColor, backgroundColor));
 
         fragment = new CenteredImageFragment();
-        fragment.setImage(R.drawable.calcium);
+        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calcium));
         fragment.setDescription("DailyInfo This Week");
         fragments.add(fragment);
         backgrounds.add(PercentageBitmap.getPercentageDrawable(67.0, Color.parseColor("#4F751C"),
                 borderColor, backgroundColor));
 
         fragment = new CenteredImageFragment();
-        fragment.setImage(R.drawable.calories);
+        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
         fragment.setDescription("Ultrasound");
         //fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
         fragments.add(fragment);
