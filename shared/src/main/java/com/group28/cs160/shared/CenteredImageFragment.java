@@ -17,6 +17,9 @@ public class CenteredImageFragment extends Fragment {
     private OnClickListener listener;
     private String description;
     private Drawable icon;
+    private boolean hasBackground = false;
+    private Drawable background;
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -37,7 +40,17 @@ public class CenteredImageFragment extends Fragment {
 
             });
         }
+
+        if (hasBackground) {
+            ImageView back = (ImageView) fragmentView.findViewById(R.id.bg);
+            back.setBackground(background);
+        }
         return fragmentView;
+    }
+
+    public void setBackground(Drawable b) {
+        hasBackground = true;
+        background = b;
     }
 
     public void setImage(Drawable i) {
