@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.group28.cs160.shared.CenteredImageFragment;
+import com.group28.cs160.shared.NutritionFacts;
 import com.group28.cs160.shared.PercentageBitmap;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class DailyInfo extends FragmentGridPagerAdapter {
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
 
-    public DailyInfo(Context ctx, FragmentManager fm) {
+    public DailyInfo(Context ctx, FragmentManager fm, NutritionFacts goals, NutritionFacts info) {
         super(fm);
         context = ctx;
         CenteredImageFragment fragment;
@@ -35,24 +36,9 @@ public class DailyInfo extends FragmentGridPagerAdapter {
 
         fragment = new CenteredImageFragment();
         fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
-        fragment.setDescription("2 Month 3 Weeks");
-        fragment.setBackground(PercentageBitmap.getPercentageDrawable(35.0, Color.parseColor("#CC4E02"),
-                borderColor, backgroundColor));
-        fragments.add(fragment);
-
-        fragment = new CenteredImageFragment();
-        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calcium));
-        fragment.setDescription("DailyInfo This Week");
-        fragment.setBackground(PercentageBitmap.getPercentageDrawable(67.0, Color.parseColor("#4F751C"),
-                borderColor, backgroundColor));
-
-        fragments.add(fragment);
-
-        fragment = new CenteredImageFragment();
-        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
-        fragment.setDescription("Ultrasound");
-        //fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
-        fragment.setBackground(PercentageBitmap.getPercentageDrawable(50.0, Color.parseColor("#CC4E02"),
+        fragment.setDescription(info.calories + " Calories");
+        double caloriePercentage = info.calories / goals.calories * 100;
+        fragment.setBackground(PercentageBitmap.getPercentageDrawable(caloriePercentage, Color.parseColor("#CC4E02"),
                 borderColor, backgroundColor));
         fragments.add(fragment);
     }

@@ -3,10 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "com.group28.cs160.noms4two"
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -16,6 +15,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 
@@ -28,6 +29,5 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.roughike:bottom-bar:1.3.3'
     compile 'com.github.scribejava:scribejava-apis:2.5.3'
-    compile 'org.apache.commons:commons-lang3:3.4'
     compile project(':shared')
 }

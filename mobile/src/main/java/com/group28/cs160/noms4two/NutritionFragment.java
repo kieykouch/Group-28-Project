@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.group28.cs160.shared.CenteredImageFragmentv4;
+import com.group28.cs160.shared.NutritionFacts;
 import com.group28.cs160.shared.PercentageBitmap;
 
 public class NutritionFragment extends Fragment {
@@ -46,6 +47,12 @@ public class NutritionFragment extends Fragment {
         fragment.setDescription(description);
         Drawable goalStatusDrawable = PercentageBitmap.getPercentageDrawable(percentage, borderHighlight, border, Color.parseColor("#FFFFFF"));
         fragment.setBackground(goalStatusDrawable);
+        fragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new DetailedNutritionFragment());
+            }
+        });
         return fragment;
     }
 
@@ -54,7 +61,6 @@ public class NutritionFragment extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(fragment_container, newFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
