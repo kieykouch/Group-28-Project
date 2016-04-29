@@ -1,6 +1,7 @@
 package com.group28.cs160.noms4two;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -113,8 +114,13 @@ public class SearchFragment extends Fragment {
                 }
 
 //                Intent current_Intent = new Intent(MainActivity.this, FoodInfo.class);
-//                current_Intent.putExtra("Food", current);
+//
 //                startActivity(current_Intent);
+
+                Intent intent = new Intent(getActivity(), DetailedActivity.class);
+                intent.putExtra("nutrient_facts", current);
+                //intent.putStringArrayListExtra("allergens", allergens);
+                startActivity(intent);
             }
         });
     }
