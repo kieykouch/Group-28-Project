@@ -145,7 +145,7 @@ public class SearchFragment extends Fragment {
                 e1.printStackTrace();
             }
             AddtoCurrentNutrientObject(food,current);
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
