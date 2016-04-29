@@ -1,11 +1,9 @@
 package com.group28.cs160.shared;
 
 import org.apache.commons.lang3.SerializationUtils;
-
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,6 +26,9 @@ public class NutritionFacts implements Serializable {
     public double iron;  // measured in milligrams.
     public double potassium;  // measured in milligrams.
     public double vitaminC;
+    public String serving;
+    public boolean addedNutrients = false;
+
     public static NutritionFacts fromJson(JSONObject nutrition_facts) {
         return null;
     }

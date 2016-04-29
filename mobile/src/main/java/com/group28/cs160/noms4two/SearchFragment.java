@@ -46,6 +46,11 @@ public class SearchFragment extends Fragment {
                 if (mySearchText.length() > 0){
                     text.setText("Searching "+ mySearchText +" :");
                     String myFood = api.getFoodItems(mySearchText, 20);
+
+                    if (myFood != null){
+                        text.setText("Searching "+ mySearchText +" : 0 Results");
+                    }
+
                     data = new ArrayList<NutritionFacts>();
                     //System.out.print(myFood);
                     JSONObject food = null;   // { first
@@ -78,22 +83,140 @@ public class SearchFragment extends Fragment {
             {
                 System.out.println("Im Clicking on List " + position);
                 final NutritionFacts current = data.get(position);
-                String foodId = current.fatSecretId;
 
-                System.out.println(foodId);
-                JSONObject k = null;
-                try {
-                    k = api.getFoodItem(foodId);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                if (!current.addedNutrients){
+                    String foodId = current.fatSecretId;
+                    String k = null;
+                    try {
+                        k = api.getFoodItem(foodId);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    extractFromId(k, current);
                 }
 
-                System.out.print(k);
 //                Intent current_Intent = new Intent(MainActivity.this, FoodInfo.class);
 //                current_Intent.putExtra("Food", current);
 //                startActivity(current_Intent);
             }
         });
+    }
+
+    private void extractFromId(String object, NutritionFacts current){
+        JSONArray FoodArray = null;
+        JSONObject food = null;
+        try {
+            food = new JSONObject(object);
+            food = food.getJSONObject("food");
+            food = food.getJSONObject("servings");
+            System.out.println(food);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //sometimes, it doesn't have array, just only one, need to work on this inconsistanct
+
+        try {
+            FoodArray = food.getJSONArray("serving");
+            Boolean oneServing = false;
+            JSONObject last = null;
+            for (int i = 0; i < FoodArray.length(); i++){
+                JSONObject food_entry = (JSONObject) FoodArray.get(i);
+                last = food_entry;
+                String serve = food_entry.get("serving_description").toString();
+
+                if (serve.contains("1 serving")){
+                    oneServing = true;
+                    System.out.println(food_entry);
+                    AddtoCurrentNutrientObject(food_entry,current);
+                    break;
+                }
+            }
+
+            //if 1 serving size aren't available
+            if (oneServing == false){
+                AddtoCurrentNutrientObject(last,current);
+            }
+        } catch (JSONException e) {
+
+            try {
+                food = food.getJSONObject("serving");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+            AddtoCurrentNutrientObject(food,current);
+            //e.printStackTrace();
+        }
+    }
+
+    private void AddtoCurrentNutrientObject(JSONObject food_entry, NutritionFacts current){
+
+        Object parse = null;
+        try {
+            parse = food_entry.get("calories");
+            if (parse != null) current.calories = Double.parseDouble(parse.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        current.addedNutrients = true;
+
+        try {
+            parse = null;
+            parse = food_entry.get("protein");
+            if (parse != null) current.protein = Double.parseDouble(parse.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            parse = null;
+            parse = food_entry.get("calcium");
+            if (parse != null) current.calcium = Double.parseDouble(parse.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            parse = null;
+            parse = food_entry.get("iron");
+            if (parse != null) current.iron = Double.parseDouble(parse.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            parse = null;
+            parse = food_entry.get("potassium");
+            if (parse != null) current.potassium = Double.parseDouble(parse.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            parse = null;
+            parse = food_entry.get("vitamin_c");
+            if (parse != null) current.vitaminC = Double.parseDouble(parse.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            parse = null;
+            parse = food_entry.get("serving_description");
+            if (parse != null) current.serving = parse.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            parse = null;
+            parse = food_entry.get("fiber");
+            if (parse != null) current.fiber = Double.parseDouble(parse.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void extract(JSONObject object, List<NutritionFacts> data) throws JSONException {

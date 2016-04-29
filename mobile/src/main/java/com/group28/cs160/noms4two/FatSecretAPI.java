@@ -84,6 +84,10 @@ public class FatSecretAPI {
         return n.toString();
     }
 
+    private String nonce1(){
+        return Integer.toString((int) (Math.random() * 100000000));
+    }
+
     /**
      * Get all the oauth parameters and other parameters.
      *
@@ -93,7 +97,9 @@ public class FatSecretAPI {
         String[] a = {
                 "oauth_consumer_key=" + APP_KEY,
                 "oauth_signature_method=HMAC-SHA1",
+                //"oauth_timestamp=" + Long.valueOf(System.currentTimeMillis() * 2).toString(),
                 "oauth_timestamp=" + Long.valueOf(System.currentTimeMillis() * 2).toString(),
+                //"oauth_nonce=" + nonce(),
                 "oauth_nonce=" + nonce(),
                 "oauth_version=1.0",
                 "format=json"
@@ -301,40 +307,84 @@ public class FatSecretAPI {
      *
      * @return food items based on the food id
      */
-    public JSONObject getFoodItem(String id) throws UnsupportedEncodingException {
-        JSONObject result = new JSONObject();
+    public String getFoodItem(final String id) throws UnsupportedEncodingException {
+//        JSONObject result = new JSONObject();
+//
+//        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
+//        String[] template = new String[1];
+//        params.add("method=food.get");
+//        params.add("food_id=" + encode(""+id));
+//        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
+//
+//        try {
+//            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
+//            URLConnection api = url.openConnection();
+//            System.out.println(api);
+//            String line;
+//            StringBuilder builder = new StringBuilder();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
+//
+//            while ((line = reader.readLine()) != null) {
+//                System.out.println(line);
+//                builder.append(line);
+//            }
+//
+//            JSONObject json = new JSONObject(line);
+//            line = builder.toString();
+//
+//            System.out.println(line);
+//
+//            result.put("result", json);
+//
+//        } catch (Exception e) {
+//            JSONObject error = new JSONObject();
+//            try {
+//                error.put("message", "There was an error in processing your request. Please try again later.");
+//                result.put("error", error);
+//            } catch (JSONException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
 
-        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-        String[] template = new String[1];
-        params.add("method=food.get");
-        params.add("food_id=" + encode(id));
-        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-
+//        return result;
+//
+        String rv = null;
         try {
-            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
-            URLConnection api = url.openConnection();
-            System.out.println(api);
-            String line;
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
+            rv = new AsyncTask<String,Void,String>(){
+                @Override
+                protected String doInBackground(String... param) {
+                    List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
+                    String[] template = new String[1];
+                    params.add("food_id=" + encode(""+id));
+                    params.add("method=food.get");
 
-            while ((line = reader.readLine()) != null) builder.append(line);
+                    try {
+                        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
+                        URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
+                        System.out.println(url);
+                        URLConnection api = url.openConnection();
+                        String line;
+                        StringBuilder builder = new StringBuilder();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
 
-            JSONObject json = new JSONObject(builder.toString());
-            System.out.println(builder.toString());
-            result.put("result", json);
-
-        } catch (Exception e) {
-            JSONObject error = new JSONObject();
-            try {
-                error.put("message", "There was an error in processing your request. Please try again later.");
-                result.put("error", error);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
+                        while ((line = reader.readLine()) != null) {
+                            //System.out.println(line);
+                            builder.append(line);
+                        }
+                        //System.out.println(builder.toString());
+                        return builder.toString();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            }.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-
-        return result;
+        return rv;
     }
 
     /**
@@ -376,6 +426,8 @@ public class FatSecretAPI {
             }
         }
         return result;
+
+
     }
 
     /**
