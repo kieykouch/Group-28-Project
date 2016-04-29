@@ -63,6 +63,8 @@ public class SearchFragment extends Fragment {
             String mySearchText = searchText.getText().toString();
             if (mySearchText.length() > 0){
 
+                //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
+
                 text.setText("Searching "+ mySearchText +" :");
                 String myFood = api.getFoodItems(mySearchText, 20);
 
