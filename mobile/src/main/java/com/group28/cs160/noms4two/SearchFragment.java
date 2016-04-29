@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private Button searchButton;
+    private ImageButton searchButton;
     private List<NutritionFacts> data;
     private EditText searchText;
     private final FatSecretAPI api = new FatSecretAPI("6fa2832128934cbba364d29b7db8a557", "4291459ec6784ca0b35632ee3449a6ff");
@@ -37,7 +37,7 @@ public class SearchFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_search, parent, false);
 
         searchText = (EditText) rootView.findViewById (R.id.searchText);
-        searchButton = (Button) rootView.findViewById (R.id.searchButton);
+        searchButton = (ImageButton) rootView.findViewById (R.id.searchButton);
         text = (TextView) rootView.findViewById (R.id.textView3);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -138,14 +138,13 @@ public class SearchFragment extends Fragment {
                 AddtoCurrentNutrientObject(last,current);
             }
         } catch (JSONException e) {
-
+            e.printStackTrace();
             try {
                 food = food.getJSONObject("serving");
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
             AddtoCurrentNutrientObject(food,current);
-            e.printStackTrace();
         }
     }
 
