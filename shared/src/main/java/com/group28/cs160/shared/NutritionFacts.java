@@ -59,11 +59,18 @@ public class NutritionFacts implements Serializable {
                     break;
             }
         }
-        return null;
+        return facts;
     }
     public NutritionFacts(String name, double calories){
         this.name = name;
         this.calories = calories;
+    }
+
+    public NutritionFacts(String name, String branch, String fatSecretId, String dis){
+        this.name = name;
+        this.branch = branch;
+        this.fatSecretId = fatSecretId;
+        this.dis = dis;
     }
 
     /** To add a nutrient, call this method.
@@ -125,11 +132,8 @@ public class NutritionFacts implements Serializable {
         }
     }
 
-    public NutritionFacts(String name, String branch, String fatSecretId, String dis){
-        this.name = name;
-        this.branch = branch;
-        this.fatSecretId = fatSecretId;
-        this.dis = dis;
+    public String getName() {
+        return name;
     }
 
     public void add(NutritionFacts n) {
