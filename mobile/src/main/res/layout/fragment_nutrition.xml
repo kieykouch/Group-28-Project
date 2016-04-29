@@ -1,32 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:fitsSystemWindows="true"
-    android:background="@color/background"
-    tools:context="com.group28.cs160.noms4two.MainActivity">
+    tools:context="com.group28.cs160.noms4two.MainActivity"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <FrameLayout
-        android:id="@+id/caloriesCircle"
-        android:layout_width="225dp"
-        android:layout_height="225dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/caloriesCircle">
+        <FrameLayout
+            android:id="@+id/caloriesCircle"
+            android:layout_centerHorizontal="true"
+            android:layout_width="225dp"
+            android:layout_height="225dp"/>
 
-    <FrameLayout
-        android:id="@+id/calciumCircle"
-        android:layout_width="150dp"
-        android:layout_height="150dp"/>
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            android:layout_below="@id/caloriesCircle"
+            android:dividerPadding="10dp">
 
-    <FrameLayout
-        android:id="@+id/proteinCircle"
-        android:layout_width="150dp"
-        android:layout_height="150dp"/>
-    </LinearLayout>
-</RelativeLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:gravity="left">
+                <FrameLayout
+                    android:layout_column="1"
+                    android:id="@+id/calciumCircle"
+                    android:paddingRight="10dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+                <FrameLayout
+                    android:layout_column="2"
+                    android:id="@+id/proteinCircle"
+                    android:paddingLeft="10dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+            </TableRow>
+
+            <TableRow>
+                <FrameLayout
+                    android:layout_column="1"
+                    android:id="@+id/fiberCircle"
+                    android:paddingRight="10dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+                <FrameLayout
+                    android:layout_column="2"
+                    android:id="@+id/ironCircle"
+                    android:paddingLeft="10dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+            </TableRow>
+
+            <TableRow>
+                <FrameLayout
+                    android:layout_column="1"
+                    android:id="@+id/potassiumCircle"
+                    android:paddingRight="10dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+                <FrameLayout
+                    android:layout_column="2"
+                    android:id="@+id/vitamincCricle"
+                    android:paddingLeft="10dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"/>
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+</ScrollView>
