@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.group28.cs160.shared.NutritionFacts;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -80,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fake_nutrition_data() {
-        if (nutrientsTracker.getNutritionToday().calories == 0) {
-            NutritionFacts pasta = new NutritionFacts("pasta", 600);
-            nutrientsTracker.log(pasta);
-        }
+        // TODO(prad): Delete this before submitting.
+        // Reset all nutrition data and add some fake stuff.
+        nutrientsTracker.reset();
+        FakeData.addFakeData(nutrientsTracker);
     }
 
     @Override

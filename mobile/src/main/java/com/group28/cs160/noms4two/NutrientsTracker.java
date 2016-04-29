@@ -35,6 +35,10 @@ public class NutrientsTracker {
         sendToWatch();
     }
 
+    public void reset() {
+        context.deleteFile(HISTORY_FILE);
+    }
+
     private void sendToWatch() {
         Intent sendIntent = new Intent(context, MobileToWatchService.class);
         sendIntent.putExtra(MobileToWatchService.INFO, getNutritionToday());
@@ -112,6 +116,7 @@ public class NutrientsTracker {
     }
 
     public NutritionFacts getDailyGoals() {
+        // TODO: Get real data.
         NutritionFacts goals = new NutritionFacts("goals", 1500 + 100 * trimester);
         goals.protein = 60; // Ki's doc said milligrams, but that is too less. Think its grams.
         goals.calcium = 1200;
