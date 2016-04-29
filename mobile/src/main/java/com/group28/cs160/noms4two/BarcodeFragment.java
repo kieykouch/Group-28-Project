@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.group28.cs160.shared.NutritionFacts;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -346,8 +347,9 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
 
             @Override
             protected void onPostExecute(JSONObject result) {
+                String name = result.optString("item_name");
                 ArrayList<String> allergens = new ArrayList<>();
-                Bundle ingredients = new Bundle();
+                HashMap<String, Integer> ingredients = new HashMap<>();
                 for (String allergenName : getResources().getStringArray(R.array.allergens))
                     if (result.optBoolean(allergenName))
                         allergens.add(allergenName);
@@ -356,13 +358,14 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
                 for (int i = 0; i < ingredientsJson.length; i ++) {
                     int amount = result.optInt(ingredientsJson[i]);
                     if (amount > 0) {
-                        ingredients.putInt(ingredientsNames[i], amount);
+                        ingredients.put(ingredientsNames[i], amount);
                     }
                 }
 
                 Intent intent = new Intent(getActivity(), DetailedActivity.class);
+                NutritionFacts facts = NutritionFacts.fromHashMap(name, ingredients);
+                intent.putExtra("nutrient_facts", facts);
                 intent.putStringArrayListExtra("allergens", allergens);
-                intent.putExtra("ingredients", ingredients);
                 startActivity(intent);
             }
 
