@@ -47,19 +47,17 @@ public class SearchFragment extends Fragment {
                     text.setText("Searching "+ mySearchText +" :");
                     String myFood = api.getFoodItems(mySearchText, 20);
 
-                    if (myFood != null){
-                        text.setText("Searching "+ mySearchText +" : 0 Results");
-                    }
-
                     data = new ArrayList<NutritionFacts>();
-                    //System.out.print(myFood);
+                    System.out.println(myFood);
                     JSONObject food = null;   // { first
                     try {
                         food = new JSONObject(myFood);
                         food = food.getJSONObject("foods");
-                        extract(food, data);
+                        int count_search = extract(food, data);
+                        text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        text.setText("Searching "+ mySearchText +" : 0 Results");
                     }
                     populateViewList(rootView, inflater);
                 }
@@ -218,9 +216,9 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void extract(JSONObject object, List<NutritionFacts> data) throws JSONException {
+    private int extract(JSONObject object, List<NutritionFacts> data) throws JSONException {
         JSONArray FoodArray = object.getJSONArray("food");
-
+        int result = 0; // for counting result, for display
         if (FoodArray != null) {
             for (int i = 0; i < FoodArray.length(); i++) {
                 JSONObject food_entry = (JSONObject) FoodArray.get(i);
@@ -238,8 +236,10 @@ public class SearchFragment extends Fragment {
                 }
 
                 data.add(new NutritionFacts(food_name, branch , id, food_description));
+                result++;
             }
         }
+        return result;
     }
 
     private class MyListAdapter extends ArrayAdapter<NutritionFacts> {
