@@ -37,6 +37,7 @@ public class NutrientsTracker {
 
     public void reset() {
         context.deleteFile(HISTORY_FILE);
+        food_logged.clear();
     }
 
     private void sendToWatch() {
