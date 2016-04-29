@@ -1,7 +1,10 @@
 package com.group28.cs160.noms4two;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+
+import com.group28.cs160.shared.NutritionFacts;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,6 +32,14 @@ public class NutrientsTracker {
         this.context = context;
         food_logged = readFromFile();
         this.trimester = trimester;
+        sendToWatch();
+    }
+
+    private void sendToWatch() {
+        Intent sendIntent = new Intent(context, MobileToWatchService.class);
+        sendIntent.putExtra(MobileToWatchService.INFO, getNutritionToday());
+        sendIntent.putExtra(MobileToWatchService.GOALS, getDailyGoals());
+        context.startService(sendIntent);
     }
 
     private Map<Long, NutritionFacts> readFromFile() {
@@ -52,6 +63,8 @@ public class NutrientsTracker {
             objectStream.writeObject(food_logged);
             objectStream.close();
             fileStream.close();
+            // Also sync with watch everytime you write to file.
+            sendToWatch();
         } catch (Exception e) {
             Log.d("NutrientsTracker", "Exception writing to file: " + e.toString());
         }
@@ -106,5 +119,10 @@ public class NutrientsTracker {
         goals.fiber = 25;
         goals.potassium = 4700;
         return goals;
+    }
+
+    public void clear() {
+        food_logged = new HashMap<Long, NutritionFacts>();
+        writeToFile();
     }
 }

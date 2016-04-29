@@ -14,8 +14,8 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="17dp"
         android:padding="5dp"
         android:gravity="center"
         android:textColor="#945226"
@@ -26,13 +26,6 @@
         android:id="@+id/foodList"
         android:layout_gravity="center_vertical"
         android:layout_weight="1" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/delBttn"
-        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

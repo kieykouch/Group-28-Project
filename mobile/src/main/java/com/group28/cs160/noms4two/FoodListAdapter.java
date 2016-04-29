@@ -1,12 +1,18 @@
 package com.group28.cs160.noms4two;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.group28.cs160.shared.NutritionFacts;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,38 +24,45 @@ import java.util.TreeMap;
  */
 public class FoodListAdapter extends ArrayAdapter{
     private final Context context;
-    private ArrayList<String> foods;
-    public FoodListAdapter(Context context, Map<Long, NutritionFacts> foodlist) {
-        super(context, R.layout.food_row);
+    private ArrayList<String> foodnames;
+    private ArrayList<Long> foodIds;
+    public FoodListAdapter(Context context, ArrayList<Long> foodIds, ArrayList<String> foodnames) {
+        super(context, R.layout.food_row, foodIds);
         this.context = context;
-        getFoods(foodlist);
+        this.foodIds = foodIds;
+        this.foodnames = foodnames;
 
     }
 
-    public void getFoods(Map<Long, NutritionFacts> foodList) {
-        // Sort the list in decreasing order
-        Map<Long, NutritionFacts> sortedFoodList = new TreeMap<Long, NutritionFacts>(Collections.reverseOrder());
-        sortedFoodList.putAll(foodList);
-
-        this.foods = new ArrayList<>();
-        for (Map.Entry<Long, NutritionFacts> entry : sortedFoodList.entrySet()) {
-            foods.add(entry.getValue().name);
-        }
-    }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.food_row, parent, false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.food_row, parent, false);
+        }
 
-        String foodname = foods.get(position);
-        TextView foodItem = (TextView) rowView.findViewById(R.id.food);
-        CheckBox cb = (CheckBox) rowView.findViewById(R.id.checkBox);
+        String foodname = foodnames.get(position);
+        final Long foodId = foodIds.get(position);
+        TextView foodItem = (TextView) convertView.findViewById(R.id.food);
+        Button delBttn = (Button) convertView.findViewById(R.id.delBttn);
+
+        // Delete the food when button is clicked
+        delBttn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                foodIds.remove(position);
+                foodnames.remove(position);
+                ((MainActivity) context).nutrientsTracker.delete(foodId);
+                ((MainActivity) context).nutrientsTracker.writeToFile();
+                notifyDataSetChanged();
+            }
+        });
 
         foodItem.setText(foodname);
 
-        return  rowView;
+        return  convertView;
     }
 
 }

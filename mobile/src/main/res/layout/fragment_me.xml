@@ -7,39 +7,54 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_marginTop="71dp"
-        android:src="@drawable/clouds_400"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:src="@drawable/bird"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_marginStart="131dp" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="History"
         android:id="@+id/history"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/imageView2"
-        android:layout_marginBottom="146dp" />
+        android:layout_below="@+id/textView2"
+        android:layout_toStartOf="@+id/username"
+        android:layout_marginTop="167dp"
+        android:background="#a4e64c" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="Log Out"
         android:id="@+id/logout"
-        android:layout_alignBottom="@+id/history"
-        android:layout_toEndOf="@+id/imageView2"
-        android:layout_marginStart="29dp" />
+        android:layout_alignTop="@+id/history"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="74dp"
+        android:background="#a4e64c" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/bottom_pattern"
+        android:layout_below="@+id/history"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:id="@+id/username"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:textSize="40dp"
+        android:textColor="#b08d03"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You&apos;re 2 months, 3 weeks, 5 days pregnant"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:textColor="#949494" />
 </RelativeLayout>

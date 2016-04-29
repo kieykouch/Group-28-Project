@@ -43,10 +43,14 @@
             android:enabled="true"
             android:exported="true" />
 
+
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".DetailedNutritionActivity"></activity>
+
     </application>
 
 </manifest>

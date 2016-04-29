@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.shared;
 
 import org.apache.commons.lang3.SerializationUtils;
 
