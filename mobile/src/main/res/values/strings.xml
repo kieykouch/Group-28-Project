@@ -5,6 +5,7 @@
     <string name="barcode">Barcode</string>
     <string name="search">Search</string>
     <string name="me">Me</string>
+    <string name="title_activity_profile">Profile</string>
     <string name="title_activity_detailed">DetailedActivity</string>
     <string-array name="allergens">
         <item>allergen_contains_milk</item>
@@ -122,4 +123,5 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+>>>>>>> dev
 </resources>

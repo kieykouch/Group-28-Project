@@ -39,6 +39,7 @@ public class MobileToWatchService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) return START_STICKY;
         final Bundle extras = intent.getExtras();
         new Thread(new Runnable() {
             @Override
