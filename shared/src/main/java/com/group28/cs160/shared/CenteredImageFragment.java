@@ -3,6 +3,7 @@ package com.group28.cs160.shared;
 /**
  * Created by eviltwin on 4/20/16.
  */
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;

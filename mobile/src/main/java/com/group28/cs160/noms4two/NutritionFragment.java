@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.group28.cs160.shared.NutritionFacts;
 
@@ -27,28 +23,18 @@ public class NutritionFragment extends Fragment {
 
         MainActivity mainActivity = new MainActivity();
 
-        replaceFragment(GoalCircle.createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, -1), R.id.caloriesCircle);
+        replaceFragment(GoalCircle.createGoalCircle(mainActivity, dailyGoals, dailyTotals, -1), R.id.caloriesCircle);
 
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
-        gridview.setAdapter(new DailyInfo(getContext(), getFragmentManager(), (MainActivity) getActivity(), inflater, dailyGoals, dailyTotals));
+        replaceFragment(GoalCircle.createGoalCircle(mainActivity, dailyGoals, dailyTotals, 0), R.id.proteinCircle);
 
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Log.d("NutritionFragment", "Received click.");
-            }
-        });
+        replaceFragment(GoalCircle.createGoalCircle(mainActivity, dailyGoals, dailyTotals, 1), R.id.calciumCircle);
 
-        gridview.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    return true;
-                }
-                return false;
-            }
+        replaceFragment(GoalCircle.createGoalCircle(mainActivity, dailyGoals, dailyTotals, 2), R.id.fiberCircle);
 
-        });
+        replaceFragment(GoalCircle.createGoalCircle(mainActivity, dailyGoals, dailyTotals, 3), R.id.ironCircle);
+
+        replaceFragment(GoalCircle.createGoalCircle(mainActivity, dailyGoals, dailyTotals, 4), R.id.potassiumCircle);
+
         return rootView;
     }
 

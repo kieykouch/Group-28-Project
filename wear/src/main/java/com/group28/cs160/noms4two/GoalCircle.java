@@ -1,17 +1,18 @@
 package com.group28.cs160.noms4two;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-import com.group28.cs160.shared.CenteredImageFragmentv4;
+import com.group28.cs160.shared.CenteredImageFragment;
 import com.group28.cs160.shared.NutritionFacts;
 
 /**
  * Created by eviltwin on 4/28/16.
  */
 public class GoalCircle {
-    public static CenteredImageFragmentv4 createGoalCircle(final MainActivity activity, NutritionFacts goal, NutritionFacts info, final int position) {
+    public static CenteredImageFragment createGoalCircle(NutritionFacts goal, NutritionFacts info, final int position) {
         String description;
         double value, goalValue;
         int border, borderHighlight;
@@ -78,15 +79,15 @@ public class GoalCircle {
         View.OnClickListener onClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailedNutritionFragment f = new DetailedNutritionFragment();
-                Bundle args = new Bundle();
-                args.putInt("position", position);
-                f.setArguments(args);
+                // TODO(prad): Fix this.
+                Log.d("Event", "Recorded click.");
+                Intent sendIntent = new Intent(v.getContext().getApplicationContext(), WatchToMobileService.class);
+                sendIntent.putExtra(WatchToMobileService.EVENT_OBJECT, position);
+                v.getContext().startService(sendIntent);
 
-                activity.replaceFragment(f);
             }
         };
-        CenteredImageFragmentv4 fragment = new CenteredImageFragmentv4();
+        CenteredImageFragment fragment = new CenteredImageFragment();
         fragment.setImage(iconRes);
         fragment.setDescription(description);
         fragment.setAngle(angle);
