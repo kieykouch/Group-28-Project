@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.group28.cs160.shared.NutritionFacts;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -346,8 +348,10 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
 
             @Override
             protected void onPostExecute(JSONObject result) {
+                String name = result.optString("item_name");
+                Log.d("Barcode", String.format("Product name is %s", name));
                 ArrayList<String> allergens = new ArrayList<>();
-                Bundle ingredients = new Bundle();
+                HashMap<String, Integer> ingredients = new HashMap<>();
                 for (String allergenName : getResources().getStringArray(R.array.allergens))
                     if (result.optBoolean(allergenName))
                         allergens.add(allergenName);
@@ -356,13 +360,14 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
                 for (int i = 0; i < ingredientsJson.length; i ++) {
                     int amount = result.optInt(ingredientsJson[i]);
                     if (amount > 0) {
-                        ingredients.putInt(ingredientsNames[i], amount);
+                        ingredients.put(ingredientsNames[i], amount);
                     }
                 }
 
                 Intent intent = new Intent(getActivity(), DetailedActivity.class);
+                NutritionFacts facts = NutritionFacts.fromHashMap(name, ingredients);
+                intent.putExtra("nutrient_facts", (Serializable) facts);
                 intent.putStringArrayListExtra("allergens", allergens);
-                intent.putExtra("ingredients", ingredients);
                 startActivity(intent);
             }
 
@@ -372,7 +377,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
     static JSONObject fakeGetFromURL(String url, String query, String apikey) {
         JSONObject ret = null;
         try {
-            ret = new JSONObject("{\"old_api_id\":null,\"item_id\":\"51c38f3c97c3e6d3d972ef8d\",\"item_name\":\"Cereal For Baby, Rice, Stage 1\",\"leg_loc_id\":null,\"brand_id\":\"51db37c3176fe9790a8991f6\",\"brand_name\":\"Beech-Nut\",\"item_description\":\"Rice, Stage 1\",\"updated_at\":\"2014-11-24T20:24:24.000Z\",\"nf_ingredient_statement\":\"Rice Flour, Contains Less Than 1% of the Following: Sunflower Oil and Rice Bran Extract. Vitamins and Minerals: Tricalcium Phosphate, ascorbic Acid (Vitamin C), Electrolytic Iron, Zinc Sulfate, D-Alpha Tocopherol Acetate (Vitamin E), Niacinamide, Mixed Tocopherols, Mononitrate (Vitamin B1), Riboflavin (Vitamin B2), Pyridoxine Hydrochloride (Vitamin B6), Vitamin B12 and Folic Acid.\",\"nf_water_grams\":null,\"nf_calories\":60,\"nf_calories_from_fat\":0,\"nf_total_fat\":null,\"nf_saturated_fat\":null,\"nf_trans_fatty_acid\":null,\"nf_polyunsaturated_fat\":null,\"nf_monounsaturated_fat\":null,\"nf_cholesterol\":null,\"nf_sodium\":null,\"nf_total_carbohydrate\":null,\"nf_dietary_fiber\":null,\"nf_sugars\":0,\"nf_protein\":1,\"nf_vitamin_a_dv\":0,\"nf_vitamin_c_dv\":25,\"nf_calcium_dv\":25,\"nf_iron_dv\":45,\"nf_refuse_pct\":null,\"nf_servings_per_container\":7,\"nf_serving_size_qty\":0.25,\"nf_serving_size_unit\":\"cup\",\"nf_serving_weight_grams\":15,\"allergen_contains_milk\":null,\"allergen_contains_eggs\":null,\"allergen_contains_fish\":null,\"allergen_contains_shellfish\":null,\"allergen_contains_tree_nuts\":null,\"allergen_contains_peanuts\":null,\"allergen_contains_wheat\":null,\"allergen_contains_soybeans\":null,\"allergen_contains_gluten\":null,\"usda_fields\":null}");
+            ret = new JSONObject("{\"old_api_id\":null,\"item_id\":\"51c38f3c97c3e6d3d972ef8d\",\"item_name\":\"Cereal For Baby, Rice, Stage 1\",\"leg_loc_id\":null,\"brand_id\":\"51db37c3176fe9790a8991f6\",\"brand_name\":\"Beech-Nut\",\"item_description\":\"Rice, Stage 1\",\"updated_at\":\"2014-11-24T20:24:24.000Z\",\"nf_ingredient_statement\":\"Rice Flour, Contains Less Than 1% of the Following: Sunflower Oil and Rice Bran Extract. Vitamins and Minerals: Tricalcium Phosphate, ascorbic Acid (Vitamin C), Electrolytic Iron, Zinc Sulfate, D-Alpha Tocopherol Acetate (Vitamin E), Niacinamide, Mixed Tocopherols, Mononitrate (Vitamin B1), Riboflavin (Vitamin B2), Pyridoxine Hydrochloride (Vitamin B6), Vitamin B12 and Folic Acid.\",\"nf_water_grams\":null,\"nf_calories\":60,\"nf_calories_from_fat\":0,\"nf_total_fat\":null,\"nf_saturated_fat\":null,\"nf_trans_fatty_acid\":null,\"nf_polyunsaturated_fat\":null,\"nf_monounsaturated_fat\":null,\"nf_cholesterol\":null,\"nf_sodium\":null,\"nf_total_carbohydrate\":null,\"nf_dietary_fiber\":null,\"nf_sugars\":0,\"nf_protein\":1,\"nf_vitamin_a_dv\":0,\"nf_vitamin_c_dv\":25,\"nf_calcium_dv\":25,\"nf_iron_dv\":45,\"nf_refuse_pct\":null,\"nf_servings_per_container\":7,\"nf_serving_size_qty\":0.25,\"nf_serving_size_unit\":\"cup\",\"nf_serving_weight_grams\":15,\"allergen_contains_milk\":null,\"allergen_contains_eggs\":null,\"allergen_contains_fish\":null,\"allergen_contains_shellfish\":null,\"allergen_contains_tree_nuts\":null,\"allergen_contains_peanuts\":null,\"allergen_contains_wheat\":null,\"allergen_contains_soybeans\":true,\"allergen_contains_gluten\":null,\"usda_fields\":null}");
         } catch (JSONException e) {
             e.printStackTrace();
         }
