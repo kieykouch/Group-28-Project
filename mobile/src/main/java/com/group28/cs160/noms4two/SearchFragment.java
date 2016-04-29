@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
@@ -39,28 +40,45 @@ public class SearchFragment extends Fragment {
         searchText = (EditText) rootView.findViewById (R.id.searchText);
         searchButton = (ImageButton) rootView.findViewById (R.id.searchButton);
         text = (TextView) rootView.findViewById (R.id.textView3);
+        String CurrentText = searchText.getText().toString();
+
+        if (CurrentText.length() == 0){
+            text.setText("Recent Select:");
+            data = new ArrayList<NutritionFacts>();
+            //get value currenttimeMillis a week behind
+            Long mytimestamp = Long.valueOf(System.currentTimeMillis()) - (86400 * 7 * 1000);
+
+            Map<Long, NutritionFacts> recentData = ((MainActivity) getActivity()).nutrientsTracker.getRecent(mytimestamp);
+            for (NutritionFacts mNutritionFacts: recentData.values()){
+                data.add(mNutritionFacts);
+            }
+
+            populateViewList(rootView, inflater);
+        }
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String mySearchText = searchText.getText().toString();
-                if (mySearchText.length() > 0){
-                    text.setText("Searching "+ mySearchText +" :");
-                    String myFood = api.getFoodItems(mySearchText, 20);
 
-                    data = new ArrayList<NutritionFacts>();
-                    System.out.println(myFood);
-                    JSONObject food = null;   // { first
-                    try {
-                        food = new JSONObject(myFood);
-                        food = food.getJSONObject("foods");
-                        int count_search = extract(food, data);
-                        text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        text.setText("Searching "+ mySearchText +" : 0 Results");
-                    }
-                    populateViewList(rootView, inflater);
+            String mySearchText = searchText.getText().toString();
+            if (mySearchText.length() > 0){
+
+                text.setText("Searching "+ mySearchText +" :");
+                String myFood = api.getFoodItems(mySearchText, 20);
+
+                data = new ArrayList<NutritionFacts>();
+                System.out.println(myFood);
+                JSONObject food = null;   // { first
+                try {
+                    food = new JSONObject(myFood);
+                    food = food.getJSONObject("foods");
+                    int count_search = extract(food, data);
+                    text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    text.setText("Searching "+ mySearchText +" : 0 Results");
                 }
+                populateViewList(rootView, inflater);
+            }
             }
         });
 
@@ -84,6 +102,7 @@ public class SearchFragment extends Fragment {
 
                 if (!current.addedNutrients){
                     String foodId = current.fatSecretId;
+                    System.out.println(foodId);
                     String k = null;
                     try {
                         k = api.getFoodItem(foodId);
