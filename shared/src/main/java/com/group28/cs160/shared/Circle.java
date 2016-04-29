@@ -3,7 +3,6 @@ package com.group28.cs160.shared;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -18,6 +17,7 @@ public class Circle extends View {
 
     private float angle;
     private int size;
+    private int color;
 
     public Circle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,9 +34,8 @@ public class Circle extends View {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(strokeWidth);
-        //Circle color
-        paint.setColor(Color.RED);
 
         RectF rect;
         if (getContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_WATCH)) {
@@ -45,6 +44,9 @@ public class Circle extends View {
             rect = new RectF(strokeWidth, strokeWidth, size - strokeWidth, size - strokeWidth);
         }
 
+        // We draw one circle underneath to represent the path, and another arc on top that
+        // can be drawn by an animator
+        paint.setColor(color);
         canvas.drawArc(rect, START_ANGLE_POINT, angle, false, paint);
     }
 
@@ -69,4 +71,6 @@ public class Circle extends View {
     public void setAngle(float angle) {
         this.angle = angle;
     }
+
+    public void setColor(int c) { color = c; }
 }

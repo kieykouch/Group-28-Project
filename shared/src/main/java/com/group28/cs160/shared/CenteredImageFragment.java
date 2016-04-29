@@ -18,6 +18,7 @@ public class CenteredImageFragment extends Fragment {
     private String description;
     private Drawable icon;
     private float angle;
+    private int ringColor, highlightColor;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -29,7 +30,12 @@ public class CenteredImageFragment extends Fragment {
         TextView text = (TextView) fragmentView.findViewById(R.id.item_text);
         text.setText(description);
 
+        Circle path = (Circle) fragmentView.findViewById(R.id.path);
+        path.setAngle(360);
+        path.setColor(ringColor);
+
         Circle circle = (Circle) fragmentView.findViewById(R.id.circle);
+        circle.setColor(highlightColor);
 
         CircleAngleAnimation animation = new CircleAngleAnimation(circle, angle);
         animation.setDuration(1000);
@@ -61,4 +67,6 @@ public class CenteredImageFragment extends Fragment {
     public void setOnClickListener(final OnClickListener listener) {
         this.listener = listener;
     }
+
+    public void setColor(int rC, int hC) { ringColor = rC; highlightColor = hC; }
 }

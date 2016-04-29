@@ -16,7 +16,8 @@ public class CircleAngleAnimation extends Animation {
 
     public CircleAngleAnimation(Circle circle, float newAngle) {
         this.oldAngle = circle.getAngle();
-        this.newAngle = newAngle;
+        // New angle cannot be less than 10.
+        this.newAngle = newAngle > 10 ? newAngle : 10;
         this.circle = circle;
     }
 

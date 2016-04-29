@@ -38,6 +38,7 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         fragment.setDescription(info.calories + " Calories");
         float calorieAngle = (float) (info.calories / goals.calories * 360);
         fragment.setAngle(calorieAngle);
+        fragment.setColor(backgroundColor, borderColor);
         fragments.add(fragment);
     }
 

@@ -26,24 +26,25 @@ public class NutritionFragment extends Fragment {
 
         // Add the calorie card.
         float calorieAngle = (float) (dailyTotals.calories / dailyGoals.calories * 360);
-        replaceFragment(createGoalCircle(R.drawable.calories, calorieAngle, Color.parseColor("#4F751C"), Color.parseColor("#FFFFFF"), "Calories", true), R.id.caloriesCircle);
+        replaceFragment(createGoalCircle(R.drawable.calories, calorieAngle, Color.parseColor("#CC4E02"), Color.parseColor("#FFB267"), "Calories"), R.id.caloriesCircle);
 
         // Add the calcium card.
         float calciumAngle = (float) (dailyTotals.calcium / dailyGoals.calcium * 360);
-        replaceFragment(createGoalCircle(R.drawable.calcium, calorieAngle, Color.parseColor("#4F751C"), Color.parseColor("#FFFFFF"), "Calcium", false), R.id.calciumCircle);
+        replaceFragment(createGoalCircle(R.drawable.calcium, calciumAngle, Color.parseColor("#4F751C"), Color.parseColor("#C0FF6C"), "Calcium"), R.id.calciumCircle);
 
         // Add the protein card.
         float proteinAngle = (float) (dailyTotals.protein / dailyGoals.protein * 360);
-        replaceFragment(createGoalCircle(R.drawable.calories, proteinAngle, Color.parseColor("#4F751C"), Color.parseColor("#FFFFFF"), "Protein", false), R.id.proteinCircle);
+        replaceFragment(createGoalCircle(R.drawable.calories, proteinAngle, Color.parseColor("#4F751C"), Color.parseColor("#C0FF6C"), "Protein"), R.id.proteinCircle);
 
         return rootView;
     }
 
-    private CenteredImageFragmentv4 createGoalCircle(int iconRes, float angle, int borderHighlight, int border, String description, boolean large) {
+    private CenteredImageFragmentv4 createGoalCircle(int iconRes, float angle, int borderHighlight, int border, String description) {
         CenteredImageFragmentv4 fragment = new CenteredImageFragmentv4();
         fragment.setImage(ContextCompat.getDrawable(getContext(), iconRes));
         fragment.setDescription(description);
         fragment.setAngle(angle);
+        fragment.setColor(border, borderHighlight);
         fragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

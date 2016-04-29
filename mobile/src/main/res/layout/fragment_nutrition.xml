@@ -21,12 +21,12 @@
 
     <FrameLayout
         android:id="@+id/calciumCircle"
-        android:layout_width="125dp"
-        android:layout_height="125dp"/>
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
 
     <FrameLayout
         android:id="@+id/proteinCircle"
-        android:layout_width="125dp"
-        android:layout_height="125dp"/>
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
     </LinearLayout>
 </RelativeLayout>
