@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.util.Log;
 import android.view.View;
@@ -30,15 +29,12 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         context = ctx;
         CenteredImageFragment fragment;
 
-        final int borderColor = ContextCompat.getColor(context, R.color.border);
-        final int backgroundColor = ContextCompat.getColor(context, R.color.background);
-
         fragment = new CenteredImageFragment();
-        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
+        fragment.setImage(R.drawable.calories);
         fragment.setDescription(info.calories + " Calories");
         float calorieAngle = (float) (info.calories / goals.calories * 360);
         fragment.setAngle(calorieAngle);
-        fragment.setColor(backgroundColor, borderColor);
+        fragment.setColor(Color.parseColor("#FFB267"), Color.parseColor("#CC4E02"));
         fragments.add(fragment);
     }
 
