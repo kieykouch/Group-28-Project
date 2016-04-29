@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FAE6BE</color>
-    <color name="colorPrimaryDark">#EC9584</color>
-    <color name="colorAccent">#BFD262</color>
+    <color name="colorPrimary">#8bc34a</color>
+    <color name="colorAccent">#558b2f</color>
+    <color name="colorPrimaryDark">#2e7d32</color>
+    <color name="bottombar">#8bc34a</color>
+    <color name="background">#FFFFFF</color>
+    <color name="bb_inActiveBottomBarItemColor">#679629</color>
 </resources>

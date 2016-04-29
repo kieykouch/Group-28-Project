@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.group28.cs160.babybump"
+        applicationId "com.group28.cs160.noms4two"
         minSdkVersion 22
         targetSdkVersion 23
         versionCode 1
@@ -24,4 +24,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.support:wearable:1.4.0'
     compile 'com.google.android.gms:play-services-wearable:8.4.0'
+    compile project(':shared')
 }

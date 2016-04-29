@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.group28.cs160.babybump">
+    package="com.group28.cs160.noms4two">
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -17,7 +17,7 @@
             android:required="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.group28.cs160.noms4two.MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light">
             <intent-filter>
@@ -28,16 +28,11 @@
         </activity>
 
         <service
-            android:name=".WatchToPhoneService"
+            android:name=".WatchToMobileService"
             android:exported="false" />
 
-        <activity
-            android:name=".HeartRateActivity"
-            android:label="@string/title_activity_heart_rate"
-            android:theme="@android:style/Theme.DeviceDefault.Light" />
-
         <service
-            android:name=".WatchListenerService"
+            android:name="com.group28.cs160.noms4two.WatchListenerService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
