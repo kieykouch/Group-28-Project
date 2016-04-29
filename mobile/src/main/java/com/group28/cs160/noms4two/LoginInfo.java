@@ -40,7 +40,7 @@ public class LoginInfo {
         for (String file : context.fileList()) {
             Log.d("LoginInfo", "Found File " + file);
             if (file.equals(LOGIN_FILE)) return true;
-        } 
+        }
         return false;
     }
 
