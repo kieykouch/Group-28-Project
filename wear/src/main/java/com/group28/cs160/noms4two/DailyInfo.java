@@ -5,10 +5,15 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.util.Log;
 import android.view.View;
+
+import com.group28.cs160.shared.CenteredImageFragment;
+import com.group28.cs160.shared.NutritionFacts;
 
 import java.util.ArrayList;
 
@@ -19,31 +24,22 @@ public class DailyInfo extends FragmentGridPagerAdapter {
     private Context context;
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
-    private ArrayList<Drawable> backgrounds = new ArrayList<Drawable>();
 
-    public DailyInfo(Context ctx, FragmentManager fm) {
+    public DailyInfo(Context ctx, FragmentManager fm, NutritionFacts goals, NutritionFacts info) {
         super(fm);
         context = ctx;
         CenteredImageFragment fragment;
 
-        fragment = new CenteredImageFragment();
-        fragment.setImage(R.drawable.calories);
-        fragment.setDescription("2 Month 3 Weeks");
-        fragments.add(fragment);
-        backgrounds.add(PercentageBitmap.getBackgroundForPage(35.0, Color.parseColor("#CC4E02")));
+        final int borderColor = ContextCompat.getColor(context, R.color.border);
+        final int backgroundColor = ContextCompat.getColor(context, R.color.background);
 
         fragment = new CenteredImageFragment();
-        fragment.setImage(R.drawable.calcium);
-        fragment.setDescription("DailyInfo This Week");
+        fragment.setImage(ContextCompat.getDrawable(context, R.drawable.calories));
+        fragment.setDescription(info.calories + " Calories");
+        float calorieAngle = (float) (info.calories / goals.calories * 360);
+        fragment.setAngle(calorieAngle);
+        fragment.setColor(backgroundColor, borderColor);
         fragments.add(fragment);
-        backgrounds.add(PercentageBitmap.getBackgroundForPage(67.0, Color.parseColor("#4F751C")));
-
-        fragment = new CenteredImageFragment();
-        fragment.setImage(R.drawable.calories);
-        fragment.setDescription("Ultrasound");
-        //fragment.setOnClickListener(new OnFragmentClick("Ultrasound"));
-        fragments.add(fragment);
-        backgrounds.add(PercentageBitmap.getBackgroundForPage(50.0, Color.parseColor("#CC4E02")));
     }
 
     private class OnFragmentClick implements View.OnClickListener {
@@ -70,7 +66,7 @@ public class DailyInfo extends FragmentGridPagerAdapter {
     // Obtain the background image for the specific page
     @Override
     public Drawable getBackgroundForPage(int row, int col) {
-        return backgrounds.get(col);
+        return new ColorDrawable(Color.TRANSPARENT);
     }
 
     // Obtain the number of pages (vertical)
