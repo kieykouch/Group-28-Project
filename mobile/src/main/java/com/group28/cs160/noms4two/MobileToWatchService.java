@@ -1,41 +1,35 @@
 package com.group28.cs160.noms4two;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.MessageApi;
-import com.google.android.gms.wearable.Node;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import com.group28.cs160.shared.NutritionFacts;
 
 public class MobileToWatchService extends Service implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-    public MobileToWatchService() {
-    }
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public static String GOALS = "/com.group28.cs160.goals";
+    public static String INFO = "/com.group28.cs160.info";
 
     public void onCreate() {
         super.onCreate();
-        mApiClient = new GoogleApiClient.Builder(this)
+        apiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        mApiClient.connect();
+        apiClient.connect();
     }
 
     @Override
@@ -45,50 +39,27 @@ public class MobileToWatchService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("MobileToWatch", "service started");
-        int service_id = intent.getIntExtra("service", -1);
-        if (service_id == FOOD_NOTIFICATION) {
-            int notificationId = 001;
-            Intent viewIntent = new Intent(this, MainActivity.class);
-            viewIntent.putExtra("caller", "food-alert");
-            viewIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            PendingIntent viewPendingIntent =
-                    PendingIntent.getActivity(this, 0, viewIntent, 0);
-
-            Bitmap background = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                    R.drawable.sushi);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            background.compress(Bitmap.CompressFormat.PNG, 100, out);
-            background = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-            NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
-                    .setBackground(background);
-
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("Don't Eat")
-                            .setContentText(intent.getStringExtra("avoid"))
-                            .extend(wearableExtender)
-                            .setContentIntent(viewPendingIntent);
-
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(this);
-            Log.d("MobileToWatch", "sending notification");
-            notificationManager.notify(notificationId, notificationBuilder.build());
-        } else if (service_id == HEART_RATE) {
-            final String path = "/heart";
-            new Thread( new Runnable() {
-                @Override
-                public void run() {
-                    NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mApiClient).await();
-                    for(Node node : nodes.getNodes()) {
-                        Log.d("PhoneToWatchService", "Sending message to watch!!");
-                        MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                                mApiClient, node.getId(), path, "record!!".getBytes()).await();
-                    }
+        final Bundle extras = intent.getExtras();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(apiClient).await();
+                Log.d("MobileToWatch", "Syncing with watch");
+                if (nodes.getNodes().size() == 0) Log.d("MobileToWatch", "Error sending data to watch");
+                if (extras.containsKey(GOALS)) {
+                    PutDataRequest putDataRequest = PutDataRequest.create(GOALS);
+                    putDataRequest.setData(NutritionFacts.serialize((NutritionFacts) extras.get(GOALS)));
+                    PendingResult<DataApi.DataItemResult> pendingResult =
+                            Wearable.DataApi.putDataItem(apiClient, putDataRequest);
                 }
-            }).start();
-        }
+                if (extras.containsKey(INFO)) {
+                    PutDataRequest putDataRequest = PutDataRequest.create(INFO);
+                    putDataRequest.setData(NutritionFacts.serialize((NutritionFacts) extras.get(INFO)));
+                    PendingResult<DataApi.DataItemResult> pendingResult =
+                            Wearable.DataApi.putDataItem(apiClient, putDataRequest);
+                }
+            }
+        }).start();
         return START_STICKY;
     }
 
@@ -107,8 +78,5 @@ public class MobileToWatchService extends Service implements
 
     }
 
-    private GoogleApiClient mApiClient;
-
-    final static int FOOD_NOTIFICATION = 0;
-    final static int HEART_RATE = 1;
+    private GoogleApiClient apiClient;
 }

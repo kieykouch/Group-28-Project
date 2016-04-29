@@ -10,7 +10,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.group28.cs160.shared.NutritionFacts;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -22,15 +24,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        fragmentManager = getSupportFragmentManager();
 
         final Fragment barcodeFragment = BarcodeFragment.newInstance();
-        mFragmentManager = getSupportFragmentManager();
-        mBottomBar = BottomBar.attach(this, savedInstanceState);
-        mBottomBar.useFixedMode();
-        mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
+        bottomBar = BottomBar.attach(this, savedInstanceState);
+        bottomBar.useFixedMode();
+        bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (menuItemId) {
                     case R.id.nutrition_icon:
                         replaceFragment(new NutritionFragment());
@@ -56,12 +58,18 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuTabReSelected(@IdRes int menuItemId) {
             }
         });
-        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.bottombar));
-        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.bottombar));
-        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.bottombar));
-        mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.bottombar));
+        bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.bottombar));
+        bottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.bottombar));
+        bottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.bottombar));
+        bottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.bottombar));
 
         requestCameraPermission();
+        // Load Nutrition Data from disk.
+        nutrientsTracker = new NutrientsTracker(getBaseContext(), 1 /* trimester */);
+        // Add some fake nutrition data.
+        fake_nutrition_data();
+        Log.d("MainActivity", "Total Calories: " +
+                nutrientsTracker.getNutritionToday().calories);
     }
 
     private void requestCameraPermission() {
@@ -71,15 +79,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void fake_nutrition_data() {
+        if (nutrientsTracker.getNutritionToday().calories == 0) {
+            NutritionFacts pasta = new NutritionFacts("pasta", 600);
+            nutrientsTracker.log(pasta);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        nutrientsTracker.writeToFile();
+        super.onDestroy();
+    }
+
     public void replaceFragment(Fragment newFragment) {
-        // TODO(prad): The highlighted item in the BottomBar should also change on reversing a transaction.
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        // TODO(prad): The highlighted item in the bottomBar should also change on reversing a transaction.
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-        mFragmentManager.executePendingTransactions();
+        fragmentManager.executePendingTransactions();
     }
 
-    private BottomBar mBottomBar;
-    private FragmentManager mFragmentManager;
+    private BottomBar bottomBar;
+    private FragmentManager fragmentManager;
+    public NutrientsTracker nutrientsTracker;
 }
