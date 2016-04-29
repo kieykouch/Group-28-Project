@@ -11,19 +11,30 @@ import java.io.Serializable;
  */
 public class NutritionFacts implements Serializable {
     public String name;
+    public String fatSecretId;
+    public String id;
+    public String branch;
+    public String dis;
     public double calories;  // measured in kcals. Standard diet is 2000kcals.
     public double protein;  // measured in grams.
     public double fiber;  // measured in grams.
     public double calcium;  // measured in milligrams.
     public double iron;  // measured in milligrams.
     public double potassium;  // measured in milligrams.
+    public double vitaminc;
     public void fromJson(JSONObject nutrition_facts) {
         // TODO(haojun/ki): implement if necessary from an API.
     }
-
-    public NutritionFacts(String name, double calories) {
+    public NutritionFacts(String name, double calories){
         this.name = name;
         this.calories = calories;
+    }
+
+    public NutritionFacts(String name, String branch, String fatSecretId, String dis){
+        this.name = name;
+        this.branch = branch;
+        this.fatSecretId = fatSecretId;
+        this.dis = dis;
     }
 
     public void add(NutritionFacts n) {

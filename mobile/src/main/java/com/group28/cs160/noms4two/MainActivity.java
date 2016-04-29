@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         replaceFragment(new Fragment());
                         break;
                     case R.id.search_icon:
-                        replaceFragment(new Fragment());
+                        replaceFragment(new SearchFragment());
                         break;
                     case R.id.me_icon:
                         replaceFragment(new Fragment());
