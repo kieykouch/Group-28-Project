@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.detach(barcodeFragment);
                         break;
                     case R.id.me_icon:
-                        replaceFragment(new Fragment());
+                        replaceFragment(new MeFragment());
                         break;
                     default:
                         break;
