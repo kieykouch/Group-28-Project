@@ -17,13 +17,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.group28.cs160.noms4two.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.group28.cs160.noms4two.LoadingActivity"
+            android:name=".LoadingActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -34,16 +32,21 @@
         </activity>
 
         <service
-            android:name="com.group28.cs160.noms4two.MobileListenerService"
+            android:name=".MobileListenerService"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
         <service
-            android:name="com.group28.cs160.noms4two.MobileToWatchService"
+            android:name=".MobileToWatchService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity
+            android:name=".Profile"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

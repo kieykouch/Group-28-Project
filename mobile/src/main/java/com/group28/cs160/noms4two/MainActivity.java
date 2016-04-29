@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         replaceFragment(new Fragment());
                         break;
                     case R.id.me_icon:
-                        replaceFragment(new Fragment());
+                        replaceFragment(new MeFragment());
                         break;
                     default:
                         break;
