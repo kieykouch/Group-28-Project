@@ -17,6 +17,10 @@ import java.util.Map;
  */
 public class NutritionFacts implements Serializable {
     public String name;
+    public String fatSecretId;
+    public String id;
+    public String branch;
+    public String dis;
     public double calories;  // measured in kcals. Standard diet is 2000kcals.
     public double protein;  // measured in grams.
     public double fiber;  // measured in grams.
@@ -57,8 +61,7 @@ public class NutritionFacts implements Serializable {
         }
         return null;
     }
-
-    public NutritionFacts(String name, double calories) {
+    public NutritionFacts(String name, double calories){
         this.name = name;
         this.calories = calories;
     }
@@ -120,6 +123,13 @@ public class NutritionFacts implements Serializable {
             default:
                 return 0;
         }
+    }
+
+    public NutritionFacts(String name, String branch, String fatSecretId, String dis){
+        this.name = name;
+        this.branch = branch;
+        this.fatSecretId = fatSecretId;
+        this.dis = dis;
     }
 
     public void add(NutritionFacts n) {
