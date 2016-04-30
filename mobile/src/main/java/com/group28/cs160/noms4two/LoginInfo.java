@@ -1,20 +1,16 @@
 package com.group28.cs160.noms4two;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.group28.cs160.shared.NutritionFacts;
-
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -70,7 +66,7 @@ public class LoginInfo {
     }
 
     public int[] getTimeline() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         dateFormat.setTimeZone(TimeZone.getDefault());
         //get current date time with Date()
         Date date = new Date();
@@ -81,7 +77,6 @@ public class LoginInfo {
             Date dDate = dateFormat.parse(dueDate);
             duration = daysBetween(currDate, dDate);
             Log.d("Me Fragment", "duration: " + duration);
-
         } catch (Exception e) {
             Log.d("Me Fragment:", "cannot parse date");
         }
@@ -89,7 +84,7 @@ public class LoginInfo {
         if (duration == 0) {
             return new int[] {0, 0, 0};
         } else if (duration < 7) {
-            return new int[] {duration, 0, 0};
+            return new int[] {0, 0, duration};
         } else if (duration < 30) {
             return new int[] {0, duration / 7, duration % 7};
         } else {
