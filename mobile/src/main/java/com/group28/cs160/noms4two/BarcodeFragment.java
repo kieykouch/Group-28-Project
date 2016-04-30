@@ -217,7 +217,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
             assert surfaceTexture != null;
             Surface surface = new Surface(surfaceTexture);
 
-            mImageReader = ImageReader.newInstance(size.getWidth(), size.getHeight(), ImageFormat.JPEG, 2);
+            mImageReader = ImageReader.newInstance(size.getWidth() / 2, size.getHeight() / 2, ImageFormat.JPEG, 2);
             mImageReader.setOnImageAvailableListener(listener, handler);
 
             // We set up a CaptureRequest.Builder with the output Surface.
@@ -343,13 +343,11 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
             @Override
             protected JSONObject doInBackground(String... params) {
                 String query = String.format("upc=%s&appId=afec6ece", params[0]);
-//                JSONObject returnObject = getFromURL("https://api.nutritionix.com/v1_1/item",
-//                        query, "appKey=2c2086c1e91e303595827289d5a25630");
-                JSONObject returnObject = fakeGetFromURL("https://api.nutritionix.com/v1_1/item",
+                JSONObject returnObject = getFromURL("https://api.nutritionix.com/v1_1/item",
                         query, "appKey=2c2086c1e91e303595827289d5a25630");
+//                JSONObject returnObject = fakeGetFromURL("https://api.nutritionix.com/v1_1/item",
+//                        query, "appKey=2c2086c1e91e303595827289d5a25630");
                 assert returnObject != null;
-
-                Log.d("Barcode", returnObject.toString());
                 return returnObject;
             }
 
@@ -357,6 +355,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
             protected void onPostExecute(JSONObject result) {
                 String name = result.optString("item_name");
                 Log.d("Barcode", String.format("Product name is %s", name));
+                Log.d("Barcode", result.toString());
                 ArrayList<String> allergens = new ArrayList<>();
                 HashMap<String, Integer> ingredients = new HashMap<>();
                 for (String allergenName : getResources().getStringArray(R.array.allergens))
@@ -385,7 +384,50 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     static JSONObject fakeGetFromURL(String url, String query, String apikey) {
         JSONObject ret = null;
         try {
-            ret = new JSONObject("{\"old_api_id\":null,\"item_id\":\"51c38f3c97c3e6d3d972ef8d\",\"item_name\":\"Cereal For Baby, Rice, Stage 1\",\"leg_loc_id\":null,\"brand_id\":\"51db37c3176fe9790a8991f6\",\"brand_name\":\"Beech-Nut\",\"item_description\":\"Rice, Stage 1\",\"updated_at\":\"2014-11-24T20:24:24.000Z\",\"nf_ingredient_statement\":\"Rice Flour, Contains Less Than 1% of the Following: Sunflower Oil and Rice Bran Extract. Vitamins and Minerals: Tricalcium Phosphate, ascorbic Acid (Vitamin C), Electrolytic Iron, Zinc Sulfate, D-Alpha Tocopherol Acetate (Vitamin E), Niacinamide, Mixed Tocopherols, Mononitrate (Vitamin B1), Riboflavin (Vitamin B2), Pyridoxine Hydrochloride (Vitamin B6), Vitamin B12 and Folic Acid.\",\"nf_water_grams\":null,\"nf_calories\":60,\"nf_calories_from_fat\":0,\"nf_total_fat\":null,\"nf_saturated_fat\":null,\"nf_trans_fatty_acid\":null,\"nf_polyunsaturated_fat\":null,\"nf_monounsaturated_fat\":null,\"nf_cholesterol\":null,\"nf_sodium\":null,\"nf_total_carbohydrate\":null,\"nf_dietary_fiber\":null,\"nf_sugars\":0,\"nf_protein\":1,\"nf_vitamin_a_dv\":0,\"nf_vitamin_c_dv\":25,\"nf_calcium_dv\":25,\"nf_iron_dv\":45,\"nf_refuse_pct\":null,\"nf_servings_per_container\":7,\"nf_serving_size_qty\":0.25,\"nf_serving_size_unit\":\"cup\",\"nf_serving_weight_grams\":15,\"allergen_contains_milk\":null,\"allergen_contains_eggs\":null,\"allergen_contains_fish\":null,\"allergen_contains_shellfish\":null,\"allergen_contains_tree_nuts\":null,\"allergen_contains_peanuts\":null,\"allergen_contains_wheat\":null,\"allergen_contains_soybeans\":true,\"allergen_contains_gluten\":null,\"usda_fields\":null}");
+            ret = new JSONObject("{\n" +
+                    "    \"old_api_id\": null,\n" +
+                    "    \"item_id\": \"51d37c05cc9bff5553aaa433\",\n" +
+                    "    \"item_name\": \"Dark Chocolate, Midnight Reverie, 86% Cacao\",\n" +
+                    "    \"leg_loc_id\": null,\n" +
+                    "    \"brand_id\": \"51db37c0176fe9790a89900f\",\n" +
+                    "    \"brand_name\": \"Ghirardelli Chocolate\",\n" +
+                    "    \"item_description\": \"Midnight Reverie, 86% Cacao\",\n" +
+                    "    \"updated_at\": \"2014-11-24T20:24:24.000Z\",\n" +
+                    "    \"nf_ingredient_statement\": \"Bittersweet Chocolate (Unsweetened Chocolate, Cocoa Butter, Sugar, Milk Fat, Soy Lecithin - an Emulsifier), Vanilla, Natural Flavor.\",\n" +
+                    "    \"nf_water_grams\": null,\n" +
+                    "    \"nf_calories\": 250,\n" +
+                    "    \"nf_calories_from_fat\": 220,\n" +
+                    "    \"nf_total_fat\": 25,\n" +
+                    "    \"nf_saturated_fat\": 15,\n" +
+                    "    \"nf_trans_fatty_acid\": 0,\n" +
+                    "    \"nf_polyunsaturated_fat\": null,\n" +
+                    "    \"nf_monounsaturated_fat\": null,\n" +
+                    "    \"nf_cholesterol\": 0,\n" +
+                    "    \"nf_sodium\": 0,\n" +
+                    "    \"nf_total_carbohydrate\": 15,\n" +
+                    "    \"nf_dietary_fiber\": 5,\n" +
+                    "    \"nf_sugars\": 5,\n" +
+                    "    \"nf_protein\": 3,\n" +
+                    "    \"nf_vitamin_a_dv\": null,\n" +
+                    "    \"nf_vitamin_c_dv\": null,\n" +
+                    "    \"nf_calcium_dv\": null,\n" +
+                    "    \"nf_iron_dv\": null,\n" +
+                    "    \"nf_refuse_pct\": null,\n" +
+                    "    \"nf_servings_per_container\": 2,\n" +
+                    "    \"nf_serving_size_qty\": 4,\n" +
+                    "    \"nf_serving_size_unit\": \"sections\",\n" +
+                    "    \"nf_serving_weight_grams\": 45,\n" +
+                    "    \"allergen_contains_milk\": null,\n" +
+                    "    \"allergen_contains_eggs\": null,\n" +
+                    "    \"allergen_contains_fish\": null,\n" +
+                    "    \"allergen_contains_shellfish\": null,\n" +
+                    "    \"allergen_contains_tree_nuts\": null,\n" +
+                    "    \"allergen_contains_peanuts\": null,\n" +
+                    "    \"allergen_contains_wheat\": null,\n" +
+                    "    \"allergen_contains_soybeans\": null,\n" +
+                    "    \"allergen_contains_gluten\": null,\n" +
+                    "    \"usda_fields\": null\n" +
+                    "}");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -491,7 +533,8 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
         @Override
         public void onImageAvailable(ImageReader reader) {
             Log.d("Barcode", "Image available");
-            BarcodeDetector detector = new BarcodeDetector.Builder(getContext()).build();
+            BarcodeDetector detector = new BarcodeDetector.Builder(getContext())
+                    .setBarcodeFormats(Barcode.EAN_13|Barcode.UPC_A).build();
             Image image = reader.acquireNextImage();
             ByteBuffer array = image.getPlanes()[0].getBuffer();
             byte[] arr = new byte[array.remaining()];
@@ -500,11 +543,6 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
 
             SparseArray<Barcode> barcodes = detector.detect(
                     new Frame.Builder().setBitmap(bitmap).build());
-            // TODO change this
-            if (barcodes.size() == 0) {
-                getFoodInfo("52200004265", arr);
-                return;
-            }
             if (barcodes.size() == 0) {
                 showToast("No barcode detected", Toast.LENGTH_SHORT);
                 try {

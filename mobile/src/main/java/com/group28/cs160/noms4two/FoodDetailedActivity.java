@@ -48,7 +48,7 @@ public class FoodDetailedActivity extends AppCompatActivity {
         ArrayList<String> strings = getIntent().getStringArrayListExtra("allergens");
         byte[] arr = getIntent().getByteArrayExtra("image");
         assert facts != null;
-        if (strings != null) {
+        if (strings != null && strings.size() > 0) {
             Log.d("Detailed", strings.get(0));
         }
         getSupportActionBar().setTitle(facts.getName());
@@ -62,7 +62,9 @@ public class FoodDetailedActivity extends AppCompatActivity {
             assert group != null;
             group.setBackground(new BitmapDrawable(getResources(), newBitmap));
         }
-
+        TextView calories = (TextView) findViewById(R.id.calories_amount);
+        assert calories != null;
+        calories.setText(String.format("%d Calories", (int) facts.getAmount(NutritionFacts.Nutrient.CALORIES)));
         inflateList(facts);
     }
 
@@ -74,8 +76,8 @@ public class FoodDetailedActivity extends AppCompatActivity {
             Log.d(TAG, String.format("inflating nutrient %s", NutritionFacts.nutrientToString(nutrient)));
             String ingredientName = NutritionFacts.nutrientToString(nutrient);
             double amount = nutritionFacts.getAmount(nutrient);
-//            if (amount == 0)
-//                continue;
+            if (amount == 0)
+                continue;
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                     NutritionFacts.nutrientToResource(nutrient));
             Matrix m = new Matrix();
