@@ -43,14 +43,12 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.group28.cs160.shared.NutritionFacts;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -395,7 +393,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                     cache_allergens.put(Integer.parseInt(params[0]), allergens);
                 } else {
                     Log.d("Barcode", "Cache hit!");
-                    allergens = cache_allergens.get(params[0]);
+                    allergens = cache_allergens.get(Integer.parseInt(params[0]));
                 }
 
                 Intent intent = new Intent(getActivity(), FoodDetailedActivity.class);

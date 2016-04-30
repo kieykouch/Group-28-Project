@@ -2,27 +2,20 @@ package com.group28.cs160.noms4two;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.camera2.CameraAccessException;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.group28.cs160.shared.NutritionFacts;
 
@@ -30,15 +23,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -67,13 +57,14 @@ public class FoodDetailedActivity extends AppCompatActivity {
 
         facts = (NutritionFacts) getIntent().getExtras().get("nutrient_facts");
         ArrayList<String> allergens = getIntent().getStringArrayListExtra("allergens");
-        byte[] arr = getIntent().getByteArrayExtra("image");
         assert facts != null;
 
         String displayName = facts.getName().split("[,]")[0];
-        ((TextView) findViewById(R.id.title)).setText(displayName);
+        TextView view = (TextView) findViewById(R.id.title);
         TextView calories = (TextView) findViewById(R.id.calories_amount);
+        assert view != null;
         assert calories != null;
+        view.setText(displayName);
         String displayCalories = String.valueOf(
                 (int)facts.getAmount(NutritionFacts.Nutrient.CALORIES)) + " Calories";
         calories.setText(displayCalories);
@@ -128,9 +119,6 @@ public class FoodDetailedActivity extends AppCompatActivity {
         }
     }
 
-    private void inflateCausious(ArrayList<String> cautious) {
-    }
-
     private void changeToolbarBackground(String name) {
         new AsyncTask<String, String, Bitmap>() {
 
@@ -151,10 +139,6 @@ public class FoodDetailedActivity extends AppCompatActivity {
                     try {
                         URL profile = new URL("https://upload.wikimedia.org/wikipedia/commons/4/44/Bananas_white_background_DS.jpg");
                         bitmap = BitmapFactory.decodeStream(profile.openStream());
-//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                        if (bitmap != null) {
-//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                        }
                         Matrix m = new Matrix();
                         m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()),
                                 new RectF(0, 0, 1500, 1500), Matrix.ScaleToFit.CENTER);
@@ -165,14 +149,10 @@ public class FoodDetailedActivity extends AppCompatActivity {
                 } else {
                     JSONObject result = getFromURL(url, query, key);
                     try {
-                        JSONObject item = result.optJSONArray("items").getJSONObject(0);
-                        String link = item.getString("link");
+                        assert result != null;
+                        String link = result.optJSONArray("items").getJSONObject(0).getString("link");
                         URL profile = new URL(link);
                         bitmap = BitmapFactory.decodeStream(profile.openStream());
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        if (bitmap != null) {
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        }
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
@@ -242,5 +222,5 @@ public class FoodDetailedActivity extends AppCompatActivity {
     }
 
     private NutritionFacts facts;
-    private final boolean FAKE = true;
+    private final boolean FAKE = false;
 }
