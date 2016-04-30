@@ -5,10 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -38,7 +36,7 @@ public class FoodDetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO Add to summary
-                NutrientsTracker nutrientsTracker = new NutrientsTracker(getBaseContext(), 1);
+                NutrientsTracker nutrientsTracker = new NutrientsTracker(getBaseContext());
                 nutrientsTracker.log(facts);
                 finish();
             }
