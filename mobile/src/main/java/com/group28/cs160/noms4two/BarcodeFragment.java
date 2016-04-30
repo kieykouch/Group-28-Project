@@ -174,6 +174,8 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
         if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
             this.requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAMERA_REQUEST_ID);
+        } else {
+            showToast("You denied our access. Please change it in your Settings ", Toast.LENGTH_LONG);
         }
     }
 
