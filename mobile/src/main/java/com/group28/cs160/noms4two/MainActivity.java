@@ -1,12 +1,9 @@
 package com.group28.cs160.noms4two;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -84,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            replaceFragment(0);
+            nutrientsTracker.readFromFile();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(NutritionFragment.ANIMATE_DIFF, true);
+            NutritionFragment fragobj = new NutritionFragment();
+            fragobj.setArguments(bundle);
+            replaceFragment(fragobj);
+            bottomBar.selectTabAtPosition(0, true);
             Snackbar.make(findViewById(R.id.container), "Added to My Summary", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
@@ -97,27 +100,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
         fragmentManager.executePendingTransactions();
-    }
-
-    public void replaceFragment(int pos) {
-        switch (pos) {
-            case 0:
-                nutrientsTracker.readFromFile();
-                replaceFragment(new NutritionFragment());
-                break;
-            case 1:
-                replaceFragment(barcodeFragment);
-                break;
-            case 2:
-                replaceFragment(new SearchFragment());
-                break;
-            case 3:
-                replaceFragment(new MeFragment());
-                break;
-            default:
-                break;
-        }
-        bottomBar.selectTabAtPosition(0, true);
     }
 
     private BottomBar bottomBar;

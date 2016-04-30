@@ -15,30 +15,41 @@ import com.group28.cs160.shared.NutritionFacts;
 
 public class NutritionFragment extends Fragment {
 
+    public static String ANIMATE_DIFF = "com.group28.cs160.ANIMATE_DIFF";
+
+    NutritionFacts dailyGoals, dailyTotals;
+    boolean animateDiff = false;
+    Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            if (getArguments().containsKey(ANIMATE_DIFF)) {
+                animateDiff = getArguments().getBoolean(ANIMATE_DIFF);
+            }
+        }
         View rootView = inflater.inflate(R.layout.fragment_nutrition, parent, false);
 
         // Add the cards for individual nutrients.
-        NutritionFacts dailyTotals = ((MainActivity) getActivity()).nutrientsTracker.getNutritionToday();
-        NutritionFacts dailyGoals = ((MainActivity) getActivity()).nutrientsTracker.getDailyGoals();
+        dailyTotals = ((MainActivity) getActivity()).nutrientsTracker.getNutritionToday();
+        dailyGoals = ((MainActivity) getActivity()).nutrientsTracker.getDailyGoals();
 
-        MainActivity mainActivity = new MainActivity();
+        context = getContext();
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.CALORIES), R.id.caloriesCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.CALORIES), R.id.caloriesCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.PROTEIN), R.id.proteinCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.PROTEIN), R.id.proteinCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.CALCIUM), R.id.calciumCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.CALCIUM), R.id.calciumCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.FIBER), R.id.fiberCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.FIBER), R.id.fiberCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.IRON), R.id.ironCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.IRON), R.id.ironCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.POTASSIUM), R.id.potassiumCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.POTASSIUM), R.id.potassiumCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.VITAMINC), R.id.potassiumCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.VITAMINC), R.id.potassiumCircle);
 
         return rootView;
     }
@@ -51,11 +62,17 @@ public class NutritionFragment extends Fragment {
         transaction.commit();
     }
 
-    public static CenteredImageFragmentv4 createGoalCircle(final Context context, final MainActivity activity, NutritionFacts goal, NutritionFacts info, final NutritionFacts.Nutrient nutrient) {
+    public CenteredImageFragmentv4 createGoalCircle(final NutritionFacts.Nutrient nutrient) {
         CenteredImageFragmentv4 fragment = new CenteredImageFragmentv4();
 
-        float angle = (float) (info.getAmount(nutrient) / goal.getAmount(nutrient) * 360);
+        float angle = (float) (dailyTotals.getAmount(nutrient) / dailyGoals.getAmount(nutrient) * 360);
         fragment.setAngle(angle);
+
+        if (animateDiff) {
+            NutrientsTracker tracker = new NutrientsTracker(context);
+            float oldAngle = (float) ((dailyTotals.getAmount(nutrient) - tracker.getMostRecent().getAmount(nutrient)) / dailyGoals.getAmount(nutrient) * 360);
+            fragment.setOldAngle(oldAngle);
+        }
 
         View.OnClickListener onClick = new View.OnClickListener() {
             @Override

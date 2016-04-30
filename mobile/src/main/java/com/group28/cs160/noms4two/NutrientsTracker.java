@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,6 +99,13 @@ public class NutrientsTracker {
             }
         }
         return recent;
+    }
+
+    public NutritionFacts getMostRecent() {
+        // Returns the most recent food.
+        NutritionFacts recent;
+        Long key = Collections.max(food_logged.keySet());
+        return food_logged.get(key);
     }
 
     public NutritionFacts getNutritionToday() {
