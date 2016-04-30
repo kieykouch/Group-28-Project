@@ -112,7 +112,7 @@ public class NutritionFacts implements Serializable {
      *
      * @param nutrient - the nutrient value you want
      */
-    public double getAmout(Nutrient nutrient) {
+    public double getAmount(Nutrient nutrient) {
         switch (nutrient) {
             case CALORIES:
                 return calories;

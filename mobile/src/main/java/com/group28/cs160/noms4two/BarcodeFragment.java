@@ -36,7 +36,6 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOverlay;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.Frame;
@@ -58,12 +57,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class BarcodeFragment extends Fragment implements View.OnClickListener{
+public class BarcodeFragment extends Fragment implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
     public BarcodeFragment() {
         // Required empty public constructor
@@ -144,6 +141,13 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@ NonNull int[] grantResults) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+        }
+    }
+
     private void showToast(String message, int length) {
         Toast toast = Toast.makeText(getContext(), message, length);
         toast.show();
@@ -167,7 +171,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
 
     private void requestCameraPermission() {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAMERA_REQUEST_ID);
         }
     }
@@ -189,6 +193,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
         } else {
+            Log.d("Barcode", "got permission, opening camera");
             manager = (CameraManager) getContext().getSystemService(Context.CAMERA_SERVICE);
             String backCameraId = getBackCameraId(manager);
             size = getSize(backCameraId);
@@ -333,7 +338,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void getFoodInfo(String barcode) {
+    private void getFoodInfo(String barcode, final byte[] bitmap) {
         new AsyncTask<String, String, JSONObject>() {
             @Override
             protected JSONObject doInBackground(String... params) {
@@ -366,11 +371,12 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
                     }
                 }
 
-                Intent intent = new Intent(getActivity(), DetailedActivity.class);
+                Intent intent = new Intent(getActivity(), FoodDetailedActivity.class);
                 NutritionFacts facts = NutritionFacts.fromHashMap(name, ingredients);
-                intent.putExtra("nutrient_facts", (Serializable) facts);
+                intent.putExtra("nutrient_facts", facts);
                 intent.putStringArrayListExtra("allergens", allergens);
-                startActivity(intent);
+                intent.putExtra("image", bitmap);
+                startActivityForResult(intent, 1);
             }
 
         }.execute(barcode);
@@ -496,7 +502,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
                     new Frame.Builder().setBitmap(bitmap).build());
             // TODO change this
             if (barcodes.size() == 0) {
-                getFoodInfo("52200004265");
+                getFoodInfo("52200004265", arr);
                 return;
             }
             if (barcodes.size() == 0) {
@@ -509,7 +515,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
             } else {
                 String barcode = barcodes.get(barcodes.keyAt(0)).rawValue;
                 Log.d("Barcode", String.format("barcode detected is %s", barcode));
-                getFoodInfo(barcode);
+                getFoodInfo(barcode, arr);
             }
         }
     };

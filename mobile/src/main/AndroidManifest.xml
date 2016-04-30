@@ -43,7 +43,7 @@
             android:enabled="true"
             android:exported="true" />
         <activity
-            android:name=".DetailedActivity"
+            android:name=".FoodDetailedActivity"
             android:label="@string/title_activity_detailed"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

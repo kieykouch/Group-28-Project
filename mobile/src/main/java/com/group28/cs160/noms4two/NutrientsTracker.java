@@ -30,7 +30,7 @@ public class NutrientsTracker {
     public NutrientsTracker(Context context, int trimester) {
         // TODO(prad): Read information from a file.
         this.context = context;
-        food_logged = readFromFile();
+        readFromFile();
         this.trimester = trimester;
         sendToWatch();
     }
@@ -47,7 +47,7 @@ public class NutrientsTracker {
         context.startService(sendIntent);
     }
 
-    private Map<Long, NutritionFacts> readFromFile() {
+    public void readFromFile() {
         Map<Long, NutritionFacts> map = new HashMap<Long, NutritionFacts>();
         try {
             FileInputStream fileStream = context.openFileInput(HISTORY_FILE);
@@ -58,7 +58,7 @@ public class NutrientsTracker {
         } catch (Exception e) {
             Log.d("NutrientsTracker", "Exception reading from file: " + e.toString());
         }
-        return map;
+        food_logged = map;
     }
 
     public void writeToFile() {
