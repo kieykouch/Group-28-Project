@@ -158,6 +158,50 @@ public class NutritionFacts implements Serializable {
         return (NutritionFacts) SerializationUtils.deserialize(rep_array);
     }
 
+    public static String nutrientToString(Nutrient nutrient) {
+        switch (nutrient) {
+            case CALORIES:
+                return "Calories";
+            case PROTEIN:
+                return "Protein";
+            case FIBER:
+                return "Fiber";
+            case VITAMINC:
+                return "Vitamin C";
+            case CALCIUM:
+                return "Calcium";
+            case IRON:
+                return "Iron";
+            case POTASSIUM:
+                return "Potassium";
+            default:
+                break;
+        }
+        return null;
+    }
+
+    public static int nutrientToResource(Nutrient nutrient) {
+        switch (nutrient) {
+            case CALORIES:
+                return R.drawable.calories;
+            case PROTEIN:
+                return R.drawable.protein;
+            case FIBER:
+                return R.drawable.fiber;
+            case VITAMINC:
+                return R.drawable.vitaminc;
+            case CALCIUM:
+                return R.drawable.calcium;
+            case IRON:
+                return R.drawable.iron;
+            case POTASSIUM:
+                return R.drawable.potassium;
+            default:
+                break;
+        }
+        return -1;
+    }
+
     public enum Nutrient {
         CALORIES, PROTEIN, FIBER, VITAMINC, CALCIUM, IRON, POTASSIUM
     }
