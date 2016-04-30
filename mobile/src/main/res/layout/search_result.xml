@@ -8,8 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#efeded"
-        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        android:padding="3dp"
         android:layout_weight="0.17">
 
         <TextView
@@ -27,22 +27,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Costo"
-            android:id="@+id/textView2"
+            android:text="Brand"
+            android:id="@+id/textView4"
+            android:textColor="#393b4b"
+            android:textSize="13dp"
             android:layout_below="@+id/textView"
-            android:layout_alignParentStart="true"
-            android:textColor="#eb1212"
-            android:textSize="13dp" />
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Brand"
-            android:id="@+id/textView4"
+            android:text="Discriptions"
+            android:id="@+id/textView2"
             android:textColor="#393b4b"
             android:textSize="13dp"
-            android:layout_below="@+id/textView2"
+            android:layout_below="@+id/textView4"
             android:layout_alignParentStart="true" />
 
     </RelativeLayout>
