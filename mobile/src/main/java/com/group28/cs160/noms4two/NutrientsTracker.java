@@ -126,4 +126,9 @@ public class NutrientsTracker {
         goals.potassium = 4700;
         return goals;
     }
+
+    public void clear() {
+        food_logged = new HashMap<Long, NutritionFacts>();
+        writeToFile();
+    }
 }

@@ -23,7 +23,7 @@ public class HistoryActivity extends Activity {
     public static String NUTRIENT = "com.group28.cs160.NUTRIENT";
 
     private CombinedChart mChart;
-    private final int itemcount = 12;
+    private final int itemcount = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +109,5 @@ public class HistoryActivity extends Activity {
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         return d;
-    }
-
-    private float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
     }
 }

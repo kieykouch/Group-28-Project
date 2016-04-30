@@ -36,6 +36,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOverlay;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.Frame;
@@ -94,6 +95,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
         textureView = (TextureView) rootView.findViewById(R.id.preview);
         textureView.setSurfaceTextureListener(surfaceTextureListener);
         textureView.setOnClickListener(this);
+        showToast("Click Anywhere to scan it!", Toast.LENGTH_LONG);
         return rootView;
     }
 
@@ -142,8 +144,8 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void showToast(String message) {
-        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
+    private void showToast(String message, int length) {
+        Toast toast = Toast.makeText(getContext(), message, length);
         toast.show();
     }
 
@@ -498,7 +500,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener{
                 return;
             }
             if (barcodes.size() == 0) {
-                showToast("No barcode detected");
+                showToast("No barcode detected", Toast.LENGTH_SHORT);
                 try {
                     mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, handler);
                 } catch (CameraAccessException e) {

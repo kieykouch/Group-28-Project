@@ -1,6 +1,7 @@
 package com.group28.cs160.noms4two;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,10 +23,11 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
-    private Button searchButton;
+    private ImageButton searchButton;
     private List<NutritionFacts> data;
     private EditText searchText;
     private final FatSecretAPI api = new FatSecretAPI("6fa2832128934cbba364d29b7db8a557", "4291459ec6784ca0b35632ee3449a6ff");
@@ -37,32 +39,49 @@ public class SearchFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_search, parent, false);
 
         searchText = (EditText) rootView.findViewById (R.id.searchText);
-        searchButton = (Button) rootView.findViewById (R.id.searchButton);
+        searchButton = (ImageButton) rootView.findViewById (R.id.searchButton);
         text = (TextView) rootView.findViewById (R.id.textView3);
+        String CurrentText = searchText.getText().toString();
+
+        if (CurrentText.length() == 0){
+            text.setText("Recent Select:");
+            data = new ArrayList<NutritionFacts>();
+            //get value currenttimeMillis a week behind
+            Long mytimestamp = Long.valueOf(System.currentTimeMillis()) - (86400 * 7 * 1000);
+
+            Map<Long, NutritionFacts> recentData = ((MainActivity) getActivity()).nutrientsTracker.getRecent(mytimestamp);
+            for (NutritionFacts mNutritionFacts: recentData.values()){
+                data.add(mNutritionFacts);
+            }
+
+            populateViewList(rootView, inflater);
+        }
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String mySearchText = searchText.getText().toString();
-                if (mySearchText.length() > 0){
-                    text.setText("Searching "+ mySearchText +" :");
-                    String myFood = api.getFoodItems(mySearchText, 20);
 
-                    if (myFood != null){
-                        text.setText("Searching "+ mySearchText +" : 0 Results");
-                    }
+            String mySearchText = searchText.getText().toString();
+            if (mySearchText.length() > 0){
 
-                    data = new ArrayList<NutritionFacts>();
-                    //System.out.print(myFood);
-                    JSONObject food = null;   // { first
-                    try {
-                        food = new JSONObject(myFood);
-                        food = food.getJSONObject("foods");
-                        extract(food, data);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    populateViewList(rootView, inflater);
+                //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
+
+                text.setText("Searching "+ mySearchText +" :");
+                String myFood = api.getFoodItems(mySearchText, 20);
+
+                data = new ArrayList<NutritionFacts>();
+                System.out.println(myFood);
+                JSONObject food = null;   // { first
+                try {
+                    food = new JSONObject(myFood);
+                    food = food.getJSONObject("foods");
+                    int count_search = extract(food, data);
+                    text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    text.setText("Searching "+ mySearchText +" : 0 Results");
                 }
+                populateViewList(rootView, inflater);
+            }
             }
         });
 
@@ -86,6 +105,7 @@ public class SearchFragment extends Fragment {
 
                 if (!current.addedNutrients){
                     String foodId = current.fatSecretId;
+                    System.out.println(foodId);
                     String k = null;
                     try {
                         k = api.getFoodItem(foodId);
@@ -96,8 +116,13 @@ public class SearchFragment extends Fragment {
                 }
 
 //                Intent current_Intent = new Intent(MainActivity.this, FoodInfo.class);
-//                current_Intent.putExtra("Food", current);
+//
 //                startActivity(current_Intent);
+
+                Intent intent = new Intent(getActivity(), DetailedActivity.class);
+                intent.putExtra("nutrient_facts", current);
+                //intent.putStringArrayListExtra("allergens", allergens);
+                startActivity(intent);
             }
         });
     }
@@ -138,14 +163,13 @@ public class SearchFragment extends Fragment {
                 AddtoCurrentNutrientObject(last,current);
             }
         } catch (JSONException e) {
-
+            e.printStackTrace();
             try {
                 food = food.getJSONObject("serving");
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
             AddtoCurrentNutrientObject(food,current);
-            //e.printStackTrace();
         }
     }
 
@@ -219,9 +243,9 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void extract(JSONObject object, List<NutritionFacts> data) throws JSONException {
+    private int extract(JSONObject object, List<NutritionFacts> data) throws JSONException {
         JSONArray FoodArray = object.getJSONArray("food");
-
+        int result = 0; // for counting result, for display
         if (FoodArray != null) {
             for (int i = 0; i < FoodArray.length(); i++) {
                 JSONObject food_entry = (JSONObject) FoodArray.get(i);
@@ -239,8 +263,10 @@ public class SearchFragment extends Fragment {
                 }
 
                 data.add(new NutritionFacts(food_name, branch , id, food_description));
+                result++;
             }
         }
+        return result;
     }
 
     private class MyListAdapter extends ArrayAdapter<NutritionFacts> {
@@ -264,8 +290,19 @@ public class SearchFragment extends Fragment {
             TextView branch = (TextView) itemView.findViewById(R.id.textView4);
 
             name.setText(current.name);
-            dis.setText(current.dis);
-            branch.setText("Branch: "+current.branch);
+            if (current.dis != null) {
+                dis.setText(current.dis);
+            }
+            else{
+                String k = "Calories: " + current.calories + " | Protein: "+ current.protein;
+                dis.setText(k);
+            }
+            if (current.branch != null){
+                branch.setText("Branch: "+current.branch);
+            }
+            else{
+                branch.setVisibility(View.GONE);
+            }
 
             return itemView;
         }

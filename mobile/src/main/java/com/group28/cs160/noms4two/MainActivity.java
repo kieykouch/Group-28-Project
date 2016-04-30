@@ -1,6 +1,7 @@
 package com.group28.cs160.noms4two;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.ActivityCompat;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.detach(barcodeFragment);
                         break;
                     case R.id.me_icon:
-                        replaceFragment(new Fragment());
+                        replaceFragment(new MeFragment());
                         break;
                     default:
                         break;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.bottombar));
         bottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.bottombar));
 
-        requestCameraPermission();
+        checkCameraPermission();
         // Load Nutrition Data from disk.
         nutrientsTracker = new NutrientsTracker(getBaseContext(), 1 /* trimester */);
         // Add some fake nutrition data.
@@ -74,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                     0);
+        }
+    }
+
+    private void checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermission();
         }
     }
 

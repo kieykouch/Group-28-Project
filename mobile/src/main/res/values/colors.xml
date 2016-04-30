@@ -5,5 +5,8 @@
     <color name="colorPrimaryDark">#2e7d32</color>
     <color name="bottombar">#8bc34a</color>
     <color name="background">#FFFFFF</color>
+    <color name="greeeen">#9DE43E</color>
+    <color name = "yelloooow">#B08D03</color>
+    <color name = "black">#000000</color>
     <color name="bb_inActiveBottomBarItemColor">#679629</color>
 </resources>
