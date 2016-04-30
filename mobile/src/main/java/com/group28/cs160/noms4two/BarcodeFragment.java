@@ -43,14 +43,12 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.group28.cs160.shared.NutritionFacts;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -144,6 +142,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@ NonNull int[] grantResults) {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("Barcode", "GOT PERMISSIOON WOOOOO");
             openCamera();
         }
     }
@@ -171,8 +170,10 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
 
     private void requestCameraPermission() {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
+            this.requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAMERA_REQUEST_ID);
+        } else {
+            showToast("You denied our access. Please change it in your Settings ", Toast.LENGTH_LONG);
         }
     }
 
@@ -392,7 +393,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                     cache_allergens.put(Integer.parseInt(params[0]), allergens);
                 } else {
                     Log.d("Barcode", "Cache hit!");
-                    allergens = cache_allergens.get(params[0]);
+                    allergens = cache_allergens.get(Integer.parseInt(params[0]));
                 }
 
                 Intent intent = new Intent(getActivity(), FoodDetailedActivity.class);
