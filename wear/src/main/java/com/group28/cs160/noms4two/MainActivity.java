@@ -22,7 +22,7 @@ public class MainActivity extends WearableActivity {
 
         if (goals.calories != 0) {
             GridViewPager pager = (GridViewPager) findViewById(R.id.pager);
-            pager.setAdapter(new DailyInfo(this, getFragmentManager(), goals, info));
+            pager.setAdapter(new DailyInfo(getFragmentManager(), goals, info));
         } else {
             // TODO(prad): Nice toast for error message.
             Log.d("MainActivity", "No nutrition info found.");

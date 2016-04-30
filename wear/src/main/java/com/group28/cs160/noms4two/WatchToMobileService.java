@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class WatchToMobileService extends Service {
-    public final static String EVENT_OBJECT = "com.groupd28.cs160.noms4two.EVENT_OBJECT";
-    public final static String HEART_RATE = "/heart";
+    public final static String NUTRIENT = "com.groupd28.cs160.noms4two.NUTRIENT";
 
     private GoogleApiClient mApiClient;
     private List<Node> nodes;
@@ -73,14 +72,10 @@ public class WatchToMobileService extends Service {
                     Log.d("WatchToMobileService", "No phone connected.");
                     return;
                 }
-                if (extras.containsKey(EVENT_OBJECT)) {
+                if (extras.containsKey(NUTRIENT)) {
                     //now that you're connected, send a massage.
-                    final String event = extras.getString(EVENT_OBJECT);
-                    sendMessage("/timeline", event);
-                }
-                if (extras.containsKey(HEART_RATE)) {
-                    final String heartRate = extras.getString(HEART_RATE);
-                    sendMessage("/heart", heartRate);
+                    final String event = extras.getString(NUTRIENT);
+                    sendMessage("/nutrient", event);
                 }
             }
         }).start();
@@ -98,8 +93,12 @@ public class WatchToMobileService extends Service {
             Log.d("WatchToMobileService", "Sending message to phone with path: " + path + " and text: " + text);
             //we find 'nodes', which are nearby bluetooth devices (aka emulators)
             //send a message for each of these nodes (just one, for an emulator)
-            MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                    mApiClient, node.getId(), path, text.getBytes() ).await();
+            try {
+                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
+                        mApiClient, node.getId(), path, text.getBytes("UTF-8")).await();
+            } catch (Exception e) {
+                Log.d("WatchToMobile", "Exception while encoding data.");
+            }
             //4 arguments: api client, the node ID, the path (for the listener to parse),
             //and the message itself (you need to convert it to bytes.)
         }
