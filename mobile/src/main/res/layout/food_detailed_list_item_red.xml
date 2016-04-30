@@ -6,7 +6,7 @@
     android:gravity="center_horizontal"
     android:id="@+id/ingredient"
     android:drawableTop="@drawable/milk"
-    android:background="@drawable/rectangle_round_corner"
+    android:background="@drawable/rectangle_round_corner_red"
     android:layout_gravity="center_horizontal"
     android:paddingTop="15dp"
     android:layout_marginStart="20dp">

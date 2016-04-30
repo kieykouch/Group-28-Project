@@ -443,7 +443,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                     "    \"nf_serving_size_qty\": 4,\n" +
                     "    \"nf_serving_size_unit\": \"sections\",\n" +
                     "    \"nf_serving_weight_grams\": 45,\n" +
-                    "    \"allergen_contains_milk\": null,\n" +
+                    "    \"allergen_contains_milk\": true,\n" +
                     "    \"allergen_contains_eggs\": null,\n" +
                     "    \"allergen_contains_fish\": null,\n" +
                     "    \"allergen_contains_shellfish\": null,\n" +
@@ -621,5 +621,5 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     private int numTries = 0;
     CaptureRequest.Builder mPreviewRequestBuilder;
 
-    private final boolean FAKE = false;
+    private final boolean FAKE = true;
 }

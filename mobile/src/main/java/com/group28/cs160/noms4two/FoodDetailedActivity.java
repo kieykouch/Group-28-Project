@@ -44,12 +44,9 @@ public class FoodDetailedActivity extends AppCompatActivity {
         });
 
         facts = (NutritionFacts) getIntent().getExtras().get("nutrient_facts");
-        ArrayList<String> strings = getIntent().getStringArrayListExtra("allergens");
+        ArrayList<String> allergens = getIntent().getStringArrayListExtra("allergens");
         byte[] arr = getIntent().getByteArrayExtra("image");
         assert facts != null;
-        if (strings != null && strings.size() > 0) {
-            Log.d("Detailed", strings.get(0));
-        }
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle(facts.getName());
@@ -61,7 +58,7 @@ public class FoodDetailedActivity extends AppCompatActivity {
             Bitmap newBitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length, options);
             ViewGroup group = (ViewGroup) findViewById(R.id.app_bar);
             assert group != null;
-            group.setBackground(new BitmapDrawable(getResources(), newBitmap));
+//            group.setBackground(new BitmapDrawable(getResources(), newBitmap));
         }
         TextView calories = (TextView) findViewById(R.id.calories_amount);
         assert calories != null;
@@ -69,6 +66,9 @@ public class FoodDetailedActivity extends AppCompatActivity {
                 (int)facts.getAmount(NutritionFacts.Nutrient.CALORIES)) + " Calories";
         calories.setText(displayCalories);
         inflateList(facts);
+        if (allergens != null) {
+            inflateAllergens(allergens);
+        }
     }
 
     private void inflateList(NutritionFacts nutritionFacts) {
@@ -93,7 +93,56 @@ public class FoodDetailedActivity extends AppCompatActivity {
             textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, new BitmapDrawable(getResources(), bitmap));
             ingredientsList.addView(item);
         }
+    }
 
+    private void inflateAllergens(ArrayList<String> allergens) {
+        LinearLayout ingredientsList = (LinearLayout) findViewById(R.id.ingredients_list);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        assert ingredientsList != null;
+        for (String allergen : allergens) {
+            Log.d("FoodDetailed", String.format("inflating allergen %s", allergen));
+            int resourceID = findAllergenResource(allergen);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resourceID);
+            Matrix m = new Matrix();
+            m.setRectToRect(new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                    new RectF(0, 0, 350, 350), Matrix.ScaleToFit.CENTER);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, false);
+            View item = inflater.inflate(R.layout.food_detailed_list_item_red, ingredientsList, false);
+            TextView textView = (TextView) item.findViewById(R.id.ingredient);
+            textView.setText(allergen);
+            textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, new BitmapDrawable(getResources(), bitmap));
+            ingredientsList.addView(item);
+        }
+    }
+
+    private void inflateCausious(ArrayList<String> cautious) {
+    }
+
+    private int findAllergenResource(String allergen) {
+        int resourceID = R.drawable.cancel;
+        switch (allergen) {
+            case "allergen_contains_milk":
+                resourceID = R.drawable.milk;
+                break;
+            case "allergen_contains_eggs":
+                resourceID = R.drawable.egg;
+                break;
+            case "allergen_contains_fish":
+                resourceID = R.drawable.fish;
+                break;
+            case "allergen_contains_shellfish":
+                resourceID = R.drawable.shrimp;
+                break;
+            case "allergen_contains_peanuts":
+                resourceID = R.drawable.peanuts;
+                break;
+            case "allergen_contains_soybeans":
+                resourceID = R.drawable.soybean;
+                break;
+            default:
+                break;
+        }
+        return resourceID;
     }
 
     private NutritionFacts facts;
