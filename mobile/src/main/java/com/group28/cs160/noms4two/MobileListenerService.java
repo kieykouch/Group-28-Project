@@ -20,8 +20,7 @@ public class MobileListenerService extends WearableListenerService {
         Log.d("MobileListenerService", "in MobileListenerService, got: " + messageEvent.getPath());
         if (messageEvent.getPath().equalsIgnoreCase(NUTRIENT) ) {
             // Value contains the String we sent over in WatchToPhoneService, "good job"
-            String event =  messageEvent.getData().toString();
-
+            String event =  new String(messageEvent.getData());
             Intent intent = new Intent(this, NutritionGraphActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             //you need to add this flag since you're starting a new activity from a service

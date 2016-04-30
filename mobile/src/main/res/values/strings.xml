@@ -34,6 +34,22 @@
         <item>calcium</item>
         <item>iron</item>
     </string-array>
+    <string-array name="avoid_list">
+        <item>Unpasteurized</item>
+        <item>shark</item>
+        <item>swordfish</item>
+        <item>shellfish</item>
+        <item>raw fish</item>
+        <item>sushi</item>
+    </string-array>
+    <string-array name="careful">
+        <item>hot dogs</item>
+        <item>eggs</item>
+        <item>eggnog</item>
+        <item>fish</item>
+        <item>icecream</item>
+        <item>smoked</item>
+    </string-array>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

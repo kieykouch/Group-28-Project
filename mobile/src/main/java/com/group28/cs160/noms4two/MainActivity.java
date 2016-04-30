@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        nutrientsTracker.readFromFile();
-        replaceFragment(new NutritionFragment());
-        Snackbar.make(findViewById(R.id.container), "Added to My Summary", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-        bottomBar.selectTabAtPosition(0, false);
+        if (resultCode == RESULT_OK) {
+            replaceFragment(0);
+            Snackbar.make(findViewById(R.id.container), "Added to My Summary", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
     public void replaceFragment(Fragment newFragment) {
@@ -97,6 +97,27 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
         fragmentManager.executePendingTransactions();
+    }
+
+    public void replaceFragment(int pos) {
+        switch (pos) {
+            case 0:
+                nutrientsTracker.readFromFile();
+                replaceFragment(new NutritionFragment());
+                break;
+            case 1:
+                replaceFragment(barcodeFragment);
+                break;
+            case 2:
+                replaceFragment(new SearchFragment());
+                break;
+            case 3:
+                replaceFragment(new MeFragment());
+                break;
+            default:
+                break;
+        }
+        bottomBar.selectTabAtPosition(0, true);
     }
 
     private BottomBar bottomBar;

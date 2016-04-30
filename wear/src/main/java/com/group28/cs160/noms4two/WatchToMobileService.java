@@ -93,8 +93,12 @@ public class WatchToMobileService extends Service {
             Log.d("WatchToMobileService", "Sending message to phone with path: " + path + " and text: " + text);
             //we find 'nodes', which are nearby bluetooth devices (aka emulators)
             //send a message for each of these nodes (just one, for an emulator)
-            MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                    mApiClient, node.getId(), path, text.getBytes() ).await();
+            try {
+                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
+                        mApiClient, node.getId(), path, text.getBytes("UTF-8")).await();
+            } catch (Exception e) {
+                Log.d("WatchToMobile", "Exception while encoding data.");
+            }
             //4 arguments: api client, the node ID, the path (for the listener to parse),
             //and the message itself (you need to convert it to bytes.)
         }
