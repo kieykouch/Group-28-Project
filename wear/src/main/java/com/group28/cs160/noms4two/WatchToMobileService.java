@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class WatchToMobileService extends Service {
-    public final static String EVENT_OBJECT = "com.groupd28.cs160.noms4two.EVENT_OBJECT";
-    public final static String HEART_RATE = "/heart";
+    public final static String NUTRIENT = "com.groupd28.cs160.noms4two.NUTRIENT";
 
     private GoogleApiClient mApiClient;
     private List<Node> nodes;
@@ -73,14 +72,10 @@ public class WatchToMobileService extends Service {
                     Log.d("WatchToMobileService", "No phone connected.");
                     return;
                 }
-                if (extras.containsKey(EVENT_OBJECT)) {
+                if (extras.containsKey(NUTRIENT)) {
                     //now that you're connected, send a massage.
-                    final String event = extras.getString(EVENT_OBJECT);
-                    sendMessage("/timeline", event);
-                }
-                if (extras.containsKey(HEART_RATE)) {
-                    final String heartRate = extras.getString(HEART_RATE);
-                    sendMessage("/heart", heartRate);
+                    final String event = extras.getString(NUTRIENT);
+                    sendMessage("/nutrient", event);
                 }
             }
         }).start();

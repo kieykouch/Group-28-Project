@@ -111,8 +111,8 @@ public class NutritionGraphActivity extends AppCompatActivity {
             entries.add(new Entry((float) goals.getAmount(nutrient), index));
 
         LineDataSet set = new LineDataSet(entries, "Goal");
-        set.setColor(Color.RED);
-        set.setLineWidth(2.5f);
+        set.setColor(Color.DKGRAY);
+        set.setLineWidth(6f);
         set.setCircleRadius(0f);
         set.setDrawCubic(true);
         set.setValueTextSize(0f);
@@ -161,7 +161,7 @@ public class NutritionGraphActivity extends AppCompatActivity {
             entries.add(new BarEntry(nutrientHistory.get(index).floatValue(), index));
 
         BarDataSet set = new BarDataSet(entries, NutritionFacts.nutrientToString(nutrient) + " History");
-        set.setColor(Color.rgb(60, 220, 78));
+        set.setColor(NutritionFacts.nutrientToColor(nutrient));
         set.setValueTextColor(Color.BLACK);
         set.setValueTextSize(10f);
         d.addDataSet(set);

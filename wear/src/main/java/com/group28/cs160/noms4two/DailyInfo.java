@@ -58,6 +58,7 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         return 1;
     }
 
+
     public static CenteredImageFragment createGoalCircle(NutritionFacts goal, NutritionFacts info, final NutritionFacts.Nutrient nutrient) {
         CenteredImageFragment fragment = new CenteredImageFragment();
 
@@ -70,7 +71,7 @@ public class DailyInfo extends FragmentGridPagerAdapter {
                 // TODO(prad): Fix this.
                 Log.d("Event", "Recorded click.");
                 Intent sendIntent = new Intent(v.getContext().getApplicationContext(), WatchToMobileService.class);
-                sendIntent.putExtra(WatchToMobileService.EVENT_OBJECT, nutrient);
+                sendIntent.putExtra(WatchToMobileService.NUTRIENT, nutrient.toString());
                 v.getContext().startService(sendIntent);
 
             }
