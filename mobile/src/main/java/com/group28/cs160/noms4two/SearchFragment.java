@@ -63,6 +63,8 @@ public class SearchFragment extends Fragment {
             String mySearchText = searchText.getText().toString();
             if (mySearchText.length() > 0){
 
+                //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
+
                 text.setText("Searching "+ mySearchText +" :");
                 String myFood = api.getFoodItems(mySearchText, 20);
 
@@ -288,8 +290,19 @@ public class SearchFragment extends Fragment {
             TextView branch = (TextView) itemView.findViewById(R.id.textView4);
 
             name.setText(current.name);
-            dis.setText(current.dis);
-            branch.setText("Branch: "+current.branch);
+            if (current.dis != null) {
+                dis.setText(current.dis);
+            }
+            else{
+                String k = "Calories: " + current.calories + " | Protein: "+ current.protein;
+                dis.setText(k);
+            }
+            if (current.branch != null){
+                branch.setText("Branch: "+current.branch);
+            }
+            else{
+                branch.setVisibility(View.GONE);
+            }
 
             return itemView;
         }
