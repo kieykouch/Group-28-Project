@@ -1,10 +1,9 @@
 package com.group28.cs160.noms4two;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v4.app.ActivityCompat;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,24 +25,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         fragmentManager = getSupportFragmentManager();
 
-        final Fragment barcodeFragment = BarcodeFragment.newInstance();
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.useFixedMode();
         bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (menuItemId) {
                     case R.id.nutrition_icon:
                         replaceFragment(new NutritionFragment());
-                        transaction.detach(barcodeFragment);
                         break;
                     case R.id.barcode_icon:
                         replaceFragment(barcodeFragment);
                         return;
                     case R.id.search_icon:
                         replaceFragment(new SearchFragment());
-                        transaction.detach(barcodeFragment);
                         break;
                     case R.id.me_icon:
                         replaceFragment(new MeFragment());
@@ -62,26 +57,11 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.bottombar));
         bottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.bottombar));
 
-        checkCameraPermission();
         // Load Nutrition Data from disk.
-        nutrientsTracker = new NutrientsTracker(getBaseContext(), 1 /* trimester */);
+        nutrientsTracker = new NutrientsTracker(getBaseContext());
         // Add some fake nutrition data.
         fake_nutrition_data();
-        Log.d("MainActivity", "Total Calories: " +
-                nutrientsTracker.getNutritionToday().calories);
-    }
-
-    private void requestCameraPermission() {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                    0);
-        }
-    }
-
-    private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestCameraPermission();
-        }
+        Log.d("MainActivity", "Total Calories: " + nutrientsTracker.getNutritionToday().calories);
     }
 
     private void fake_nutrition_data() {
@@ -97,6 +77,22 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            nutrientsTracker.readFromFile();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(NutritionFragment.ANIMATE_DIFF, true);
+            NutritionFragment fragobj = new NutritionFragment();
+            fragobj.setArguments(bundle);
+            replaceFragment(fragobj);
+            bottomBar.selectTabAtPosition(0, true);
+            Snackbar.make(findViewById(R.id.container), "Added to My Summary", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+    }
+
     public void replaceFragment(Fragment newFragment) {
         // TODO(prad): The highlighted item in the bottomBar should also change on reversing a transaction.
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -109,4 +105,6 @@ public class MainActivity extends AppCompatActivity {
     private BottomBar bottomBar;
     private FragmentManager fragmentManager;
     public NutrientsTracker nutrientsTracker;
+    private final Fragment barcodeFragment = BarcodeFragment.newInstance();
+
 }

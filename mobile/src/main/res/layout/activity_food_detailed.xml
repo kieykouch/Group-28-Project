@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.group28.cs160.noms4two.DetailedActivity">
+    tools:context=".FoodDetailedActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -18,20 +18,30 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:title="Nutrition Facts"
             app:layout_collapseMode="pin"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
-            <!--android:id="@+id/toolbar_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:fitsSystemWindows="true"-->
-            <!--app:contentScrim="?attr/colorPrimary"-->
-            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+        </android.support.v7.widget.Toolbar>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/title"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
+            android:background="@color/background"
+            android:textColor="@color/black"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:id="@+id/food_image"/>
 
-        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detailed" />
+    <include layout="@layout/content_food_detailed" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

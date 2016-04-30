@@ -30,4 +30,6 @@ dependencies {
     compile 'com.roughike:bottom-bar:1.3.3'
     compile 'com.github.scribejava:scribejava-apis:2.5.3'
     compile project(':shared')
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+
 }

@@ -119,10 +119,10 @@ public class SearchFragment extends Fragment {
 //
 //                startActivity(current_Intent);
 
-                Intent intent = new Intent(getActivity(), DetailedActivity.class);
+                Intent intent = new Intent(getActivity(), FoodDetailedActivity.class);
                 intent.putExtra("nutrient_facts", current);
                 //intent.putStringArrayListExtra("allergens", allergens);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
