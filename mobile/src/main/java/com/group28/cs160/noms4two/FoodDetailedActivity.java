@@ -5,10 +5,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,9 +36,9 @@ public class FoodDetailedActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Add to summary
                 NutrientsTracker nutrientsTracker = new NutrientsTracker(getBaseContext(), 1);
                 nutrientsTracker.log(facts);
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -51,7 +50,9 @@ public class FoodDetailedActivity extends AppCompatActivity {
         if (strings != null && strings.size() > 0) {
             Log.d("Detailed", strings.get(0));
         }
-        getSupportActionBar().setTitle(facts.getName());
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle(facts.getName());
 
         if (arr != null) {
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -64,7 +65,9 @@ public class FoodDetailedActivity extends AppCompatActivity {
         }
         TextView calories = (TextView) findViewById(R.id.calories_amount);
         assert calories != null;
-        calories.setText(String.format("%d Calories", (int) facts.getAmount(NutritionFacts.Nutrient.CALORIES)));
+        String displayCalories = String.valueOf(
+                (int)facts.getAmount(NutritionFacts.Nutrient.CALORIES)) + " Calories";
+        calories.setText(displayCalories);
         inflateList(facts);
     }
 
@@ -73,7 +76,7 @@ public class FoodDetailedActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         assert ingredientsList != null;
         for (NutritionFacts.Nutrient nutrient : NutritionFacts.Nutrient.values()) {
-            Log.d(TAG, String.format("inflating nutrient %s", NutritionFacts.nutrientToString(nutrient)));
+            Log.d("FoodDetailed", String.format("inflating nutrient %s", NutritionFacts.nutrientToString(nutrient)));
             String ingredientName = NutritionFacts.nutrientToString(nutrient);
             double amount = nutritionFacts.getAmount(nutrient);
             if (amount == 0)
@@ -93,6 +96,5 @@ public class FoodDetailedActivity extends AppCompatActivity {
 
     }
 
-    private final String TAG = "FoodDetailed";
     private NutritionFacts facts;
 }

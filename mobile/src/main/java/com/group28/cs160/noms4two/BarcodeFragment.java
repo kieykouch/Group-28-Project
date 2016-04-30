@@ -43,6 +43,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.group28.cs160.shared.NutritionFacts;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,6 +58,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -73,10 +76,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
      * @return A new instance of fragment BarcodeFragment.
      */
     public static BarcodeFragment newInstance() {
-        BarcodeFragment fragment = new BarcodeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new BarcodeFragment();
     }
 
     @Override
@@ -206,6 +206,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                 e.printStackTrace();
             }
         }
+        numTries = 0;
     }
 
     private void createCameraPreviewSession() {
@@ -217,7 +218,13 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
             assert surfaceTexture != null;
             Surface surface = new Surface(surfaceTexture);
 
-            mImageReader = ImageReader.newInstance(size.getWidth() / 2, size.getHeight() / 2, ImageFormat.JPEG, 2);
+            int width = size.getWidth();
+            int height = size.getHeight();
+            if (width > 1500 && height > 1500) {
+                width = width / 2;
+                height = height / 2;
+            }
+            mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 3);
             mImageReader.setOnImageAvailableListener(listener, handler);
 
             // We set up a CaptureRequest.Builder with the output Surface.
@@ -297,6 +304,15 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
 
 
     private void captureStillPicture() {
+        if (numTries > 2) {
+            showToast("Cannot Detect... Try Search instead", Toast.LENGTH_LONG);
+            try {
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, handler);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         Log.d("Barcode","Tried capturing");
         try {
             final Activity activity = getActivity();
@@ -339,43 +355,52 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void getFoodInfo(String barcode, final byte[] bitmap) {
-        new AsyncTask<String, String, JSONObject>() {
+        new AsyncTask<String, String, Integer>() {
             @Override
-            protected JSONObject doInBackground(String... params) {
-                String query = String.format("upc=%s&appId=afec6ece", params[0]);
-                JSONObject returnObject = getFromURL("https://api.nutritionix.com/v1_1/item",
+            protected Integer doInBackground(String... params) {
+                NutritionFacts facts = cache_nutrients.get(Integer.parseInt(params[0]));
+                ArrayList<String> allergens;
+                if (facts == null) {
+                    String query = String.format("upc=%s&appId=afec6ece", params[0]);
+                    JSONObject result;
+                    if (FAKE) {
+                        result = fakeGetFromURL("https://api.nutritionix.com/v1_1/item",
                         query, "appKey=2c2086c1e91e303595827289d5a25630");
-//                JSONObject returnObject = fakeGetFromURL("https://api.nutritionix.com/v1_1/item",
-//                        query, "appKey=2c2086c1e91e303595827289d5a25630");
-                assert returnObject != null;
-                return returnObject;
-            }
-
-            @Override
-            protected void onPostExecute(JSONObject result) {
-                String name = result.optString("item_name");
-                Log.d("Barcode", String.format("Product name is %s", name));
-                Log.d("Barcode", result.toString());
-                ArrayList<String> allergens = new ArrayList<>();
-                HashMap<String, Integer> ingredients = new HashMap<>();
-                for (String allergenName : getResources().getStringArray(R.array.allergens))
-                    if (result.optBoolean(allergenName))
-                        allergens.add(allergenName);
-                String[] ingredientsJson = getResources().getStringArray(R.array.ingredients_json);
-                String[] ingredientsNames = getResources().getStringArray(R.array.ingredients_names);
-                for (int i = 0; i < ingredientsJson.length; i ++) {
-                    int amount = result.optInt(ingredientsJson[i]);
-                    if (amount > 0) {
-                        ingredients.put(ingredientsNames[i], amount);
+                    } else {
+                        result = getFromURL("https://api.nutritionix.com/v1_1/item",
+                                query, "appKey=2c2086c1e91e303595827289d5a25630");
                     }
+                    assert result != null;
+                    String name = result.optString("item_name");
+                    Log.d("Barcode", String.format("Product name is %s", name));
+                    Log.d("Barcode", result.toString());
+                    allergens = new ArrayList<>();
+                    HashMap<String, Integer> ingredients = new HashMap<>();
+                    for (String allergenName : getResources().getStringArray(R.array.allergens))
+                        if (result.optBoolean(allergenName))
+                            allergens.add(allergenName);
+                    String[] ingredientsJson = getResources().getStringArray(R.array.ingredients_json);
+                    String[] ingredientsNames = getResources().getStringArray(R.array.ingredients_names);
+                    for (int i = 0; i < ingredientsJson.length; i++) {
+                        int amount = result.optInt(ingredientsJson[i]);
+                        if (amount > 0) {
+                            ingredients.put(ingredientsNames[i], amount);
+                        }
+                    }
+                    facts = NutritionFacts.fromHashMap(name, ingredients);
+                    cache_nutrients.put(Integer.parseInt(params[0]), facts);
+                    cache_allergens.put(Integer.parseInt(params[0]), allergens);
+                } else {
+                    Log.d("Barcode", "Cache hit!");
+                    allergens = cache_allergens.get(params[0]);
                 }
 
                 Intent intent = new Intent(getActivity(), FoodDetailedActivity.class);
-                NutritionFacts facts = NutritionFacts.fromHashMap(name, ingredients);
                 intent.putExtra("nutrient_facts", facts);
                 intent.putStringArrayListExtra("allergens", allergens);
                 intent.putExtra("image", bitmap);
                 startActivityForResult(intent, 1);
+                return 1;
             }
 
         }.execute(barcode);
@@ -383,6 +408,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
 
     static JSONObject fakeGetFromURL(String url, String query, String apikey) {
         JSONObject ret = null;
+        Log.d("Info", String.format("loading url %s?%s&%s", url, query, apikey));
         try {
             ret = new JSONObject("{\n" +
                     "    \"old_api_id\": null,\n" +
@@ -434,13 +460,21 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
         return ret;
     }
 
-    static JSONObject getFromURL(String url, String query, String apikey) {
+    private JSONObject getFromURL(String url, String query, String apikey) {
         Log.d("Info", String.format("loading url %s?%s&%s", url, query, apikey));
         JSONObject json = null;
         try {
             HttpsURLConnection connection =
                     (HttpsURLConnection) new URL(String.format("%s?%s&%s",
                             url, query, apikey)).openConnection();
+            if (connection.getResponseCode() == 404) {
+                showToast("Cannot find it", Toast.LENGTH_SHORT);
+                try {
+                    mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, handler);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            }
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     connection.getInputStream(), "UTF-8"));
             StringBuilder builder = new StringBuilder();
@@ -534,8 +568,8 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
         public void onImageAvailable(ImageReader reader) {
             Log.d("Barcode", "Image available");
             BarcodeDetector detector = new BarcodeDetector.Builder(getContext())
-                    .setBarcodeFormats(Barcode.EAN_13|Barcode.UPC_A).build();
-            Image image = reader.acquireNextImage();
+                    .setBarcodeFormats(Barcode.UPC_A | Barcode.EAN_13).build();
+            Image image = reader.acquireLatestImage();
             ByteBuffer array = image.getPlanes()[0].getBuffer();
             byte[] arr = new byte[array.remaining()];
             array.get(arr);
@@ -543,7 +577,9 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
 
             SparseArray<Barcode> barcodes = detector.detect(
                     new Frame.Builder().setBitmap(bitmap).build());
-            if (barcodes.size() == 0) {
+            if (FAKE) {
+                getFoodInfo("00000000", arr);
+            } else if (barcodes.size() == 0) {
                 showToast("No barcode detected", Toast.LENGTH_SHORT);
                 try {
                     mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, handler);
@@ -555,6 +591,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                 Log.d("Barcode", String.format("barcode detected is %s", barcode));
                 getFoodInfo(barcode, arr);
             }
+            numTries ++;
         }
     };
 
@@ -567,5 +604,22 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     private Handler handler;
     private ImageReader mImageReader;
     private Size size;
+    private LinkedHashMap<Integer, NutritionFacts> cache_nutrients =
+            new LinkedHashMap<Integer, NutritionFacts>() {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry entry) {
+            return this.size() > 10;
+        }
+    };
+    private LinkedHashMap<Integer, ArrayList<String>> cache_allergens =
+            new LinkedHashMap<Integer, ArrayList<String>>() {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry entry) {
+            return this.size() > 10;
+        }
+    };
+    private int numTries = 0;
     CaptureRequest.Builder mPreviewRequestBuilder;
+
+    private final boolean FAKE = false;
 }
