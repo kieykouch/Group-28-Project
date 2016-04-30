@@ -9,5 +9,6 @@
     android:background="@drawable/rectangle_round_corner"
     android:layout_gravity="center_horizontal"
     android:paddingTop="15dp"
-    android:layout_marginStart="20dp">
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp">
 </TextView>

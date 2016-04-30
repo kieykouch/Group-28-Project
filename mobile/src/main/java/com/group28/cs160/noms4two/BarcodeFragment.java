@@ -144,6 +144,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@ NonNull int[] grantResults) {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("Barcode", "GOT PERMISSIOON WOOOOO");
             openCamera();
         }
     }
@@ -171,7 +172,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
 
     private void requestCameraPermission() {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
+            this.requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAMERA_REQUEST_ID);
         }
     }
