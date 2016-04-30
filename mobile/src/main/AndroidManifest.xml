@@ -44,7 +44,7 @@
             android:enabled="true"
             android:exported="true" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".NutritionGraphActivity"
             android:label="@string/title_activity_detailed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginScreen"></activity>

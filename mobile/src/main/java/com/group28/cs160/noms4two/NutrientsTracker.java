@@ -27,11 +27,12 @@ public class NutrientsTracker {
     int trimester;
     Map <Long, NutritionFacts> food_logged;
 
-    public NutrientsTracker(Context context, int trimester) {
+    public NutrientsTracker(Context context) {
         // TODO(prad): Read information from a file.
         this.context = context;
         food_logged = readFromFile();
-        this.trimester = trimester;
+        // TODO(prad): Get trimester from settings.
+        this.trimester = 1;
         sendToWatch();
     }
 

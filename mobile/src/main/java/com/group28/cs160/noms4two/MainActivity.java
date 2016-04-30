@@ -64,11 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         checkCameraPermission();
         // Load Nutrition Data from disk.
-        nutrientsTracker = new NutrientsTracker(getBaseContext(), 1 /* trimester */);
+        nutrientsTracker = new NutrientsTracker(getBaseContext());
         // Add some fake nutrition data.
         fake_nutrition_data();
-        Log.d("MainActivity", "Total Calories: " +
-                nutrientsTracker.getNutritionToday().calories);
+        Log.d("MainActivity", "Total Calories: " + nutrientsTracker.getNutritionToday().calories);
     }
 
     private void requestCameraPermission() {

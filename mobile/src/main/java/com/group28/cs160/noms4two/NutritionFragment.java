@@ -117,8 +117,9 @@ public class NutritionFragment extends Fragment {
         View.OnClickListener onClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent chartIntent = new Intent(context, HistoryActivity.class);
-                chartIntent.putExtra(HistoryActivity.NUTRIENT, 1);
+                Intent chartIntent = new Intent(context, NutritionGraphActivity.class);
+                chartIntent.putExtra(NutritionGraphActivity.NUTRIENT, NutritionFacts.Nutrient.CALCIUM);
+                chartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(chartIntent);
             }
         };
