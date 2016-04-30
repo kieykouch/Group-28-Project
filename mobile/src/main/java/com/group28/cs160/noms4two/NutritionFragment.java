@@ -2,7 +2,6 @@ package com.group28.cs160.noms4two;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,17 +26,19 @@ public class NutritionFragment extends Fragment {
 
         MainActivity mainActivity = new MainActivity();
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, -1), R.id.caloriesCircle);
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.CALORIES), R.id.caloriesCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, 0), R.id.proteinCircle);
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.PROTEIN), R.id.proteinCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, 1), R.id.calciumCircle);
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.CALCIUM), R.id.calciumCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, 2), R.id.fiberCircle);
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.FIBER), R.id.fiberCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, 3), R.id.ironCircle);
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.IRON), R.id.ironCircle);
 
-        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, 4), R.id.potassiumCircle);
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.POTASSIUM), R.id.potassiumCircle);
+
+        replaceFragment(createGoalCircle(getContext(), mainActivity, dailyGoals, dailyTotals, NutritionFacts.Nutrient.VITAMINC), R.id.potassiumCircle);
 
         return rootView;
     }
@@ -50,85 +51,29 @@ public class NutritionFragment extends Fragment {
         transaction.commit();
     }
 
-    public static CenteredImageFragmentv4 createGoalCircle(final Context context, final MainActivity activity, NutritionFacts goal, NutritionFacts info, final int position) {
-        String description;
-        double value, goalValue;
-        int border, borderHighlight;
-        int iconRes;
-        switch (position) {
-            case -1:
-                iconRes = R.drawable.calories;
-                value = info.calories;
-                goalValue = goal.calories;
-                description = "Calories";
-                border = Color.parseColor("#FFB267");
-                borderHighlight = Color.parseColor("#CC4E02");
-                break;
-            case 0:
-                iconRes = R.drawable.protein;
-                value = info.protein;
-                goalValue = goal.protein;
-                description = "Protein";
-                border = Color.parseColor("#4F751C");
-                borderHighlight = Color.parseColor("#C0FF6C");
-                break;
-            case 1:
-                iconRes = R.drawable.calcium;
-                value = info.calcium;
-                goalValue = goal.calcium;
-                description = "Calcium";
-                border = Color.parseColor("#4F751C");
-                borderHighlight = Color.parseColor("#C0FF6C");
-                break;
-            case 2:
-                iconRes = R.drawable.fiber;
-                value = info.fiber;
-                goalValue = goal.fiber;
-                description = "Fiber";
-                border = Color.parseColor("#4F751C");
-                borderHighlight = Color.parseColor("#C0FF6C");
-                break;
-            case 3:
-                iconRes = R.drawable.iron;
-                value = info.iron;
-                goalValue = goal.iron;
-                description = "Iron";
-                border = Color.parseColor("#4F751C");
-                borderHighlight = Color.parseColor("#C0FF6C");
-                break;
-            case 4:
-                iconRes = R.drawable.potassium;
-                value = info.potassium;
-                goalValue = goal.potassium;
-                description = "Potassium";
-                border = Color.parseColor("#4F751C");
-                borderHighlight = Color.parseColor("#C0FF6C");
-                break;
-            default:
-                iconRes = R.drawable.calories;
-                value = 0;
-                goalValue = 100;
-                description = "Not Found";
-                border = Color.parseColor("#4F751C");
-                borderHighlight = Color.parseColor("#C0FF6C");
-                break;
-        }
-        float angle = (float) (value / goalValue * 360);
+    public static CenteredImageFragmentv4 createGoalCircle(final Context context, final MainActivity activity, NutritionFacts goal, NutritionFacts info, final NutritionFacts.Nutrient nutrient) {
+        CenteredImageFragmentv4 fragment = new CenteredImageFragmentv4();
+
+        float angle = (float) (info.getAmount(nutrient) / goal.getAmount(nutrient) * 360);
+        fragment.setAngle(angle);
+
         View.OnClickListener onClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent chartIntent = new Intent(context, NutritionGraphActivity.class);
-                chartIntent.putExtra(NutritionGraphActivity.NUTRIENT, NutritionFacts.Nutrient.CALCIUM);
+                chartIntent.putExtra(NutritionGraphActivity.NUTRIENT, nutrient.toString());
                 chartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(chartIntent);
             }
         };
-        CenteredImageFragmentv4 fragment = new CenteredImageFragmentv4();
-        fragment.setImage(iconRes);
-        fragment.setDescription(description);
-        fragment.setAngle(angle);
-        fragment.setColor(border, borderHighlight);
         fragment.setOnClickListener(onClick);
+
+        fragment.setImage(NutritionFacts.nutrientToResource(nutrient));
+
+        fragment.setDescription(NutritionFacts.nutrientToString(nutrient));
+
+        fragment.setColor(NutritionFacts.nutrientToRingColor(nutrient), NutritionFacts.nutrientToColor(nutrient));
+
         return fragment;
     }
 }

@@ -2,12 +2,15 @@ package com.group28.cs160.noms4two;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.wearable.view.FragmentGridPagerAdapter;
+import android.util.Log;
+import android.view.View;
 
+import com.group28.cs160.shared.CenteredImageFragment;
 import com.group28.cs160.shared.NutritionFacts;
 
 import java.util.ArrayList;
@@ -16,26 +19,25 @@ import java.util.ArrayList;
  * Created by eviltwin on 4/20/16.
  */
 public class DailyInfo extends FragmentGridPagerAdapter {
-    private Context context;
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
 
-    public DailyInfo(Context ctx, FragmentManager fm, NutritionFacts goals, NutritionFacts info) {
+    public DailyInfo(FragmentManager fm, NutritionFacts goals, NutritionFacts info) {
         super(fm);
-        context = ctx;
-        fragments.add(GoalCircle.createGoalCircle(goals, info, -1));
-        fragments.add(GoalCircle.createGoalCircle(goals, info, 0));
-        fragments.add(GoalCircle.createGoalCircle(goals, info, 1));
-        fragments.add(GoalCircle.createGoalCircle(goals, info, 2));
-        fragments.add(GoalCircle.createGoalCircle(goals, info, 3));
-        fragments.add(GoalCircle.createGoalCircle(goals, info, 4));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.CALORIES));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.CALCIUM));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.PROTEIN));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.IRON));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.FIBER));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.POTASSIUM));
+        fragments.add(createGoalCircle(goals, info, NutritionFacts.Nutrient.VITAMINC));
     }
 
     // Override methods in FragmentGridPagerAdapter
     // Obtain the UI fragment at the specified position
     @Override
     public Fragment getFragment(int row, int col) {
-        return fragments.get(col);
+        return fragments.get(row);
     }
 
     // Obtain the background image for the specific page
@@ -47,12 +49,41 @@ public class DailyInfo extends FragmentGridPagerAdapter {
     // Obtain the number of pages (vertical)
     @Override
     public int getRowCount() {
-        return 1;
+        return fragments.size();
     }
 
     // Obtain the number of pages (horizontal)
     @Override
     public int getColumnCount(int rowNum) {
-        return fragments.size();
+        return 1;
     }
+
+    public static CenteredImageFragment createGoalCircle(NutritionFacts goal, NutritionFacts info, final NutritionFacts.Nutrient nutrient) {
+        CenteredImageFragment fragment = new CenteredImageFragment();
+
+        float angle = (float) (info.getAmount(nutrient) / goal.getAmount(nutrient) * 360);
+        fragment.setAngle(angle);
+
+        View.OnClickListener onClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO(prad): Fix this.
+                Log.d("Event", "Recorded click.");
+                Intent sendIntent = new Intent(v.getContext().getApplicationContext(), WatchToMobileService.class);
+                sendIntent.putExtra(WatchToMobileService.EVENT_OBJECT, nutrient);
+                v.getContext().startService(sendIntent);
+
+            }
+        };
+        fragment.setOnClickListener(onClick);
+
+        fragment.setImage(NutritionFacts.nutrientToResource(nutrient));
+
+        fragment.setDescription(NutritionFacts.nutrientToString(nutrient));
+
+        fragment.setColor(NutritionFacts.nutrientToRingColor(nutrient), NutritionFacts.nutrientToColor(nutrient));
+
+        return fragment;
+    }
+
 }

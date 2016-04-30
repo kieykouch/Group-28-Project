@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -41,11 +42,11 @@ public class NutritionGraphActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
-        nutrient = NutritionFacts.Nutrient.values()[bundle.getInt(NUTRIENT)];
+        nutrient = NutritionFacts.Nutrient.valueOf(bundle.getString(NUTRIENT));
+        Log.d("NutritionGraph", "Opening Graph for " + nutrient.toString());
         nutrientsTracker = new NutrientsTracker(getBaseContext());
 
         mChart = (CombinedChart) findViewById(R.id.chart1);
-        mChart.setDescription(NutritionFacts.nutrientToString(nutrient));
         mChart.setDrawGridBackground(false);
         mChart.setDrawBarShadow(false);
 
