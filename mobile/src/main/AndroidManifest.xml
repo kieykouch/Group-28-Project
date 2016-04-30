@@ -50,7 +50,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HistoryActivity"
-            android:label="@string/title_activity_history"
+            android:logo="@drawable/logofinal"
+            android:label="Food Diary"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

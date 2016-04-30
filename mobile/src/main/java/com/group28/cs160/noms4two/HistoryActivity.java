@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.group28.cs160.shared.NutritionFacts;
@@ -25,7 +26,8 @@ public class HistoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Food Diary");
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setTitle("Food Diary");
 
 
         // Load Nutrition Data from disk.
@@ -49,8 +51,18 @@ public class HistoryActivity extends AppCompatActivity {
 
         // Setting Food List View
         ListView foodListView = (ListView) findViewById(R.id.foodList);
-        FoodListAdapter foodListAdapter = new FoodListAdapter(this, foodIds, foodnames);
+        final FoodListAdapter foodListAdapter = new FoodListAdapter(this, foodIds, foodnames);
         foodListView.setAdapter(foodListAdapter);
+
+        // Clear History
+        Button histClear = (Button) findViewById(R.id.historyClear);
+
+        histClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                foodListAdapter.clear();
+            }
+        });
 
 
     }

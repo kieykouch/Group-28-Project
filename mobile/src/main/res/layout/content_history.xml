@@ -28,10 +28,19 @@
         android:textStyle="bold" />
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="280dp"
         android:id="@+id/foodList"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#a4e64c"
+        android:text="Clear History"
+        android:id="@+id/historyClear"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff" />
 
 
 </LinearLayout>
