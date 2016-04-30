@@ -19,6 +19,7 @@ public class CenteredImageFragmentv4 extends Fragment {
     private String description;
     private int iconRes;
     private float angle;
+    private float oldAngle;
     private int ringColor, highlightColor;
 
     @Override
@@ -36,6 +37,7 @@ public class CenteredImageFragmentv4 extends Fragment {
         path.setColor(ringColor);
 
         Circle circle = (Circle) fragmentView.findViewById(R.id.circle);
+        circle.setAngle(oldAngle);
         circle.setColor(highlightColor);
 
         CircleAngleAnimation animation = new CircleAngleAnimation(circle, angle);
@@ -56,6 +58,8 @@ public class CenteredImageFragmentv4 extends Fragment {
     }
 
     public void setAngle(float a) {angle = a;}
+
+    public void setOldAngle(float a) {oldAngle = a;}
 
     public void setImage(int i) {
         iconRes = i;
