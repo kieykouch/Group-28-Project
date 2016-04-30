@@ -1,5 +1,7 @@
 package com.group28.cs160.shared;
 
+import android.graphics.Color;
+
 import org.apache.commons.lang3.SerializationUtils;
 import org.json.JSONObject;
 
@@ -62,6 +64,7 @@ public class NutritionFacts implements Serializable {
         }
         return facts;
     }
+
     public NutritionFacts(String name, double calories){
         this.name = name;
         this.calories = calories;
@@ -137,6 +140,7 @@ public class NutritionFacts implements Serializable {
         return name;
     }
 
+    // Can't overload operator, so do this for easy calculations.
     public void add(NutritionFacts n) {
         calories += n.calories;
         protein += n.protein;
@@ -175,9 +179,8 @@ public class NutritionFacts implements Serializable {
             case POTASSIUM:
                 return "Potassium";
             default:
-                break;
+                return null;
         }
-        return null;
     }
 
     public static int nutrientToResource(Nutrient nutrient) {
@@ -197,9 +200,50 @@ public class NutritionFacts implements Serializable {
             case POTASSIUM:
                 return R.drawable.potassium;
             default:
-                break;
+                return -1;
         }
-        return -1;
+    }
+
+    public static int nutrientToColor(Nutrient nutrient) {
+        switch (nutrient) {
+            case CALORIES:
+                return Color.parseColor("#CC4E02");
+            case PROTEIN:
+                return Color.parseColor("#90271D");
+            case FIBER:
+                return Color.parseColor("#C6C706");
+            case VITAMINC:
+                return Color.parseColor("#F4D700");
+            case CALCIUM:
+                return Color.parseColor("#2298C4");
+            case IRON:
+                return Color.parseColor("#A7468F");
+            case POTASSIUM:
+                return Color.parseColor("#956D59");
+            default:
+                return -1;
+        }
+    }
+
+    public static int nutrientToRingColor(Nutrient nutrient) {
+        switch (nutrient) {
+            case CALORIES:
+                return Color.parseColor("#F2F2F2");
+            case PROTEIN:
+                return Color.parseColor("#F2F2F2");
+            case FIBER:
+                return Color.parseColor("#F2F2F2");
+            case VITAMINC:
+                return Color.parseColor("#F2F2F2");
+            case CALCIUM:
+                return Color.parseColor("#F2F2F2");
+            case IRON:
+                return Color.parseColor("#F2F2F2");
+            case POTASSIUM:
+                return Color.parseColor("#F2F2F2");
+            default:
+                return -1;
+        }
     }
 
     public enum Nutrient {
