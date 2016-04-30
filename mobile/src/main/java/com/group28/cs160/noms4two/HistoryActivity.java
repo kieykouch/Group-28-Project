@@ -1,8 +1,6 @@
 package com.group28.cs160.noms4two;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +29,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
         // Load Nutrition Data from disk.
-        nutrientsTracker = new NutrientsTracker(getBaseContext(), 1 /* trimester */);
+        nutrientsTracker = new NutrientsTracker(getBaseContext());
 
         // Get today's food list
         long now = System.currentTimeMillis() - 24*60*60*1000;
