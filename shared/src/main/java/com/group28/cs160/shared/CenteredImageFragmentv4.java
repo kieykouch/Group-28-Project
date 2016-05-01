@@ -5,7 +5,6 @@ package com.group28.cs160.shared;
  * Card Fragment for mobile needs to extend v4 Fragment.
  */
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,8 +17,9 @@ import android.widget.TextView;
 public class CenteredImageFragmentv4 extends Fragment {
     private OnClickListener listener;
     private String description;
-    private Drawable icon;
+    private int iconRes;
     private float angle;
+    private float oldAngle;
     private int ringColor, highlightColor;
 
     @Override
@@ -27,7 +27,7 @@ public class CenteredImageFragmentv4 extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_centered_image, container, false);
 
         ImageView item = (ImageView) fragmentView.findViewById(R.id.item);
-        item.setImageDrawable(icon);
+        item.setImageResource(iconRes);
 
         TextView text = (TextView) fragmentView.findViewById(R.id.item_text);
         text.setText(description);
@@ -37,6 +37,7 @@ public class CenteredImageFragmentv4 extends Fragment {
         path.setColor(ringColor);
 
         Circle circle = (Circle) fragmentView.findViewById(R.id.circle);
+        circle.setAngle(oldAngle);
         circle.setColor(highlightColor);
 
         CircleAngleAnimation animation = new CircleAngleAnimation(circle, angle);
@@ -58,8 +59,10 @@ public class CenteredImageFragmentv4 extends Fragment {
 
     public void setAngle(float a) {angle = a;}
 
-    public void setImage(Drawable i) {
-        icon = i;
+    public void setOldAngle(float a) {oldAngle = a;}
+
+    public void setImage(int i) {
+        iconRes = i;
     }
 
     public void setDescription(String d) {

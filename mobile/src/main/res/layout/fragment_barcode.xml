@@ -11,4 +11,10 @@
         android:layout_height="match_parent">
     </TextureView>
 
+    <ImageView
+        android:layout_width="241dp"
+        android:layout_height="150dp"
+        android:src="@drawable/rectangle"
+        android:layout_gravity="center" />
+
 </FrameLayout>

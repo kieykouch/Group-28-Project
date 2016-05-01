@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,12 +28,18 @@ public class NutrientsTracker {
     int trimester;
     Map <Long, NutritionFacts> food_logged;
 
-    public NutrientsTracker(Context context, int trimester) {
+    public NutrientsTracker(Context context) {
         // TODO(prad): Read information from a file.
         this.context = context;
-        food_logged = readFromFile();
-        this.trimester = trimester;
+        // TODO(prad): Get trimester from settings.
+        this.trimester = 1;
+        readFromFile();
         sendToWatch();
+    }
+
+    public void reset() {
+        context.deleteFile(HISTORY_FILE);
+        food_logged.clear();
     }
 
     private void sendToWatch() {
@@ -42,7 +49,7 @@ public class NutrientsTracker {
         context.startService(sendIntent);
     }
 
-    private Map<Long, NutritionFacts> readFromFile() {
+    public void readFromFile() {
         Map<Long, NutritionFacts> map = new HashMap<Long, NutritionFacts>();
         try {
             FileInputStream fileStream = context.openFileInput(HISTORY_FILE);
@@ -53,7 +60,7 @@ public class NutrientsTracker {
         } catch (Exception e) {
             Log.d("NutrientsTracker", "Exception reading from file: " + e.toString());
         }
-        return map;
+        food_logged = map;
     }
 
     public void writeToFile() {
@@ -94,6 +101,13 @@ public class NutrientsTracker {
         return recent;
     }
 
+    public NutritionFacts getMostRecent() {
+        // Returns the most recent food.
+        NutritionFacts recent;
+        Long key = Collections.max(food_logged.keySet());
+        return food_logged.get(key);
+    }
+
     public NutritionFacts getNutritionToday() {
         // Returns a summary of the nutrition today.
         Calendar c = Calendar.getInstance();
@@ -112,6 +126,7 @@ public class NutrientsTracker {
     }
 
     public NutritionFacts getDailyGoals() {
+        // TODO: Get real data.
         NutritionFacts goals = new NutritionFacts("goals", 1500 + 100 * trimester);
         goals.protein = 60; // Ki's doc said milligrams, but that is too less. Think its grams.
         goals.calcium = 1200;
@@ -119,5 +134,10 @@ public class NutrientsTracker {
         goals.fiber = 25;
         goals.potassium = 4700;
         return goals;
+    }
+
+    public void clear() {
+        food_logged = new HashMap<Long, NutritionFacts>();
+        writeToFile();
     }
 }
