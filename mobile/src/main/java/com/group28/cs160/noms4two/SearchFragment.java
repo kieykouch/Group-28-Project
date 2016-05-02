@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
                 System.out.println("Im Clicking on List " + position);
                 final NutritionFacts current = data.get(position);
 
-                if (!current.addedNutrients){
+                if (current.calories < 0){
                     String foodId = current.fatSecretId;
                     System.out.println(foodId);
                     String k = null;
