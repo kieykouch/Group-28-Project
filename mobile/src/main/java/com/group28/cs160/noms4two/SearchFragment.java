@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
         String CurrentText = searchText.getText().toString();
 
         if (CurrentText.length() == 0){
-            text.setText("Recent Select:");
+            text.setText("Recent Select Since Last Week:");
             data = new ArrayList<NutritionFacts>();
             //get value currenttimeMillis a week behind
             Long mytimestamp = Long.valueOf(System.currentTimeMillis()) - (86400 * 7 * 1000);
@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
                 System.out.println("Im Clicking on List " + position);
                 final NutritionFacts current = data.get(position);
 
-                if (current.calories < 0){
+                if (current.calories <= 0){
                     String foodId = current.fatSecretId;
                     System.out.println(foodId);
                     String k = null;
