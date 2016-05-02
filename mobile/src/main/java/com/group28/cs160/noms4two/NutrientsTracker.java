@@ -86,6 +86,16 @@ public class NutrientsTracker {
         return now;
     }
 
+    // Workaround for fake data.
+    public long log(NutritionFacts nutritionFacts, long time) {
+        // Also save data somewhere.
+        food_logged.put(time, nutritionFacts);
+        Log.d("NutrientsTracker", "Logged: " + nutritionFacts.name + " at " + time);
+        writeToFile();
+        return time;
+    }
+
+
     public void delete(long foodId) {
         food_logged.remove(foodId);
     }
