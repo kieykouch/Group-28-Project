@@ -68,7 +68,6 @@ public class DailyInfo extends FragmentGridPagerAdapter {
         View.OnClickListener onClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO(prad): Fix this.
                 Log.d("Event", "Recorded click.");
                 Intent sendIntent = new Intent(v.getContext().getApplicationContext(), WatchToMobileService.class);
                 sendIntent.putExtra(WatchToMobileService.NUTRIENT, nutrient.toString());

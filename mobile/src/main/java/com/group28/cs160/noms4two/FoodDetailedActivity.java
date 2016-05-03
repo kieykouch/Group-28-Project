@@ -47,7 +47,6 @@ public class FoodDetailedActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Add to summary
                 NutrientsTracker nutrientsTracker = new NutrientsTracker(getBaseContext());
                 nutrientsTracker.log(facts);
                 setResult(RESULT_OK);

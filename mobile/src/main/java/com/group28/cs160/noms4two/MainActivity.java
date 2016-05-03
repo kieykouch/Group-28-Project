@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fake_nutrition_data() {
-        // TODO(prad): Delete this before submitting.
+        // We always start with some fake nutrition information.
         // Reset all nutrition data and add some fake stuff.
         nutrientsTracker.reset();
         FakeData.addFakeData(nutrientsTracker);

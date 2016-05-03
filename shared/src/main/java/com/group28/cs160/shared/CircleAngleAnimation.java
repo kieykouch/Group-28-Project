@@ -5,7 +5,6 @@ import android.view.animation.Transformation;
 
 /**
  * Created by eviltwin on 4/28/16.
- * TODO(prad): Credit http://stackoverflow.com/questions/29381474/how-to-draw-a-circle-with-animation-in-android
  */
 public class CircleAngleAnimation extends Animation {
 
