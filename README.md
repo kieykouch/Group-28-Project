@@ -1,4 +1,5 @@
 # Noms-4-two
+# This app is best viewed on a Nexus 6. Running API 23.
 Group 28 Project
 Our Team Members are: Ki Ey Kouch, Huda Iftekhar, Huong Vu, Haojun Li, Pradeep Kalipatnapu.
 
