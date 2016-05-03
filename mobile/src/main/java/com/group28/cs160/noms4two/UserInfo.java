@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,25 +17,21 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * Created by hudaiftekhar on 4/29/16.
+ * Created by eviltwin on 5/2/16.
  */
-public class LoginInfo {
-
+public class UserInfo {
     private static final String LOGIN_FILE = "LOGIN_FILE";
-    Map<String, String> account_info;
     Context context;
-    public String twins;
-    public String dueDate;
-    public String name;
-    public String weight;
+    Map<String, String> user_info;
 
-    public LoginInfo(Context context) {
+    public UserInfo(Context context) {
         this.context = context;
-        account_info = readFromFile();
-        twins = account_info.get("expecting");
-        dueDate = account_info.get("date");
-        name = account_info.get("username");
-        weight = account_info.get("weight");
+        readFromFile();
+    }
+
+    public void logout() {
+        context.deleteFile(LOGIN_FILE);
+        user_info.clear();
     }
 
     public boolean userLoggedIn() {
@@ -44,9 +42,7 @@ public class LoginInfo {
         return false;
     }
 
-
-
-    private Map<String, String> readFromFile() {
+    public void readFromFile() {
         Map<String, String> map = new HashMap<String, String>();
         try {
             FileInputStream fileStream = context.openFileInput(LOGIN_FILE);
@@ -55,14 +51,64 @@ public class LoginInfo {
             objectStream.close();
             fileStream.close();
         } catch (Exception e) {
-            Log.d("Not reading file", "oh oh");
+            Log.d("NutrientsTracker", "Exception reading from file: " + e.toString());
         }
-        return map;
+        user_info = map;
     }
 
-    public void logout() {
+    public void writeToFile() {
+        try {
+            FileOutputStream fileStream = context.openFileOutput(LOGIN_FILE, Context.MODE_PRIVATE);
+            ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+            objectStream.writeObject(user_info);
+            objectStream.close();
+            fileStream.close();
+        } catch (Exception e) {
+            Log.d("NutrientsTracker", "Exception writing to file: " + e.toString());
+        }
+    }
 
-        context.deleteFile("LOGIN_FILE");
+    public void setUserName(String userName) {
+        user_info.put("Username", userName);
+    }
+
+    public void setDueDate(String dueDate) {
+        user_info.put("Due Date", dueDate);
+    }
+
+    public void setTwins(String twins) {
+        user_info.put("Twins", twins);
+    }
+
+    public void setWeight(String weight) {
+        user_info.put("Weight", weight);
+    }
+
+    public double getWeight() {
+        return Double.valueOf(user_info.get("Weight"));
+    }
+
+    public String getUserName() {
+        return user_info.get("Username");
+    }
+
+    public String getDueDate() {
+        return user_info.get("Due Date");
+    }
+
+    public boolean getTwins() {
+        return Boolean.valueOf(user_info.get("Twins"));
+    }
+
+    public int getTrimester() {
+        int[] days_left = getTimeline();
+        int month = days_left[0];
+        int trimester = 1;
+        if (month > 3) {
+            trimester = 2;
+            if (month > 6) trimester = 3;
+        }
+        return trimester;
     }
 
     public int[] getTimeline() {
@@ -74,36 +120,36 @@ public class LoginInfo {
         int duration = 0;
         try {
             Date currDate = dateFormat.parse(now);
-            Date dDate = dateFormat.parse(dueDate);
+            Date dDate = dateFormat.parse(getDueDate());
             duration = daysBetween(currDate, dDate);
-            Log.d("Me Fragment", "duration: " + duration);
+            Log.d("User Info", "duration: " + duration);
         } catch (Exception e) {
-            Log.d("Me Fragment:", "cannot parse date");
+            Log.d("User Info:", "cannot parse date");
         }
 
+        // Convert it into an array of month, date and year.
         if (duration == 0) {
-            return new int[] {0, 0, 0};
+            return new int[]{0, 0, 0};
         } else if (duration < 7) {
-            return new int[] {0, 0, duration};
+            return new int[]{0, 0, duration};
         } else if (duration < 30) {
-            return new int[] {0, duration / 7, duration % 7};
+            return new int[]{0, duration / 7, duration % 7};
         } else {
-            return new int[] {duration / 30, (duration % 30) / 7, (duration % 30) % 7};
+            return new int[]{duration / 30, (duration % 30) / 7, (duration % 30) % 7};
         }
     }
 
-    public static Calendar getDatePart(Date date){
+    private Calendar getDatePart(Date date) {
         Calendar cal = Calendar.getInstance();       // get calendar instance
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);            // set hour to midnight
         cal.set(Calendar.MINUTE, 0);                 // set minute in hour
         cal.set(Calendar.SECOND, 0);                 // set second in minute
         cal.set(Calendar.MILLISECOND, 0);            // set millisecond in second
-
         return cal;                                  // return the date part
     }
 
-    public static int daysBetween(Date startDate, Date endDate) {
+    private int daysBetween(Date startDate, Date endDate) {
         Calendar sDate = getDatePart(startDate);
         Calendar eDate = getDatePart(endDate);
 

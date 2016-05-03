@@ -1,7 +1,6 @@
 package com.group28.cs160.noms4two;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,16 +22,12 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setTitle("Food Diary");
-
 
         // Load Nutrition Data from disk.
         nutrientsTracker = new NutrientsTracker(getBaseContext());
 
-        // Get today's food list
-        long now = System.currentTimeMillis() - 24*60*60*1000;
+        // Get last week's food.
+        long now = System.currentTimeMillis() - 7*24*60*60*1000;
         Map<Long, NutritionFacts> foodList = nutrientsTracker.getRecent(now);
 
         // Sort food list
@@ -61,9 +56,8 @@ public class HistoryActivity extends AppCompatActivity {
                 foodListAdapter.clear();
             }
         });
-
-
     }
-    public NutrientsTracker nutrientsTracker;
 
+    // Public and used in adapter.
+    public NutrientsTracker nutrientsTracker;
 }
