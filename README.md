@@ -7,5 +7,5 @@ Eating during pregnancy is extremely stressful because pregnant moms are picky a
 
 Acknowledgements
 <br> Circular animations are courtesy of an amazing stackoverflow answere here: http://stackoverflow.com/questions/29381474/how-to-draw-a-circle-with-animation-in-android
-<br> FatSecret API and Java Library:
+<br> FatSecret API and Java Library: <br>
 https://github.com/ranesr/fatsecret4j
