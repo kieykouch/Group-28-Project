@@ -622,5 +622,5 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     private int numTries = 0;
     CaptureRequest.Builder mPreviewRequestBuilder;
 
-    private final boolean FAKE = true;
+    private final boolean FAKE = false;
 }
