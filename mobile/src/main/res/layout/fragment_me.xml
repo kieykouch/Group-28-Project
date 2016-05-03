@@ -1,50 +1,20 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.group28.cs160.noms4two.MeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="History"
-        android:id="@+id/history"
-        android:layout_below="@+id/textView2"
-        android:layout_toStartOf="@+id/username"
-        android:layout_marginTop="167dp"
-        android:background="#a4e64c" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log Out"
-        android:id="@+id/logout"
-        android:layout_alignTop="@+id/history"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="74dp"
-        android:background="#a4e64c" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/bottom_pattern"
-        android:layout_below="@+id/history"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name"
         android:id="@+id/username"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
         android:textSize="40dp"
+        android:layout_gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:textColor="#b08d03"
         android:textStyle="bold" />
 
@@ -52,9 +22,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You&apos;re 2 months, 3 weeks, 5 days pregnant"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/username"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
+        android:id="@+id/timeline"
+        android:layout_gravity="center"
+        android:layout_marginBottom="120dp"
         android:textColor="#949494" />
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight"
+            android:id="@+id/weight"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:background="#a4e64c"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History"
+            android:id="@+id/history"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:background="#a4e64c"
+            />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:id="@+id/logout"
+        android:background="#a4e64c"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/bottom_pattern"
+        android:layout_marginTop="50dp"
+        />
+
+</LinearLayout>

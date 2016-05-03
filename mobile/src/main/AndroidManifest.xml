@@ -24,7 +24,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoadingActivity"
             android:label="@string/app_name"
@@ -35,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".MobileListenerService"
             android:enabled="true"
@@ -56,6 +57,11 @@
             android:name=".FoodDetailedActivity"
             android:label="@string/title_activity_detailed"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HistoryActivity"
+            android:logo="@drawable/logofinal"
+            android:label="Food Diary"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
