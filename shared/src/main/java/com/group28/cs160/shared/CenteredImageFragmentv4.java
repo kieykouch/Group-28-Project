@@ -7,6 +7,7 @@ package com.group28.cs160.shared;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +42,12 @@ public class CenteredImageFragmentv4 extends Fragment {
         circle.setColor(highlightColor);
 
         CircleAngleAnimation animation = new CircleAngleAnimation(circle, angle);
-        animation.setDuration(1000);
+        if (oldAngle != 0) {
+            Log.d("CenteredImageFragment", "Old Angle: " + oldAngle);
+            animation.setDuration(3000);
+        } else {
+            animation.setDuration(1000);
+        }
         circle.startAnimation(animation);
 
         if (listener != null) {

@@ -54,8 +54,8 @@ public class FoodListAdapter extends ArrayAdapter{
             public void onClick(View v) {
                 foodIds.remove(position);
                 foodnames.remove(position);
-                ((MainActivity) context).nutrientsTracker.delete(foodId);
-                ((MainActivity) context).nutrientsTracker.writeToFile();
+                ((HistoryActivity) context).nutrientsTracker.delete(foodId);
+                ((HistoryActivity) context).nutrientsTracker.writeToFile();
                 notifyDataSetChanged();
             }
         });
@@ -63,6 +63,12 @@ public class FoodListAdapter extends ArrayAdapter{
         foodItem.setText(foodname);
 
         return  convertView;
+    }
+
+    public void clear() {
+        foodIds.clear();
+        foodnames.clear();
+        notifyDataSetChanged();
     }
 
 }

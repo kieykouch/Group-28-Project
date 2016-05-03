@@ -143,6 +143,7 @@ public class NutrientsTracker {
         goals.iron = 30;
         goals.fiber = 25;
         goals.potassium = 4700;
+        goals.vitaminC = 500;
         return goals;
     }
 
