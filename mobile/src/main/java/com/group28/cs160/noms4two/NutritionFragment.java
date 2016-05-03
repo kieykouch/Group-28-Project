@@ -49,7 +49,7 @@ public class NutritionFragment extends Fragment {
 
         replaceFragment(createGoalCircle(NutritionFacts.Nutrient.POTASSIUM), R.id.potassiumCircle);
 
-        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.VITAMINC), R.id.potassiumCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.VITAMINC), R.id.vitamincCricle);
 
         return rootView;
     }
