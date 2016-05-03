@@ -359,7 +359,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
         new AsyncTask<String, String, Integer>() {
             @Override
             protected Integer doInBackground(String... params) {
-                NutritionFacts facts = cache_nutrients.get(Integer.parseInt(params[0]));
+                NutritionFacts facts = cache_nutrients.get(params[0]);
                 ArrayList<String> allergens;
                 if (facts == null) {
                     String query = String.format("upc=%s&appId=afec6ece", params[0]);
@@ -389,11 +389,11 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                         }
                     }
                     facts = NutritionFacts.fromHashMap(name, ingredients);
-                    cache_nutrients.put(Integer.parseInt(params[0]), facts);
-                    cache_allergens.put(Integer.parseInt(params[0]), allergens);
+                    cache_nutrients.put(params[0], facts);
+                    cache_allergens.put(params[0], allergens);
                 } else {
                     Log.d("Barcode", "Cache hit!");
-                    allergens = cache_allergens.get(Integer.parseInt(params[0]));
+                    allergens = cache_allergens.get(params[0]);
                 }
 
                 Intent intent = new Intent(getActivity(), FoodDetailedActivity.class);
@@ -605,15 +605,15 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     private Handler handler;
     private ImageReader mImageReader;
     private Size size;
-    private LinkedHashMap<Integer, NutritionFacts> cache_nutrients =
-            new LinkedHashMap<Integer, NutritionFacts>() {
+    private LinkedHashMap<String, NutritionFacts> cache_nutrients =
+            new LinkedHashMap<String, NutritionFacts>() {
         @Override
         protected boolean removeEldestEntry(Map.Entry entry) {
             return this.size() > 10;
         }
     };
-    private LinkedHashMap<Integer, ArrayList<String>> cache_allergens =
-            new LinkedHashMap<Integer, ArrayList<String>>() {
+    private LinkedHashMap<String, ArrayList<String>> cache_allergens =
+            new LinkedHashMap<String, ArrayList<String>>() {
         @Override
         protected boolean removeEldestEntry(Map.Entry entry) {
             return this.size() > 10;
