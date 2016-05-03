@@ -25,14 +25,12 @@ import java.util.Map;
 public class NutrientsTracker {
     private static final String HISTORY_FILE = "HISTORY_FILE";
     Context context;
-    int trimester;
     Map <Long, NutritionFacts> food_logged;
+    UserInfo userInfo;
 
     public NutrientsTracker(Context context) {
-        // TODO(prad): Read information from a file.
         this.context = context;
-        // TODO(prad): Get trimester from settings.
-        this.trimester = 1;
+        userInfo = new UserInfo(context);
         readFromFile();
         sendToWatch();
     }
@@ -86,6 +84,16 @@ public class NutrientsTracker {
         return now;
     }
 
+    // Workaround for fake data.
+    public long log(NutritionFacts nutritionFacts, long time) {
+        // Also save data somewhere.
+        food_logged.put(time, nutritionFacts);
+        Log.d("NutrientsTracker", "Logged: " + nutritionFacts.name + " at " + time);
+        writeToFile();
+        return time;
+    }
+
+
     public void delete(long foodId) {
         food_logged.remove(foodId);
     }
@@ -126,8 +134,9 @@ public class NutrientsTracker {
     }
 
     public NutritionFacts getDailyGoals() {
-        // TODO: Get real data.
-        NutritionFacts goals = new NutritionFacts("goals", 1500 + 100 * trimester);
+        int calorieGoal = 1500 + 100 * userInfo.getTrimester();
+        calorieGoal = userInfo.getTwins() ? calorieGoal + 100 : calorieGoal;
+        NutritionFacts goals = new NutritionFacts("goals", calorieGoal);
         goals.protein = 60; // Ki's doc said milligrams, but that is too less. Think its grams.
         goals.calcium = 1200;
         goals.iron = 30;

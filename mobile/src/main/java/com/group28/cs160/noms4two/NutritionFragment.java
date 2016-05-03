@@ -49,15 +49,15 @@ public class NutritionFragment extends Fragment {
 
         replaceFragment(createGoalCircle(NutritionFacts.Nutrient.POTASSIUM), R.id.potassiumCircle);
 
-        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.VITAMINC), R.id.potassiumCircle);
+        replaceFragment(createGoalCircle(NutritionFacts.Nutrient.VITAMINC), R.id.vitamincCricle);
 
         return rootView;
     }
 
     public void replaceFragment(Fragment newFragment, int fragment_container) {
-        // TODO(prad): The highlighted item in the bottomBar should also change on reversing a transaction.
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // Do not add fragment changes to back stack. Bottom bar is always visible.
         transaction.replace(fragment_container, newFragment);
         transaction.commit();
     }

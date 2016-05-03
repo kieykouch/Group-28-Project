@@ -20,6 +20,7 @@
         android:paddingBottom="30dp"
         android:textColor="#212121"
         android:textStyle="bold"/>
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,6 +32,4 @@
             android:id="@+id/ingredients_list">
         </LinearLayout>
     </HorizontalScrollView>
-
-
 </LinearLayout>

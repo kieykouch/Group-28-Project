@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onMenuTabReSelected(@IdRes int menuItemId) {
+                // Reload the fragment.
+                onMenuTabSelected(menuItemId);
             }
         });
         bottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.bottombar));
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fake_nutrition_data() {
-        // TODO(prad): Delete this before submitting.
+        // We always start with some fake nutrition information.
         // Reset all nutrition data and add some fake stuff.
         nutrientsTracker.reset();
         FakeData.addFakeData(nutrientsTracker);
@@ -94,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void replaceFragment(Fragment newFragment) {
-        // TODO(prad): The highlighted item in the bottomBar should also change on reversing a transaction.
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
+        // Do not add fragment changes to back stack. Bottom bar is always visible.
+        // transaction.addToBackStack(null);
         transaction.commit();
         fragmentManager.executePendingTransactions();
     }

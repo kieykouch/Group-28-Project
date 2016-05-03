@@ -1,214 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/greeeen"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-
     tools:context="com.group28.cs160.noms4two.LoginScreen">
 
-
-
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
-        android:layout_gravity="center_horizontal"
-        android:maxHeight="100dp"
-        android:maxWidth="100dp"
-        android:layout_marginTop="0dp"
-        android:src="@drawable/logofont"  />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "Name"
-        android:id = "@+id/textView0"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_gravity= "center_horizontal"
-        android:maxHeight = "200dp"
-        android:maxWidth = "200dp"
-
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-
-        android:textColorHint="@color/white"
-        android:ems="10"
-        android:textColor = "@color/white"
-        android:id="@+id/editText0"
-        android:backgroundTint="@color/white"
-
-        android:maxHeight = "250dp"
-        android:maxWidth="250dp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "Estimated Delivery Date"
-        android:id = "@+id/textView1"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:maxHeight = "200dp"
-        android:maxWidth = "200dp"
-
-
-
-        />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:hint="dd/MM/yyyy"
-
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-
-        android:backgroundTint="@color/white"
-        android:id="@+id/editText1"
-        android:maxHeight = "250dp"
-
-        android:maxWidth="250dp"
-        />
-
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "Current Weight"
-        android:id = "@+id/textView2"
-
-        android:textStyle = "bold"
-        android:textColor="@color/white"
-        android:maxHeight = "100dp"
-        android:maxWidth = "100dp"
-
-        />
-
-
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:shadowColor="@color/white"
-        android:textColorHint="@color/white"
-        android:hint="lbs"
-        android:textColor = "@color/white"
-
-        android:buttonTint="@color/white"
-        android:maxWidth="250dp"
-
-        android:maxHeight = "250dp"
-        />
-
-
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text = "Are you expecting twins?"
-        android:id = "@+id/textView4"
-        android:textColor="@color/white"
-        android:textStyle = "bold"
-
-
-        android:maxHeight = "200dp"
-        android:maxWidth = "200dp"
-
-        />
-
-
-
-
-    <RadioGroup
+    <LinearLayout
+        android:background="@color/greenBackground"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="25dp"
-        android:gravity="center_horizontal"
-        android:checkedButton="1"
-        >
-
-
-        <CheckBox android:id="@+id/checkbox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Yes"
-            android:onClick="onCheckboxClicked"
-            android:maxWidth="100dp"
-
-            android:buttonTint="@color/white"
-            android:maxHeight="100dp"
-            android:textColor="@color/white"
-            android:backgroundTint = "@color/white"
-            android:textStyle="bold"
-            />
-
-        <CheckBox android:id="@+id/checkbox1"
-
-            android:buttonTint="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:shadowColor="@color/white"
-            android:text="No"
-            android:checked="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:onClick="onCheckboxClicked"
-            />
-
-
-    </RadioGroup>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="START"
-        android:textStyle = "bold"
-        android:background=  "@color/yelloooow"
-        android:gravity="center"
-        android:id="@+id/button2"
-        android:onClick="sendNextScreen2"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
+        android:gravity="center_horizontal">
 
         <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:layout_gravity="center_horizontal"
+            android:maxHeight="100dp"
+            android:maxWidth="100dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/logofont"  />
 
-        android:src="@drawable/bottom_pattern"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Name"
+            android:id = "@+id/textView0"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_gravity= "center_horizontal"
+            android:maxHeight = "200dp"
+            android:maxWidth = "200dp"
 
-</LinearLayout>
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+
+            android:textColorHint="@color/white"
+            android:ems="10"
+            android:textColor = "@color/white"
+            android:id="@+id/editText0"
+            android:backgroundTint="@color/white"
+
+            android:maxHeight = "250dp"
+            android:maxWidth="250dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Estimated Delivery Date"
+            android:id = "@+id/textView1"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxHeight = "200dp"
+            android:maxWidth = "200dp"
+
+
+
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:hint="dd/MM/yyyy"
+
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+
+            android:backgroundTint="@color/white"
+            android:id="@+id/editText1"
+            android:maxHeight = "250dp"
+
+            android:maxWidth="250dp"
+            />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Current Weight"
+            android:id = "@+id/textView2"
+
+            android:textStyle = "bold"
+            android:textColor="@color/white"
+            android:maxHeight = "100dp"
+            android:maxWidth = "100dp"
+
+            />
+
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:shadowColor="@color/white"
+            android:textColorHint="@color/white"
+            android:hint="lbs"
+            android:textColor = "@color/white"
+
+            android:buttonTint="@color/white"
+            android:maxWidth="250dp"
+
+            android:maxHeight = "250dp"
+            />
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text = "Are you expecting twins?"
+            android:id = "@+id/textView4"
+            android:textColor="@color/white"
+            android:textStyle = "bold"
+
+
+            android:maxHeight = "200dp"
+            android:maxWidth = "200dp"
+
+            />
+
+
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGroup"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="center_horizontal"
+            android:checkedButton="1"
+            >
+
+
+            <CheckBox android:id="@+id/checkbox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:onClick="onCheckboxClicked"
+                android:maxWidth="100dp"
+
+                android:buttonTint="@color/white"
+                android:maxHeight="100dp"
+                android:textColor="@color/white"
+                android:backgroundTint = "@color/white"
+                android:textStyle="bold"
+                />
+
+            <CheckBox android:id="@+id/checkbox1"
+
+                android:buttonTint="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/white"
+                android:text="No"
+                android:checked="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:onClick="onCheckboxClicked"
+                />
+
+
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="START"
+            android:textStyle = "bold"
+            android:background=  "@color/yellowButton"
+            android:gravity="center"
+            android:id="@+id/button2"
+            android:onClick="completeLogin"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+
+            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4"
+            android:layout_gravity="center_horizontal"
+
+            android:src="@drawable/bottom_pattern"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

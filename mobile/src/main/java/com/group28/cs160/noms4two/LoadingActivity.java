@@ -6,15 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.group28.cs160.shared.NutritionFacts;
-
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.util.HashMap;
 import java.util.Map;
-import android.content.Context;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 /* This activity represents our brand.
  * It shows up for a couple of seconds when the app is launched. */
@@ -31,8 +23,8 @@ public class LoadingActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() throws NullPointerException {
-                    LoginInfo loginInfo = new LoginInfo(getBaseContext());
-                    if (!loginInfo.userLoggedIn()) {
+                    UserInfo userInfo = new UserInfo(getBaseContext());
+                    if (!userInfo.userLoggedIn()) {
                         Intent intentOne = new Intent(LoadingActivity.this, LoginScreen.class);
                         intentOne.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         Log.d("LoadingActivity", "Starting application.");
@@ -45,10 +37,7 @@ public class LoadingActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     }
-
-
-
             }
-        }, 3000);
+        }, 2000);
     }
 }
