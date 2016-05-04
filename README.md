@@ -15,7 +15,7 @@ by logging nutritionFacts intake, taking into account nutritionFacts restriction
 preferences.
 
 ## Video Demo
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dmTKNkT9zWU" frameborder="0" allowfullscreen></iframe>
+The video is linked [here](https://www.youtube.com/watch?v=dmTKNkT9zWU)
 
 ## Screenshots
 <img src="./screenshots/home.png" width="300px">
