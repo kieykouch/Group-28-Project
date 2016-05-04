@@ -3,8 +3,8 @@
 _Note: This app is best viewed on a Nexus 6. Running API 23._
 
 ## Group Members
-Ki Ey Kouch, Huda Iftekhar, Huong Vu, Haojun Li, Pradeep Kalipatnapu.
 <img src="./group_picture.png">
+**Haojun Li, Pradeep Kalipatnapu, Huda Iftekhar, Huong Vu, Ki Ey Kouch.**
 
 ## Project Description
 Eating during pregnancy is extremely stressful because pregnant moms are picky about 
@@ -13,6 +13,9 @@ from their pre-pregnancy days. Even nutrition labels on nutritionFacts are made 
 daily recommendations, but not for pregnant women. Our app will help solve this problem
 by logging nutritionFacts intake, taking into account nutritionFacts restrictions and
 preferences.
+
+## Video Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dmTKNkT9zWU" frameborder="0" allowfullscreen></iframe>
 
 ## Screenshots
 <img src="./screenshots/home.png" width="300px">
