@@ -9,3 +9,5 @@ Acknowledgements
 <br> Circular animations are courtesy of an amazing stackoverflow answere here: http://stackoverflow.com/questions/29381474/how-to-draw-a-circle-with-animation-in-android
 <br> FatSecret API and Java Library: <br>
 https://github.com/ranesr/fatsecret4j
+<br> Barcode Scanning uses Nutrionix API: <br>
+https://www.nutritionix.com/
