@@ -6,15 +6,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.Map;
+import com.group28.cs160.noms4two.models.UserInfo;
+
 
 /* This activity represents our brand.
  * It shows up for a couple of seconds when the app is launched. */
 public class LoadingActivity extends AppCompatActivity {
 
-    private static final String LOGIN_FILE = "LOGIN_FILE";
-    public int val;
-    Map <String, String> food_logged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +23,7 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() throws NullPointerException {
                     UserInfo userInfo = new UserInfo(getBaseContext());
                     if (!userInfo.userLoggedIn()) {
-                        Intent intentOne = new Intent(LoadingActivity.this, LoginScreen.class);
+                        Intent intentOne = new Intent(LoadingActivity.this, LoginScreenActivity.class);
                         intentOne.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         Log.d("LoadingActivity", "Starting application.");
                         startActivity(intentOne);

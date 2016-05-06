@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.group28.cs160.shared.NutritionFacts;
 
 import org.json.JSONException;
@@ -221,5 +222,5 @@ public class FoodDetailedActivity extends AppCompatActivity {
     }
 
     private NutritionFacts facts;
-    private final boolean FAKE = false;
+    private static final boolean FAKE = false;
 }

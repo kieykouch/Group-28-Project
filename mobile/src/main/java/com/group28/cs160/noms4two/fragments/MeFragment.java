@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.group28.cs160.noms4two.HistoryActivity;
+import com.group28.cs160.noms4two.LoginScreenActivity;
+import com.group28.cs160.noms4two.MainActivity;
+import com.group28.cs160.noms4two.R;
+import com.group28.cs160.noms4two.models.UserInfo;
 
 
 public class MeFragment extends Fragment {
@@ -50,9 +56,9 @@ public class MeFragment extends Fragment {
                 // Delete login info first.
                 userInfo.logout();
                 // Also delete all history.
-                ((MainActivity) getActivity()).nutrientsTracker.clear();
+                ((MainActivity) getActivity()).nutrientsTracker.reset();
                 // Send to login screen.
-                Intent logoutIntent = new Intent(getContext(), LoginScreen.class);
+                Intent logoutIntent = new Intent(getContext(), LoginScreenActivity.class);
                 logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(logoutIntent);
             }

@@ -28,17 +28,19 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:gravity="left">
+                android:gravity="start">
                 <FrameLayout
                     android:layout_column="1"
                     android:id="@+id/calciumCircle"
-                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="0dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
                 <FrameLayout
                     android:layout_column="2"
                     android:id="@+id/proteinCircle"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
             </TableRow>
@@ -47,13 +49,15 @@
                 <FrameLayout
                     android:layout_column="1"
                     android:id="@+id/fiberCircle"
-                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="0dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
                 <FrameLayout
                     android:layout_column="2"
                     android:id="@+id/ironCircle"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
             </TableRow>
@@ -62,13 +66,15 @@
                 <FrameLayout
                     android:layout_column="1"
                     android:id="@+id/potassiumCircle"
-                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="0dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
                 <FrameLayout
                     android:layout_column="2"
                     android:id="@+id/vitamincCricle"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"/>
             </TableRow>

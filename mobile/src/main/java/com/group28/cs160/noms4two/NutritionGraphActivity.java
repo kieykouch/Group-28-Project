@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.group28.cs160.shared.NutritionFacts;
 
 import java.util.ArrayList;

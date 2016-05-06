@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.group28.cs160.shared.NutritionFacts;
 
 import java.util.ArrayList;
@@ -45,11 +46,12 @@ public class HistoryActivity extends AppCompatActivity {
         // Setting Food List View
         ListView foodListView = (ListView) findViewById(R.id.foodList);
         final FoodListAdapter foodListAdapter = new FoodListAdapter(this, foodIds, foodnames);
+        assert foodListView != null;
         foodListView.setAdapter(foodListAdapter);
 
         // Clear History
         Button histClear = (Button) findViewById(R.id.historyClear);
-
+        assert histClear != null;
         histClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

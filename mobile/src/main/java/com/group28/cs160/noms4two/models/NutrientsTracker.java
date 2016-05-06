@@ -1,9 +1,10 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.models;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.group28.cs160.noms4two.MobileToWatchService;
 import com.group28.cs160.shared.NutritionFacts;
 
 import java.io.FileInputStream;
@@ -48,7 +49,7 @@ public class NutrientsTracker {
     }
 
     public void readFromFile() {
-        Map<Long, NutritionFacts> map = new HashMap<Long, NutritionFacts>();
+        Map<Long, NutritionFacts> map = new HashMap<>();
         try {
             FileInputStream fileStream = context.openFileInput(HISTORY_FILE);
             ObjectInputStream objectStream = new ObjectInputStream(fileStream);
@@ -76,6 +77,7 @@ public class NutrientsTracker {
     }
 
     public long log(NutritionFacts nutritionFacts) {
+        readFromFile();
         long now = System.currentTimeMillis();
         // Also save data somewhere.
         food_logged.put(now, nutritionFacts);
@@ -87,6 +89,7 @@ public class NutrientsTracker {
     // Workaround for fake data.
     public long log(NutritionFacts nutritionFacts, long time) {
         // Also save data somewhere.
+        readFromFile();
         food_logged.put(time, nutritionFacts);
         Log.d("NutrientsTracker", "Logged: " + nutritionFacts.name + " at " + time);
         writeToFile();
@@ -95,10 +98,13 @@ public class NutrientsTracker {
 
 
     public void delete(long foodId) {
+        readFromFile();
         food_logged.remove(foodId);
+        writeToFile();
     }
 
     public Map<Long, NutritionFacts> getRecent(long since) {
+        readFromFile();
         // Returns a list of food eaten after the "since" timestamp.
         Map<Long, NutritionFacts> recent = new HashMap<>();
         for (Map.Entry<Long, NutritionFacts> entry : food_logged.entrySet()) {
@@ -110,6 +116,7 @@ public class NutrientsTracker {
     }
 
     public NutritionFacts getMostRecent() {
+        readFromFile();
         // Returns the most recent food.
         NutritionFacts recent;
         Long key = Collections.max(food_logged.keySet());
@@ -117,6 +124,7 @@ public class NutrientsTracker {
     }
 
     public NutritionFacts getNutritionToday() {
+        readFromFile();
         // Returns a summary of the nutrition today.
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, 0);
@@ -144,10 +152,5 @@ public class NutrientsTracker {
         goals.potassium = 4700;
         goals.vitaminC = 500;
         return goals;
-    }
-
-    public void clear() {
-        food_logged = new HashMap<Long, NutritionFacts>();
-        writeToFile();
     }
 }
