@@ -221,5 +221,5 @@ public class FoodDetailedActivity extends AppCompatActivity {
     }
 
     private NutritionFacts facts;
-    private final boolean FAKE = false;
+    private static final boolean FAKE = false;
 }

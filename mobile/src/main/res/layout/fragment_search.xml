@@ -20,8 +20,7 @@
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:hint="Start typing to search..."
-            android:layout_weight="0.16" />
+            android:hint="Start typing to search..."/>
 
         <ImageButton
             android:layout_width="67dp"
@@ -46,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Recent Foods:"
+        android:text="@string/recent"
         android:id="@+id/textView3"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true" />

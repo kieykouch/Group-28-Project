@@ -51,4 +51,5 @@
         <item>smoked</item>
     </string-array>
     <string name="title_activity_history">User History</string>
+    <string name="recent">Recent Foods:</string>
 </resources>

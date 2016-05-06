@@ -1,9 +1,7 @@
 package com.group28.cs160.noms4two;
 
 import android.os.AsyncTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.util.Base64;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +23,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by kieykouch on 4/26/16.
+ * This API is inspired from https://github.com/ranesr/fatsecret4j
+ * Most of the code below is copied from the API as-is with slight modifications.
  */
 public class FatSecretAPI {
 
@@ -77,15 +79,11 @@ public class FatSecretAPI {
      */
     public String nonce() {
         Random r = new Random();
-        StringBuffer n = new StringBuffer();
+        StringBuilder n = new StringBuilder();
         for (int i = 0; i < r.nextInt(8) + 2; i++) {
             n.append(r.nextInt(26) + 'a');
         }
         return n.toString();
-    }
-
-    private String nonce1(){
-        return Integer.toString((int) (Math.random() * 100000000));
     }
 
     /**
@@ -94,7 +92,7 @@ public class FatSecretAPI {
      * @return an array of parameter values as "key=value" pair
      */
     public String[] generateOauthParams() {
-        String[] a = {
+        return new String[] {
                 "oauth_consumer_key=" + APP_KEY,
                 "oauth_signature_method=HMAC-SHA1",
                 //"oauth_timestamp=" + Long.valueOf(System.currentTimeMillis() * 2).toString(),
@@ -104,7 +102,6 @@ public class FatSecretAPI {
                 "oauth_version=1.0",
                 "format=json"
         };
-        return a;
     }
 
     /**
@@ -118,7 +115,7 @@ public class FatSecretAPI {
      * @return the string by appending separator after each parameter from params except the last.
      */
     public String join(String[] params, String separator) {
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         for (int i = 0; i < params.length; i++) {
             if (i > 0) {
                 b.append(separator);
@@ -195,10 +192,8 @@ public class FatSecretAPI {
             Mac m = Mac.getInstance(APP_SIGNATURE_METHOD);
             m.init(sk);
             sign = encode(new String(Base64.encode(m.doFinal(text.getBytes()), Base64.DEFAULT)).trim());
-        } catch(java.security.NoSuchAlgorithmException e) {
-
-        } catch(java.security.InvalidKeyException e) {
-
+        } catch(NoSuchAlgorithmException |InvalidKeyException e) {
+            e.printStackTrace();
         }
         return sign;
     }
@@ -243,60 +238,10 @@ public class FatSecretAPI {
                     return null;
                 }
             }.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
         }
         return rv;
-    }
-
-    /**
-     * Returns JSONObject associated with the food items depending on the search query and page number
-     *
-     * @param query
-     * 			Search terms for querying fatsecret api
-     * @param pageNumber
-     * 			Page Number to search the food items
-     *
-     * @return food items at a particular page number based on the query
-     */
-    public JSONObject getFoodItemsAtPageNumber(String query, int pageNumber) throws UnsupportedEncodingException {
-        JSONObject result = new JSONObject();
-
-        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-        String[] template = new String[1];
-        params.add("method=foods.search");
-        params.add("max_results=50");
-        params.add("page_number="+pageNumber);
-        params.add("search_expression=" + encode(query));
-        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-
-        try {
-            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
-            URLConnection api = url.openConnection();
-            System.out.println(api);
-            String line;
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
-
-            while ((line = reader.readLine()) != null) builder.append(line);
-
-            JSONObject json = new JSONObject(builder.toString());
-            System.out.println(builder.toString());
-            result.put("result", json);
-
-        } catch (Exception e) {
-            JSONObject error = new JSONObject();
-            try {
-                error.put("message", "There was an error in processing your request. Please try again later.");
-                result.put("error", error);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -308,46 +253,6 @@ public class FatSecretAPI {
      * @return food items based on the food id
      */
     public String getFoodItem(final String id) throws UnsupportedEncodingException {
-//        JSONObject result = new JSONObject();
-//
-//        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-//        String[] template = new String[1];
-//        params.add("method=food.get");
-//        params.add("food_id=" + encode(""+id));
-//        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-//
-//        try {
-//            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
-//            URLConnection api = url.openConnection();
-//            System.out.println(api);
-//            String line;
-//            StringBuilder builder = new StringBuilder();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
-//
-//            while ((line = reader.readLine()) != null) {
-//                System.out.println(line);
-//                builder.append(line);
-//            }
-//
-//            JSONObject json = new JSONObject(line);
-//            line = builder.toString();
-//
-//            System.out.println(line);
-//
-//            result.put("result", json);
-//
-//        } catch (Exception e) {
-//            JSONObject error = new JSONObject();
-//            try {
-//                error.put("message", "There was an error in processing your request. Please try again later.");
-//                result.put("error", error);
-//            } catch (JSONException e1) {
-//                e1.printStackTrace();
-//            }
-//        }
-
-//        return result;
-//
         String rv = null;
         try {
             rv = new AsyncTask<String,Void,String>(){
@@ -379,146 +284,9 @@ public class FatSecretAPI {
                     return null;
                 }
             }.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
         }
         return rv;
-    }
-
-    /**
-     * Returns JSONObject associated with the recipes depending on the search query
-     *
-     * @param query
-     * 			Search terms for querying fatsecret api
-     *
-     * @return recipes at page number '0' based on the query
-     */
-    public JSONObject getRecipes(String query) throws UnsupportedEncodingException {
-        JSONObject result = new JSONObject();
-        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-        String[] template = new String[1];
-        params.add("method=recipes.search");
-        params.add("max_results=50");
-        params.add("search_expression=" + encode(query));
-        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-
-        try {
-            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
-            URLConnection api = url.openConnection();
-            String line;
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
-
-            while ((line = reader.readLine()) != null) builder.append(line);
-
-            JSONObject json = new JSONObject(builder.toString());
-            result.put("result", json);
-
-        } catch (Exception e) {
-            JSONObject error = new JSONObject();
-            try {
-                error.put("message", "There was an error in processing your request. Please try again later.");
-                result.put("error", error);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }
-        return result;
-
-
-    }
-
-    /**
-     * Returns JSONObject associated with the recipes depending on the search query
-     *
-     * @param query
-     * 			Search terms for querying fatsecret api
-     * @param pageNumber
-     * 			Page Number to search the food items
-     *
-     * @return recipes at a particular page number based on the query
-     */
-    public JSONObject getRecipesAtPageNumber(String query, int pageNumber) throws UnsupportedEncodingException {
-        JSONObject result = new JSONObject();
-        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-        String[] template = new String[1];
-        params.add("method=recipes.search");
-        params.add("max_results=50");
-        params.add("page_number="+pageNumber);
-        params.add("search_expression=" + encode(query));
-        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-
-        try {
-            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
-            URLConnection api = url.openConnection();
-            String line;
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
-
-            while ((line = reader.readLine()) != null) builder.append(line);
-
-            JSONObject json = new JSONObject(builder.toString());
-            result.put("result", json);
-
-        } catch (Exception e) {
-            JSONObject error = new JSONObject();
-            try {
-                error.put("message", "There was an error in processing your request. Please try again later.");
-                result.put("error", error);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Returns JSONObject associated with general information about the recipe item with detailed nutritional information for the standard serving.
-     *
-     * @param id
-     * 			The ID of the recipe to retrieve.
-     *
-     * @return recipe based on the recipe id
-     */
-    public JSONObject getRecipe(long id) throws UnsupportedEncodingException {
-        JSONObject result = new JSONObject();
-
-        List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-        String[] template = new String[1];
-        params.add("method=recipe.get");
-        params.add("recipe_id=" + encode(""+id));
-        params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-
-        try {
-            URL url = new URL(APP_URL + "?" + paramify(params.toArray(template)));
-            URLConnection api = url.openConnection();
-            String line;
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(api.getInputStream()));
-
-            while ((line = reader.readLine()) != null) builder.append(line);
-
-            JSONObject json = new JSONObject(builder.toString());
-
-            result.put("result", json);
-
-        } catch (Exception e) {
-            JSONObject error = new JSONObject();
-            try {
-                error.put("message", "There was an error in processing your request. Please try again later.");
-                result.put("error", error);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-
-    public interface FatSecretCallback {
-        void onSuccess(Object obj);
-        void onFail();
     }
 }

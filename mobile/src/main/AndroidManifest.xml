@@ -15,9 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-        <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
@@ -41,7 +38,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
             </intent-filter>
         </service>
         <service
@@ -52,7 +49,7 @@
             android:name=".NutritionGraphActivity"
             android:label="@string/title_activity_detailed"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginScreen"></activity>
+        <activity android:name=".LoginScreen"/>
         <activity
             android:name=".FoodDetailedActivity"
             android:label="@string/title_activity_detailed"
@@ -61,7 +58,7 @@
             android:name=".HistoryActivity"
             android:logo="@drawable/logofinal"
             android:label="Food Diary"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
