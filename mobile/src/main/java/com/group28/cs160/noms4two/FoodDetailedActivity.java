@@ -164,7 +164,7 @@ public class FoodDetailedActivity extends AppCompatActivity {
             protected void onPostExecute(Bitmap result) {
                 ImageView view = (ImageView) findViewById(R.id.food_image);
                 assert view != null;
-                view.setBackground(new BitmapDrawable(getResources(), result));
+                view.setImageDrawable(new BitmapDrawable(getResources(), result));
             }
         }.execute(name);
     }
