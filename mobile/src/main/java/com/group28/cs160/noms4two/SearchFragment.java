@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +45,7 @@ public class SearchFragment extends Fragment {
         String CurrentText = searchText.getText().toString();
 
         if (CurrentText.length() == 0){
-            text.setText("Recent Select Since Last Week:");
+            text.setText("Recent Foods");
             data = new ArrayList<NutritionFacts>();
             //get value currenttimeMillis a week behind
             Long mytimestamp = Long.valueOf(System.currentTimeMillis()) - (86400 * 7 * 1000);
