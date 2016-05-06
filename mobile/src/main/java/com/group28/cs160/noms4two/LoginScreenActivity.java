@@ -56,6 +56,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         userInfo.writeToFile();
         Intent startApp = new Intent(LoginScreenActivity.this, MainActivity.class);
+        startApp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(startApp);
     }
 }

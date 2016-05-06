@@ -16,7 +16,6 @@ import com.group28.cs160.noms4two.fragments.BarcodeFragment;
 import com.group28.cs160.noms4two.fragments.MeFragment;
 import com.group28.cs160.noms4two.fragments.NutritionFragment;
 import com.group28.cs160.noms4two.fragments.SearchFragment;
-import com.group28.cs160.noms4two.models.FakeData;
 import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
