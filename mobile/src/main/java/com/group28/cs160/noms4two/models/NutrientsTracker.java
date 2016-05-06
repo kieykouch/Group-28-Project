@@ -1,9 +1,10 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.models;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.group28.cs160.noms4two.MobileToWatchService;
 import com.group28.cs160.shared.NutritionFacts;
 
 import java.io.FileInputStream;
@@ -48,7 +49,7 @@ public class NutrientsTracker {
     }
 
     public void readFromFile() {
-        Map<Long, NutritionFacts> map = new HashMap<Long, NutritionFacts>();
+        Map<Long, NutritionFacts> map = new HashMap<>();
         try {
             FileInputStream fileStream = context.openFileInput(HISTORY_FILE);
             ObjectInputStream objectStream = new ObjectInputStream(fileStream);

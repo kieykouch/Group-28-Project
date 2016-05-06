@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.group28.cs160.noms4two.MainActivity;
+import com.group28.cs160.noms4two.models.NutrientsTracker;
+import com.group28.cs160.noms4two.NutritionGraphActivity;
+import com.group28.cs160.noms4two.R;
 import com.group28.cs160.shared.CenteredImageFragmentv4;
 import com.group28.cs160.shared.NutritionFacts;
 

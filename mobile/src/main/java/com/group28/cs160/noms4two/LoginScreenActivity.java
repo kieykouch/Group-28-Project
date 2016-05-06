@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class LoginScreen extends AppCompatActivity {
+import com.group28.cs160.noms4two.models.UserInfo;
+
+public class LoginScreenActivity extends AppCompatActivity {
 
     private static final String LOGIN_FILE = "LOGIN_FILE";
     public String twins;
@@ -53,7 +55,7 @@ public class LoginScreen extends AppCompatActivity {
         userInfo.setWeight(weight);
 
         userInfo.writeToFile();
-        Intent startApp = new Intent(LoginScreen.this, MainActivity.class);
+        Intent startApp = new Intent(LoginScreenActivity.this, MainActivity.class);
         startActivity(startApp);
     }
 }

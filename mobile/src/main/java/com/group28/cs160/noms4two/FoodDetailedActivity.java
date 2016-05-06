@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.group28.cs160.shared.NutritionFacts;
 
 import org.json.JSONException;
