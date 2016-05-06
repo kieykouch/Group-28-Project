@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.group28.cs160.noms4two.models.NutrientsTracker;
+
 import java.util.ArrayList;
 
 /**
