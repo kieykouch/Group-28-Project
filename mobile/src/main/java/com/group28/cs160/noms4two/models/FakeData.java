@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.models;
 
 import android.util.Log;
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.group28.cs160.shared.NutritionFacts;
 
 import java.util.ArrayList;

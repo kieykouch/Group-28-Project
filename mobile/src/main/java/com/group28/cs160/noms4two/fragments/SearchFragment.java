@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.group28.cs160.noms4two.FatSecretAPI;
+import com.group28.cs160.noms4two.FoodDetailedActivity;
+import com.group28.cs160.noms4two.MainActivity;
+import com.group28.cs160.noms4two.R;
 import com.group28.cs160.shared.NutritionFacts;
 
 import org.json.JSONArray;

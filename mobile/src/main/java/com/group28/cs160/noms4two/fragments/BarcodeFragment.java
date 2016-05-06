@@ -1,4 +1,4 @@
-package com.group28.cs160.noms4two;
+package com.group28.cs160.noms4two.fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -41,6 +41,8 @@ import android.widget.Toast;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.group28.cs160.noms4two.FoodDetailedActivity;
+import com.group28.cs160.noms4two.R;
 import com.group28.cs160.shared.NutritionFacts;
 
 import org.json.JSONException;
