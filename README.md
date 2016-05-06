@@ -15,7 +15,7 @@ by logging nutritionFacts intake, taking into account nutritionFacts restriction
 preferences.
 
 ##Searching for Food Nutrition Info
-Noms4Two has an incredible search function. Using FatSecret API has allowed Noms4Two to search all possible foods, including branch and generic type (Apple, Pizza with Pepperoni, etc). This creates an incredible flexibility and powerful option for searching all kind of food and obtain the accurate nutrition information. This API, FatSecret, allows up to 5000 search per day, and contains nutritionfact such as Calories, Protient, Fiber, Pottasium, Iron, Calcuim, and Vitamin C. Using 1-serving-size nutrition info give better and precise calculation. 
+Noms4Two has an incredible search function. Using FatSecret API has allowed Noms4Two to search all possible foods, including branch and generic type (Apple, Pizza with Pepperoni, etc). This creates an incredible flexibility and powerful option for searching all kind of food and obtain the accurate nutrition information. This API, FatSecret, allows up to 5000 search per day, and contains nutritionfact such as Calories, Protient, Fiber, Pottasium, Iron, Calcuim, and Vitamin C. Using 1-serving-size nutrition info gives better information and helps precisely calculate daily nutrient consumption. 
 
 ##### Challenges with FatSecret API
 One of the most challenges of using FatSecret Rest API are Authentication with OAuth core 1.0 protocol. This API requires severals parameters, and two of them cause problem during the implementation period. The oauth_timestamp and oauth_signature were invalid for several time. 
