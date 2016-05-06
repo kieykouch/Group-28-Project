@@ -45,11 +45,12 @@ public class HistoryActivity extends AppCompatActivity {
         // Setting Food List View
         ListView foodListView = (ListView) findViewById(R.id.foodList);
         final FoodListAdapter foodListAdapter = new FoodListAdapter(this, foodIds, foodnames);
+        assert foodListView != null;
         foodListView.setAdapter(foodListAdapter);
 
         // Clear History
         Button histClear = (Button) findViewById(R.id.historyClear);
-
+        assert histClear != null;
         histClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

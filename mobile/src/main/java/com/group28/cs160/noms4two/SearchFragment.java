@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,14 +23,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
-    private ImageButton searchButton;
     private List<NutritionFacts> data;
     private final FatSecretAPI api = new FatSecretAPI("6fa2832128934cbba364d29b7db8a557", "4291459ec6784ca0b35632ee3449a6ff");
     private TextView text;
@@ -43,15 +40,14 @@ public class SearchFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_search, parent, false);
 
         final EditText searchText = (EditText) rootView.findViewById (R.id.searchText);
-        searchButton = (ImageButton) rootView.findViewById (R.id.searchButton);
+        ImageButton searchButton = (ImageButton) rootView.findViewById (R.id.searchButton);
         text = (TextView) rootView.findViewById (R.id.textView3);
         String CurrentText = searchText.getText().toString();
 
         if (CurrentText.length() == 0){
-            text.setText("Recent Select Since Last Week:");
-            data = new ArrayList<NutritionFacts>();
+            data = new ArrayList<>();
             //get value currenttimeMillis a week behind
-            Long mytimestamp = Long.valueOf(System.currentTimeMillis()) - (86400 * 7 * 1000);
+            Long mytimestamp = System.currentTimeMillis() - (86400 * 7 * 1000);
 
             Map<Long, NutritionFacts> recentData = ((MainActivity) getActivity()).nutrientsTracker.getRecent(mytimestamp);
             for (NutritionFacts mNutritionFacts: recentData.values()){
@@ -68,20 +64,19 @@ public class SearchFragment extends Fragment {
 
                     //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
 
-                    text.setText("Searching "+ mySearchText +" :");
+                    text.setText(String.format("Searching %s:", mySearchText));
                     String myFood = api.getFoodItems(mySearchText, 20);
 
-                    data = new ArrayList<NutritionFacts>();
+                    data = new ArrayList<>();
                     System.out.println(myFood);
-                    JSONObject food = null;   // { first
                     try {
-                        food = new JSONObject(myFood);
+                        JSONObject food = new JSONObject(myFood);
                         food = food.getJSONObject("foods");
                         int count_search = extract(food, data);
-                        text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
+                        text.setText(String.format(Locale.ENGLISH, "Searching %s : %d Results", mySearchText, count_search));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        text.setText("Searching "+ mySearchText +" : 0 Results");
+                        text.setText(String.format("Searching %s: 0 Results", mySearchText));
                     }
                     populateViewList(rootView, inflater);
                 }
@@ -96,27 +91,29 @@ public class SearchFragment extends Fragment {
                 InputMethodManager inputManager =
                         (InputMethodManager) getActivity().
                                 getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(
-                        getActivity().getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+                View focused = getActivity().getCurrentFocus();
+                if (focused != null) {
+                    inputManager.hideSoftInputFromWindow(
+                            getActivity().getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                }
                 if (mySearchText.length() > 0){
 
                     //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
 
-                    text.setText("Searching "+ mySearchText +" :");
+                    text.setText(String.format("Searching %s:", mySearchText));
                     String myFood = api.getFoodItems(mySearchText, 20);
 
-                    data = new ArrayList<NutritionFacts>();
+                    data = new ArrayList<>();
                     System.out.println(myFood);
-                    JSONObject food = null;   // { first
                     try {
-                        food = new JSONObject(myFood);
+                        JSONObject food = new JSONObject(myFood);
                         food = food.getJSONObject("foods");
                         int count_search = extract(food, data);
-                        text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
+                        text.setText(String.format(Locale.ENGLISH, "Searching %s : %d Results", mySearchText, count_search));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        text.setText("Searching "+ mySearchText +" : 0 Results");
+                        text.setText(String.format("Searching %s: 0 Results", mySearchText));
                     }
                     populateViewList(rootView, inflater);
                 }
@@ -167,7 +164,6 @@ public class SearchFragment extends Fragment {
     }
 
     private void extractFromId(String object, NutritionFacts current){
-        JSONArray FoodArray = null;
         JSONObject food = null;
         try {
             food = new JSONObject(object);
@@ -181,7 +177,8 @@ public class SearchFragment extends Fragment {
         //sometimes, it doesn't have array, just only one, need to work on this inconsistanct
 
         try {
-            FoodArray = food.getJSONArray("serving");
+            assert food != null;
+            JSONArray FoodArray = food.getJSONArray("serving");
             Boolean oneServing = false;
             JSONObject last = null;
             for (int i = 0; i < FoodArray.length(); i++){
@@ -198,7 +195,7 @@ public class SearchFragment extends Fragment {
             }
 
             //if 1 serving size aren't available
-            if (oneServing == false){
+            if (!oneServing){
                 AddtoCurrentNutrientObject(last,current);
             }
         } catch (JSONException e) {
@@ -214,10 +211,10 @@ public class SearchFragment extends Fragment {
 
     private void AddtoCurrentNutrientObject(JSONObject food_entry, NutritionFacts current){
 
-        Object parse = null;
+        String parse;
         try {
-            parse = food_entry.get("calories");
-            if (parse != null) current.calories = Double.parseDouble(parse.toString());
+            parse = food_entry.getString("calories");
+            if (parse != null) current.calories = Double.parseDouble(parse);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -225,58 +222,20 @@ public class SearchFragment extends Fragment {
         current.addedNutrients = true;
 
         try {
-            parse = null;
-            parse = food_entry.get("protein");
-            if (parse != null) current.protein = Double.parseDouble(parse.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parse = null;
-            parse = food_entry.get("calcium");
-            if (parse != null) current.calcium = Double.parseDouble(parse.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parse = null;
-            parse = food_entry.get("iron");
-            if (parse != null) current.iron = Double.parseDouble(parse.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parse = null;
-            parse = food_entry.get("potassium");
-            if (parse != null) current.potassium = Double.parseDouble(parse.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parse = null;
-            parse = food_entry.get("vitamin_c");
-            if (parse != null) current.vitaminC = Double.parseDouble(parse.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parse = null;
-            parse = food_entry.get("serving_description");
-            if (parse != null) current.serving = parse.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            parse = null;
-            parse = food_entry.get("fiber");
-            if (parse != null) current.fiber = Double.parseDouble(parse.toString());
+            parse = food_entry.getString("protein");
+            if (parse != null) current.protein = Double.parseDouble(parse);
+            parse = food_entry.getString("calcium");
+            if (parse != null) current.calcium = Double.parseDouble(parse);
+            parse = food_entry.getString("iron");
+            if (parse != null) current.iron = Double.parseDouble(parse);
+            parse = food_entry.getString("potassium");
+            if (parse != null) current.potassium = Double.parseDouble(parse);
+            parse = food_entry.getString("vitamin_c");
+            if (parse != null) current.vitaminC = Double.parseDouble(parse);
+            parse = food_entry.getString("serving_description");
+            if (parse != null) current.serving = parse;
+            parse = food_entry.getString("fiber");
+            if (parse != null) current.fiber = Double.parseDouble(parse);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -337,7 +296,7 @@ public class SearchFragment extends Fragment {
                 dis.setText(k);
             }
             if (current.branch != null){
-                branch.setText("Branch: "+current.branch);
+                branch.setText(String.format("Branch: %s",current.branch));
             }
             else{
                 branch.setVisibility(View.GONE);

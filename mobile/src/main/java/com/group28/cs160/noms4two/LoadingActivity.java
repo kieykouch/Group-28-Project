@@ -6,15 +6,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.Map;
 
 /* This activity represents our brand.
  * It shows up for a couple of seconds when the app is launched. */
 public class LoadingActivity extends AppCompatActivity {
 
-    private static final String LOGIN_FILE = "LOGIN_FILE";
-    public int val;
-    Map <String, String> food_logged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
