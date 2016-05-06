@@ -62,15 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Load Nutrition Data from disk.
         nutrientsTracker = new NutrientsTracker(getBaseContext());
         // Add some fake nutrition data.
-        fake_nutrition_data();
         Log.d("MainActivity", "Total Calories: " + nutrientsTracker.getNutritionToday().calories);
-    }
-
-    private void fake_nutrition_data() {
-        // We always start with some fake nutrition information.
-        // Reset all nutrition data and add some fake stuff.
-        nutrientsTracker.reset();
-        FakeData.addFakeData(nutrientsTracker);
     }
 
     @Override
