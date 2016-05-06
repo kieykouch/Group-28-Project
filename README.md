@@ -37,6 +37,10 @@ The video is linked [here](https://www.youtube.com/watch?v=dmTKNkT9zWU)
 ## Screenshots
 <img src="./screenshots/home.png" width="300px">
 <img src="./screenshots/logging.gif" width="300px">
+<img src="./screenshots/login.png" width="300px">
+<img src="./screenshots/detailed.png" width="300px">
+<img src="./screenshots/mefragment.png" width="300px">
+<img src="./screenshots/barcode.png" width="300px">
 
 ## Acknowledgements
 * Circular animations are courtesy of an amazing stackoverflow answere [here](
