@@ -56,7 +56,7 @@ public class MeFragment extends Fragment {
                 // Delete login info first.
                 userInfo.logout();
                 // Also delete all history.
-                ((MainActivity) getActivity()).nutrientsTracker.clear();
+                ((MainActivity) getActivity()).nutrientsTracker.reset();
                 // Send to login screen.
                 Intent logoutIntent = new Intent(getContext(), LoginScreenActivity.class);
                 logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

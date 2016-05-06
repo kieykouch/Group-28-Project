@@ -16,7 +16,6 @@ import com.group28.cs160.noms4two.fragments.BarcodeFragment;
 import com.group28.cs160.noms4two.fragments.MeFragment;
 import com.group28.cs160.noms4two.fragments.NutritionFragment;
 import com.group28.cs160.noms4two.fragments.SearchFragment;
-import com.group28.cs160.noms4two.models.FakeData;
 import com.group28.cs160.noms4two.models.NutrientsTracker;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -68,15 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // Load Nutrition Data from disk.
         nutrientsTracker = new NutrientsTracker(getBaseContext());
         // Add some fake nutrition data.
-        fake_nutrition_data();
         Log.d("MainActivity", "Total Calories: " + nutrientsTracker.getNutritionToday().calories);
-    }
-
-    private void fake_nutrition_data() {
-        // We always start with some fake nutrition information.
-        // Reset all nutrition data and add some fake stuff.
-        nutrientsTracker.reset();
-        FakeData.addFakeData(nutrientsTracker);
     }
 
     @Override

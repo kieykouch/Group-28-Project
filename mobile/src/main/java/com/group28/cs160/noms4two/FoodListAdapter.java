@@ -1,23 +1,16 @@
 package com.group28.cs160.noms4two;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.group28.cs160.shared.NutritionFacts;
-
+import com.group28.cs160.noms4two.models.NutrientsTracker;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by phoebevu on 4/28/16.
@@ -26,8 +19,11 @@ public class FoodListAdapter extends ArrayAdapter{
     private final Context context;
     private ArrayList<String> foodnames;
     private ArrayList<Long> foodIds;
+    private NutrientsTracker nutrientsTracker;
     public FoodListAdapter(Context context, ArrayList<Long> foodIds, ArrayList<String> foodnames) {
         super(context, R.layout.food_row, foodIds);
+        nutrientsTracker = new NutrientsTracker(context);
+
         this.context = context;
         this.foodIds = foodIds;
         this.foodnames = foodnames;
@@ -55,7 +51,6 @@ public class FoodListAdapter extends ArrayAdapter{
                 foodIds.remove(position);
                 foodnames.remove(position);
                 ((HistoryActivity) context).nutrientsTracker.delete(foodId);
-                ((HistoryActivity) context).nutrientsTracker.writeToFile();
                 notifyDataSetChanged();
             }
         });
@@ -68,6 +63,7 @@ public class FoodListAdapter extends ArrayAdapter{
     public void clear() {
         foodIds.clear();
         foodnames.clear();
+        nutrientsTracker.reset();
         notifyDataSetChanged();
     }
 
