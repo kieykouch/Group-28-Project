@@ -191,6 +191,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void openCamera() {
+        numTries = 0;
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
         } else {
@@ -207,7 +208,6 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                 e.printStackTrace();
             }
         }
-        numTries = 0;
     }
 
     private void createCameraPreviewSession() {
@@ -225,7 +225,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                 width = width / 2;
                 height = height / 2;
             }
-            mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 3);
+            mImageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 40);
             mImageReader.setOnImageAvailableListener(listener, handler);
 
             // We set up a CaptureRequest.Builder with the output Surface.
@@ -322,6 +322,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
             }
 
             // This is the CaptureRequest.Builder that we use to take a picture.
+
             final CaptureRequest.Builder captureBuilder =
                     cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureBuilder.addTarget(mImageReader.getSurface());
@@ -568,6 +569,7 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
         @Override
         public void onImageAvailable(ImageReader reader) {
             Log.d("Barcode", "Image available");
+            numTries ++;
             BarcodeDetector detector = new BarcodeDetector.Builder(getContext())
                     .setBarcodeFormats(Barcode.UPC_A | Barcode.EAN_13).build();
             Image image = reader.acquireLatestImage();
@@ -592,7 +594,6 @@ public class BarcodeFragment extends Fragment implements View.OnClickListener, A
                 Log.d("Barcode", String.format("barcode detected is %s", barcode));
                 getFoodInfo(barcode, arr);
             }
-            numTries ++;
         }
     };
 

@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -21,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +34,6 @@ public class SearchFragment extends Fragment {
 
     private ImageButton searchButton;
     private List<NutritionFacts> data;
-    private EditText searchText;
     private final FatSecretAPI api = new FatSecretAPI("6fa2832128934cbba364d29b7db8a557", "4291459ec6784ca0b35632ee3449a6ff");
     private TextView text;
 
@@ -38,7 +42,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_search, parent, false);
 
-        searchText = (EditText) rootView.findViewById (R.id.searchText);
+        final EditText searchText = (EditText) rootView.findViewById (R.id.searchText);
         searchButton = (ImageButton) rootView.findViewById (R.id.searchButton);
         text = (TextView) rootView.findViewById (R.id.textView3);
         String CurrentText = searchText.getText().toString();
@@ -59,29 +63,64 @@ public class SearchFragment extends Fragment {
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String mySearchText = searchText.getText().toString();
+                if (mySearchText.length() > 0){
 
-            String mySearchText = searchText.getText().toString();
-            if (mySearchText.length() > 0){
+                    //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
 
-                //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
+                    text.setText("Searching "+ mySearchText +" :");
+                    String myFood = api.getFoodItems(mySearchText, 20);
 
-                text.setText("Searching "+ mySearchText +" :");
-                String myFood = api.getFoodItems(mySearchText, 20);
-
-                data = new ArrayList<NutritionFacts>();
-                System.out.println(myFood);
-                JSONObject food = null;   // { first
-                try {
-                    food = new JSONObject(myFood);
-                    food = food.getJSONObject("foods");
-                    int count_search = extract(food, data);
-                    text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    text.setText("Searching "+ mySearchText +" : 0 Results");
+                    data = new ArrayList<NutritionFacts>();
+                    System.out.println(myFood);
+                    JSONObject food = null;   // { first
+                    try {
+                        food = new JSONObject(myFood);
+                        food = food.getJSONObject("foods");
+                        int count_search = extract(food, data);
+                        text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        text.setText("Searching "+ mySearchText +" : 0 Results");
+                    }
+                    populateViewList(rootView, inflater);
                 }
-                populateViewList(rootView, inflater);
             }
+        });
+
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String mySearchText = searchText.getText().toString();
+                InputMethodManager inputManager =
+                        (InputMethodManager) getActivity().
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(
+                        getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                if (mySearchText.length() > 0){
+
+                    //((MainActivity) getActivity()).nutrientsTracker.log(new NutritionFacts("Chicken", "Costco","12345", "93 Caloreis"));
+
+                    text.setText("Searching "+ mySearchText +" :");
+                    String myFood = api.getFoodItems(mySearchText, 20);
+
+                    data = new ArrayList<NutritionFacts>();
+                    System.out.println(myFood);
+                    JSONObject food = null;   // { first
+                    try {
+                        food = new JSONObject(myFood);
+                        food = food.getJSONObject("foods");
+                        int count_search = extract(food, data);
+                        text.setText("Searching "+ mySearchText +" : "+count_search+" Results");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        text.setText("Searching "+ mySearchText +" : 0 Results");
+                    }
+                    populateViewList(rootView, inflater);
+                }
+                return true;
             }
         });
 
