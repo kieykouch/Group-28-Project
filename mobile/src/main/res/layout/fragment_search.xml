@@ -20,6 +20,7 @@
             android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor_color"
             android:hint="Start typing to search..."/>
 
         <ImageButton
